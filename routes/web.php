@@ -14,3 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::group(['prefix' => 'portal'], function () {
+    Route::group(['prefix' => 'product'], function () {
+        Route::post('add-product',[
+            'as'=>'add-product',
+            'uses'=> 'ProductController@store'
+        ]);
+    });
+});
