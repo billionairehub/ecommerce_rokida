@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class shipping_channels extends Model
+class ShippingChannel extends Model
 {
     //
 }

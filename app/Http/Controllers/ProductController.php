@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Constants;
 
 use App\Product;
+use App\Promotion;
 
 class ProductController extends Controller
 {
@@ -44,17 +45,12 @@ class ProductController extends Controller
             if (array_key_exists($key, $lst) == false) {
                 return trans('error.not_complete_information');
             }
-            // if () {
-            // } else {
-            //     return "Vui long dien day du thong tin";
-            // }
         }
-        dump($key);
-        dd();
-        // dump($key);
-        // dd(Constants::REQUIRED_DATA_FIELD);
-        // dd($lst);
-        return true;
+        $promotion = new Promotion;
+        $promotion->product_id = 1;
+        foreach ($keys as $key) {
+            dump($keys);
+        }
     }
 
     /**
