@@ -39,13 +39,17 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $lst = $request->all();
-        $key = $request->keys();
-        foreach(Constants::REQUIRED_DATA_FIELD as $k) {
-            if (array_key_exists($k, $lst)) {
-            } else {
-                return "Vui long dien day du thong tin";
+        $keys = $request->keys();
+        foreach(Constants::REQUIRED_DATA_FIELD_PRODUCT as $key) {
+            if (array_key_exists($key, $lst) == false) {
+                return trans('error.not_complete_information');
             }
+            // if () {
+            // } else {
+            //     return "Vui long dien day du thong tin";
+            // }
         }
+        dump($key);
         dd();
         // dump($key);
         // dd(Constants::REQUIRED_DATA_FIELD);
