@@ -226,6 +226,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Constants' => App\Helpers\Constants::class, 
+        'RecipeShipping' => App\Helpers\RecipeShipping::class, 
+        'Validators' => App\Validators\Validators::class, 
 
     ],
 

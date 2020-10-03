@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 use Constants;
+use RecipeShipping;
+use Validators;
 
 use App\Product;
 use App\Promotion;
+use App\TypeShipping;
 
 class ProductController extends Controller
 {
@@ -41,16 +45,16 @@ class ProductController extends Controller
     {
         $lst = $request->all();
         $keys = $request->keys();
-        foreach(Constants::REQUIRED_DATA_FIELD_PRODUCT as $key) {
-            if (array_key_exists($key, $lst) == false) {
-                return trans('error.not_complete_information');
-            }
-        }
-        $promotion = new Promotion;
-        $promotion->product_id = 1;
-        foreach ($keys as $key) {
-            dump($keys);
-        }
+        $valid = true;
+        if ((Validators::requiredFieldProduct($lst) === false) || (Validators::requiredFieldPromotion($lst) === false) || (Validators::requiredFieldShippingType($lst) === false))
+            $valid = false;
+        if ($valid == true) {
+            $productId = 1;
+            if (Validators::requiredFieldPromotion($lst) != null)
+                $this->addPromotion($productId, $keys, $lst);
+            $this->addShippingChannels($productId, $keys, $lst);
+            return trans('message.add_product_success');
+        } else return trans('error.not_complete_information');
     }
 
     /**
@@ -96,5 +100,35 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    function addPromotion($productId, $keys, $lst) {
+        $promotion = new Promotion;
+        $promotion->product_id = $productId;
+        foreach ($keys as $key) {
+            if (in_array($key, Constants::REQUIRED_DATA_FIELD_PROMOTION) == true)
+                $promotion->$key = $lst[$key];
+        }
+        $successPromotion = $promotion->save();
+        return $successPromotion;
+    }
+
+    function addShippingChannels($productId, $keys, $lst) {
+        $shippingChannels = str_replace(' ', '', $lst['shipping_channels']);
+        $lstShippingChannels = explode(',', $shippingChannels);
+        for ($i = 0; $i < count($lstShippingChannels); $i++) {
+            $typeShipping = new TypeShipping;
+            $typeShipping->product_id = $productId;
+            foreach ($keys as $key) {
+                if (in_array($key, Constants::REQUIRED_DATA_FIELD_TYPE_SHIPPING) == true) {
+                    if ($key === 'shipping_channels')
+                        $typeShipping->shipping_channels = intval($lstShippingChannels[$i]);
+                    else 
+                        $typeShipping->$key = $lst[$key];
+                }
+            }
+            $typeShipping->fees = RecipeShipping::giaoHangNhanh($lst['weight'], $lst['length'], $lst['width'], $lst['height']);
+            $typeShipping->save();
+        }
     }
 }
