@@ -6,12 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use Constants;
-use RecipeShipping;
 use Validators;
 
-use App\Product;
-use App\Promotion;
-use App\TypeShipping;
+use App\Http\Controllers\Functions\Products;
+use App\Http\Controllers\Functions\Promotions;
+use App\Http\Controllers\Functions\TypeShippings;
 
 class ProductController extends Controller
 {
@@ -45,16 +44,16 @@ class ProductController extends Controller
     {
         $lst = $request->all();
         $keys = $request->keys();
+        $userID = 1;
         $valid = true;
-        if ((Validators::requiredFieldProduct($lst) === false) || (Validators::requiredFieldPromotion($lst) === false) || (Validators::requiredFieldShippingType($lst) === false))
-            $valid = false;
-        if ($valid == true) {
-            $productId = 1;
-            if (Validators::requiredFieldPromotion($lst) != null)
-                $this->addPromotion($productId, $keys, $lst);
-            $this->addShippingChannels($productId, $keys, $lst);
-            return trans('message.add_product_success');
-        } else return trans('error.not_complete_information');
+        if ((Validators::requiredFieldProduct($lst) === false) || (Validators::requiredFieldPromotion($lst) === 0) || (Validators::requiredFieldShippingType($lst) === false))
+            return trans('error.not_complete_information');
+        $productId = 1;
+        if (Validators::requiredFieldPromotion($lst) == 1)
+            Promotions::addPromotion($productId, $keys, $lst);
+        TypeShippings::addShippingChannels($productId, $keys, $lst);
+        Products::addProduct($userID, $keys, $lst);
+        return trans('message.add_product_success');
     }
 
     /**
@@ -99,36 +98,14 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
-
-    function addPromotion($productId, $keys, $lst) {
-        $promotion = new Promotion;
-        $promotion->product_id = $productId;
-        foreach ($keys as $key) {
-            if (in_array($key, Constants::REQUIRED_DATA_FIELD_PROMOTION) == true)
-                $promotion->$key = $lst[$key];
-        }
-        $successPromotion = $promotion->save();
-        return $successPromotion;
-    }
-
-    function addShippingChannels($productId, $keys, $lst) {
-        $shippingChannels = str_replace(' ', '', $lst['shipping_channels']);
-        $lstShippingChannels = explode(',', $shippingChannels);
-        for ($i = 0; $i < count($lstShippingChannels); $i++) {
-            $typeShipping = new TypeShipping;
-            $typeShipping->product_id = $productId;
-            foreach ($keys as $key) {
-                if (in_array($key, Constants::REQUIRED_DATA_FIELD_TYPE_SHIPPING) == true) {
-                    if ($key === 'shipping_channels')
-                        $typeShipping->shipping_channels = intval($lstShippingChannels[$i]);
-                    else 
-                        $typeShipping->$key = $lst[$key];
-                }
-            }
-            $typeShipping->fees = RecipeShipping::giaoHangNhanh($lst['weight'], $lst['length'], $lst['width'], $lst['height']);
-            $typeShipping->save();
+        $author = 1;
+        $success = Products::deleteProduct($author, $id);
+        if ($success == true && gettype($success) != 'string') {
+            Promotions::deletePromotion($id);
+            TypeShippings::deleteShippingChannel($id);
+            return trans('message.delete_product_success');
+        } else {
+            return trans($success);
         }
     }
 }
