@@ -26,3 +26,14 @@ Route::group(['prefix' => 'portal'], function () {
         ]);
     });
 });
+
+Route::group(['prefix' => 'user'], function () {
+    Route::post('register', [
+        'as' => 'resgister',
+        'uses' => 'UserController@store'
+    ]);
+    Route::post('login', [
+        'as' => 'login',
+        'uses' => 'UserController@login'
+    ]);
+});
