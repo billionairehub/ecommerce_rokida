@@ -16,8 +16,20 @@ class Products {
             if (in_array($key, Constants::NOT_REQUIRED_DATA_FIELD_PRODUCT) == true && $lst[$key] != null)
                 $product->$key = $lst[$key];
         }
+
         $successProduct = $product->save();
-        return $successProduct;
+        return $product;
+    }
+
+    public static function updateProduct($userID, $keys, $lst, $id) {
+        $product = Product::where('author', '=', $userID)->where('id', '=', $id)->first();
+        if (!$product)
+            return false;
+        foreach ($keys as $key) {
+            $product->$key = $lst[$key];
+        }
+        $product->save();
+        return true;
     }
 
     public static function deleteProduct($author, $id) {

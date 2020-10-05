@@ -11,6 +11,7 @@ use Validators;
 use App\Http\Controllers\Functions\Products;
 use App\Http\Controllers\Functions\Promotions;
 use App\Http\Controllers\Functions\TypeShippings;
+use App\Http\Controllers\Functions\Classifies;
 
 class ProductController extends Controller
 {
@@ -46,13 +47,16 @@ class ProductController extends Controller
         $keys = $request->keys();
         $userID = 1;
         $valid = true;
-        if ((Validators::requiredFieldProduct($lst) === false) || (Validators::requiredFieldPromotion($lst) === 0) || (Validators::requiredFieldShippingType($lst) === false))
+        if ((Validators::requiredFieldProduct($lst) === false) || (Validators::requiredFieldPromotion($lst) === 0) || (Validators::requiredFieldClassify($lst) == 0) || (Validators::requiredFieldShippingType($lst) === false))
             return trans('error.not_complete_information');
-        $productId = 1;
+            
+        $product = Products::addProduct($userID, $keys, $lst);
+        $productId = $product->id;
         if (Validators::requiredFieldPromotion($lst) == 1)
             Promotions::addPromotion($productId, $keys, $lst);
+        if (Validators::requiredFieldClassify($lst) == 1)
+            Classifies::addClassify($productId, $keys, $lst);
         TypeShippings::addShippingChannels($productId, $keys, $lst);
-        Products::addProduct($userID, $keys, $lst);
         return trans('message.add_product_success');
     }
 
@@ -87,7 +91,15 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $userID = 1;
+        $lst = $request->all();
+        $keys = $request->keys();
+
+        $successUpdate = Products::updateProduct($userID, $keys, $lst, $id);
+        if ($successUpdate == false) {
+            return trans('error.not_found_item');
+        }
+        return trans('message.update_product_success');
     }
 
     /**
@@ -103,6 +115,7 @@ class ProductController extends Controller
         if ($success == true && gettype($success) != 'string') {
             Promotions::deletePromotion($id);
             TypeShippings::deleteShippingChannel($id);
+            Classifies::deleteClassify($id);
             return trans('message.delete_product_success');
         } else {
             return trans($success);

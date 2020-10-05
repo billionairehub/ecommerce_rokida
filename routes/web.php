@@ -24,6 +24,14 @@ Route::group(['prefix' => 'portal'], function () {
             'as'=>'delete-product',
             'uses'=> 'ProductController@destroy'
         ]);
+        Route::post('update-product/{id}',[
+            'as'=>'update-product',
+            'uses'=> 'ProductController@update'
+        ]);
+        Route::get('delete-shipping',[
+            'as'=>'delete-shipping',
+            'uses'=> 'ShippingController@destroy'
+        ]);
     });
 });
 

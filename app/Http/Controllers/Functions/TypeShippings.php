@@ -35,4 +35,15 @@ class TypeShippings {
     }
     return true;
   }
+
+  public static function deleteShipping ($lst) {
+    $shipping = TypeShipping::where('product_id', '=', $lst['product'])->get();
+    if (count($shipping) == 1)
+      return 0;
+    else {
+      $delShipping = TypeShipping::where('product_id', '=', $lst['product'])->where('id', '=', $lst['shipping'])->first();
+      $delShipping->delete();
+      return 1;
+    }
+  }
 }

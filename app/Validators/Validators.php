@@ -33,6 +33,29 @@ class Validators
     return 1;
   }
 
+  public static function requiredFieldClassify ($lst) {
+    foreach (Constants::REQUIRED_DATA_FIELD_CLASSIFY as $key) {
+      if (array_key_exists($key, $lst) == true) {
+        foreach(Constants::REQUIRED_DATA_FIELD_CLASSIFY as $key) {
+          if (array_key_exists($key, $lst) == false) {
+            return 0;
+          }
+        }
+      } else {
+        $count = 0;
+        foreach (Constants::REQUIRED_DATA_FIELD_CLASSIFY as $key) {
+          if (array_key_exists($key, $lst) == false) {
+            $count++;
+            if ($count == count(Constants::REQUIRED_DATA_FIELD_CLASSIFY)) {
+              return 2;
+            }
+          }
+        }
+      }
+    }
+    return 1;
+  }
+
   public static function requiredFieldShippingType ($lst) {
     foreach (Constants::REQUIRED_DATA_FIELD_TYPE_SHIPPING as $key)
       if (array_key_exists($key, $lst) == false || $lst[$key] == null)
