@@ -5,8 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Menu extends Model
+class Banner extends Model
 {
     use SoftDeletes;
-    public $table = 'rokida_menu';
+    public $table = 'rokida_banners';
 }

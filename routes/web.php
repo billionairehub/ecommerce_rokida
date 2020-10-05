@@ -22,3 +22,25 @@ Route::group(['prefix' => 'portal'], function () {
         ]);
     });
 });
+
+//create banner
+Route::post('create-banner',[
+    'as'=>'create-banner',
+    'uses'=> 'BannerController@store'
+]);
+//get banner
+Route::get('get-banner',[
+    'as'=>'get-banner',
+    'uses'=> 'BannerController@index'
+]);
+//update banner
+Route::post('update-banner/{id}',[
+    'as'=>'update-banner',
+    'uses'=> 'BannerController@update'
+]);
+//delete banner
+Route::post('delete-banner/{id}',[
+    'as'=>'delete-banner',
+    'uses'=> 'BannerController@destroy'
+]);
+
