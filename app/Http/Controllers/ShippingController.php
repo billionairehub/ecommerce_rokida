@@ -35,7 +35,15 @@ class ShippingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $lst = $_GET;
+        $input = $request->all();
+        if (array_key_exists('shipping_channels', $input) == false || $input['shipping_channels'] == null) {
+            return trans('error.not_complete_information');
+        }
+        $add = TypeShippings::addShipping($lst, $input);
+        if ($add == true) {
+            return trans('message.add_type_shipping_success');
+        }
     }
 
     /**

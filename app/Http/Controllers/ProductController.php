@@ -22,7 +22,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $lst = $_GET;
+        $product = Products::getListAll($lst);
+        return $product;
     }
 
     /**

@@ -5,7 +5,7 @@ use Constants;
 use App\Product;
 
 class Products {
-  public static function addProduct($userID, $keys, $lst) {
+    public static function addProduct($userID, $keys, $lst) {
         $product = new Product;
         $product->author = $userID;
         foreach ($keys as $key) {
@@ -39,5 +39,18 @@ class Products {
         }
         $productsExists->delete();
         return true;
+    }
+
+    public static function getListAll($lst) {
+        $offset = Constants::OFFSET;
+        $limit = Constants::LIMIT;
+        if (array_key_exists('offset', $lst) && $lst['offset'] != null) {
+            $offset = $lst['offset'];
+        }
+        if (array_key_exists('limit', $lst) && $lst['limit'] !=  null) {
+            $limit = $lst['limit'];
+        }
+        $product = Product::limit($limit)->offset($offset)->get();
+        return $product;
     }
 }

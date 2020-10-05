@@ -28,16 +28,38 @@ Route::group(['prefix' => 'portal'], function () {
             'as'=>'update-product',
             'uses'=> 'ProductController@update'
         ]);
+        Route::group(['prefix' => 'list'], function () {
+            Route::get('all',[
+                'as'=>'all',
+                'uses'=> 'ProductController@index'
+            ]);
+        });
+    });
+    Route::group(['prefix' => 'shipping'], function () {
+        Route::post('add-shipping',[
+            'as'=>'add-shipping',
+            'uses'=> 'ShippingController@store'
+        ]);
         Route::get('delete-shipping',[
             'as'=>'delete-shipping',
             'uses'=> 'ShippingController@destroy'
+        ]);
+    });
+    Route::group(['prefix' => 'promotion'], function () {
+        Route::post('add-promotion',[
+            'as'=>'add-promotion',
+            'uses'=> 'PromotionController@store'
+        ]);
+        Route::get('delete-promotion',[
+            'as'=>'delete-promotion',
+            'uses'=> 'PromotionController@destroy'
         ]);
     });
 });
 
 Route::group(['prefix' => 'user'], function () {
     Route::post('register', [
-        'as' => 'resgister',
+        'as' => 'register',
         'uses' => 'UserController@store'
     ]);
     Route::post('login', [

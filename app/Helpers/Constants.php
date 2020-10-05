@@ -8,6 +8,7 @@ class Constants
     const CHANNEL = 1;
     
     const REQUIRED_DATA_FIELD_USER = ['first_name', 'last_name', 'password'];
+    const DATA_FIELD_USER = ['email','password', 'first_name', 'last_name', 'avatar', 'gender', 'shop_name', 'city', 'state', 'zip', 'birthday'];
     const REQUIRED_LOGIN = ['username', 'email', 'phone'];
     const REQUIRED_DATA_FIELD_PHONE = ['phone'];
     const REQUIRED_DATA_FIELD_CLASSIFY = ['classify_key', 'classify_value'];
@@ -15,4 +16,7 @@ class Constants
     const NOT_REQUIRED_DATA_FIELD_PRODUCT = ['sku', 'long_desc', 'short_desc', 'promotion_code', 'trademark', 'made', 'model', 'user_manual', 'img_user_manual'];
     const REQUIRED_DATA_FIELD_PROMOTION = ['pro_from', 'pro_to', 'pro_price'];
     const REQUIRED_DATA_FIELD_TYPE_SHIPPING = ['shipping_channels', 'weight', 'length', 'width', 'height'];
+
+    const OFFSET = 0;
+    const LIMIT = 15;
 }
