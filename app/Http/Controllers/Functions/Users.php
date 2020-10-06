@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Functions;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Constants;
 
 use App\User;
@@ -12,6 +13,14 @@ class Users {
       if (in_array($key, Constants::REQUIRED_DATA_FIELD_USER) == true)
         $user->$key = $lst[$key];
 
+      foreach ($keys as $key)
+      if (in_array($key, Constants::DATA_FIELD_USER) == true){
+        if ($key == 'password') {
+          $user->password = Hash::make($lst['password']);
+        } else {
+          $user->$key = $lst[$key];
+        }
+      }
     $successUser = $user->save();
     return $user;
   }

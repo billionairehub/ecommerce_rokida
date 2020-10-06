@@ -162,6 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+
         /*
          * Package Service Providers...
          */
@@ -228,7 +229,7 @@ return [
         'Constants' => App\Helpers\Constants::class, 
         'RecipeShipping' => App\Helpers\RecipeShipping::class, 
         'Validators' => App\Validators\Validators::class, 
-
+       
     ],
 
 ];

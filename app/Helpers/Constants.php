@@ -8,6 +8,7 @@ class Constants
     const CHANNEL = 1;
     
     const REQUIRED_DATA_FIELD_USER = ['first_name', 'last_name', 'password'];
+    const DATA_FIELD_USER = ['email','password', 'first_name', 'last_name', 'avatar', 'gender', 'shop_name', 'city', 'state', 'zip', 'birthday'];
     const REQUIRED_LOGIN = ['username', 'email', 'phone'];
     const REQUIRED_DATA_FIELD_PHONE = ['phone'];
     const REQUIRED_DATA_FIELD_PRODUCT = ['name', 'price', 'thumb', 'image', 'categories', 'amount', 'location', 'status', 'book'];

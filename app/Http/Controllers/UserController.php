@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Functions\Users;
 use App\Http\Controllers\Functions\Phones;
 
@@ -38,16 +38,30 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Request  $request
      */
-    public function login(Request $request)
+    public function login(Request $req)
     {
-        // $lst = $request->all();
-        // $keys = $request->keys();
-        // $valid = Validators::requiredFieldLogin($lst, $keys);
-        // if ($valid == false) {
-        //     return trans('error.not_complete_information');
-        // } else {
-        //     Users::login($lst, $keys);
-        // }
+        $credentials = [
+            'email' => $req->input('email'),
+            'password' => $req->input('passwords')
+        ];
+        
+        if (!$token = auth('api')->attempt($credentials))
+        {
+            #Username or Passwords Fail
+                return response()->json([
+                    'status' => false,
+                    'code' => 403,
+                    'message' => trans('message.check_login')
+                ],403);
+        }
+
+        #Login success
+        return response()->json([
+            'status' => true,
+            'code' => 200,
+            'message' => trans('message.login_success'),
+            'token' => $token
+        ],200);
     }
     
     /**
