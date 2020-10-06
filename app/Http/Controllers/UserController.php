@@ -64,11 +64,11 @@ class UserController extends Controller
         if ((Validators::requiredFieldUser($lst) === false) || (Validators::requiredFieldPhone($lst) === false)) {
             return trans('error.not_complete_information');
         } 
-        else if (Phones::checkExists($lst) == false) {
+        else if (Users::checkExists($lst) == false) {
             return trans('error.user_exists');
         } else {
             $user = Users::register($lst, $keys);
-            $phone = Phones::register($lst, $keys, $user);
+            return trans('message.register_success');
         }
     }
 
