@@ -5,7 +5,7 @@ use Constants;
 use App\Product;
 
 class Products {
-  public static function addProduct($userID, $keys, $lst) {
+    public static function addProduct($userID, $keys, $lst) {
         $product = new Product;
         $product->author = $userID;
         foreach ($keys as $key) {

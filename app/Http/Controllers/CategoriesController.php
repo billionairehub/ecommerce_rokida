@@ -3,15 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Functions\Users;
-use App\Http\Controllers\Functions\Phones;
-
+use Constants;
 use Validators;
 
-use App\Custommer;
+use App\Http\Controllers\Functions\Categories;
 
-class UserController extends Controller
+class CategoriesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,13 +31,6 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for login a account resource.
-     *
-     * @return \Illuminate\Http\Request  $request
-     */
-
-    
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -48,18 +38,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $lst = $request->all();
-        $keys = $request->keys();
-        
-        if ((Validators::requiredFieldUser($lst) === false) || (Validators::requiredFieldPhone($lst) === false)) {
-            return trans('error.not_complete_information');
-        } 
-        else if (Users::checkExists($lst) == false) {
-            return trans('error.user_exists');
-        } else {
-            $user = Users::register($lst, $keys);
-            return trans('message.register_success');
-        }
+        Categories::addCategory($request);
     }
 
     /**
@@ -93,7 +72,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Categories::updateCategory($request, $id);
     }
 
     /**
@@ -104,6 +83,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Categories::deleteCategory($id);
     }
 }

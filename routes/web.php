@@ -33,4 +33,18 @@ Route::group(['prefix' => 'user'], function () {
         'uses' => 'UserController@store'
     ]);
 });
-
+//add-category
+Route::post('add-category', [
+    'as' => 'add-category',
+    'uses' => 'CategoriesController@store'
+]);
+//update-category
+Route::post('update-category/{id}', [
+    'as' => 'update-category',
+    'uses' => 'CategoriesController@update'
+]);
+//update-category
+Route::post('delete-category/{id}', [
+    'as' => 'delete-category',
+    'uses' => 'CategoriesController@destroy'
+]);

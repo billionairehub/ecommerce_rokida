@@ -17,7 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('login-account',[
-    'as'=>'login-account',
-    'uses'=> 'UserController@login'
-]);
+    Route::post('login-account',[
+        'as'=>'login-account',
+        'uses'=> 'API\LoginController@login'
+    ]);
