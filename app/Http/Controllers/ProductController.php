@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 
 use Constants;
 use Validators;
+use Image;
 
 use App\Http\Controllers\Functions\Products;
 use App\Http\Controllers\Functions\Promotions;

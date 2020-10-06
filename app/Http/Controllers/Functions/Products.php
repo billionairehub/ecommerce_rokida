@@ -3,18 +3,33 @@ namespace App\Http\Controllers\Functions;
 use Constants;
 
 use App\Product;
+use App\Http\Controllers\Functions\ResizeImage;
 
 class Products {
     public static function addProduct($userID, $keys, $lst) {
         $product = new Product;
         $product->author = $userID;
         foreach ($keys as $key) {
-            if (in_array($key, Constants::REQUIRED_DATA_FIELD_PRODUCT) == true)
-                $product->$key = $lst[$key];
+            if (in_array($key, Constants::REQUIRED_DATA_FIELD_PRODUCT) == true){
+                if ($key == 'thumb') {
+                    $uri = ResizeImage::resize($lst[$key]);
+                    $product->$key = $uri;
+                } else if ($key == 'image') {
+                    $uri = ResizeImage::resize($lst[$key]);
+                    $product->$key = $uri;
+                } else {
+                    $product->$key = $lst[$key];
+                }
+            }
         }
         foreach ($keys as $key) {
             if (in_array($key, Constants::NOT_REQUIRED_DATA_FIELD_PRODUCT) == true && $lst[$key] != null)
+            if ($key == 'img_user_manual') {
+                $uri = ResizeImage::resize($lst[$key]);
+                    $product->$key = $uri;
+            } else {
                 $product->$key = $lst[$key];
+            }
         }
 
         $successProduct = $product->save();

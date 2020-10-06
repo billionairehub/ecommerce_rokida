@@ -30,7 +30,56 @@ class Validators
         }
       }
     }
-    return 1;
+    if (count($lst['pro_price']) > 1) {
+      for ($i = 0; $i < count($lst['pro_price']); $i++) {
+        if ($i > 0) {
+          if ($lst['pro_from'][$i] <= $lst['pro_to'][$i - 1]) {
+            return 2;
+          }
+        }
+        foreach (Constants::REQUIRED_DATA_FIELD_PROMOTION as $key) {
+          if (array_key_exists($key, $lst) == true) {
+            foreach(Constants::REQUIRED_DATA_FIELD_PROMOTION as $key) {
+              if (array_key_exists($key, $lst) == false) {
+                return 0;
+              }
+            }
+          } else {
+            $count = 1;
+            foreach (Constants::REQUIRED_DATA_FIELD_PROMOTION as $key) {
+              if (array_key_exists($key, $lst) == false) {
+                $count++;
+                if ($count == count(Constants::REQUIRED_DATA_FIELD_PROMOTION)) {
+                  return 2;
+                }
+              }
+            }
+          }
+        }
+      }
+      return 1;
+    } else {
+      foreach (Constants::REQUIRED_DATA_FIELD_PROMOTION as $key) {
+        if (array_key_exists($key, $lst) == true) {
+          foreach(Constants::REQUIRED_DATA_FIELD_PROMOTION as $key) {
+            if (array_key_exists($key, $lst) == false) {
+              return 0;
+            }
+          }
+        } else {
+          $count = 1;
+          foreach (Constants::REQUIRED_DATA_FIELD_PROMOTION as $key) {
+            if (array_key_exists($key, $lst) == false) {
+              $count++;
+              if ($count == count(Constants::REQUIRED_DATA_FIELD_PROMOTION)) {
+                return 2;
+              }
+            }
+          }
+        }
+      }
+      return 1;
+    }
   }
 
   public static function requiredFieldClassify ($lst) {

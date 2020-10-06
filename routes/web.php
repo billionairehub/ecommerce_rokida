@@ -44,15 +44,55 @@ Route::group(['prefix' => 'portal'], function () {
             'as'=>'delete-shipping',
             'uses'=> 'ShippingController@destroy'
         ]);
+        Route::group(['prefix' => 'list'], function () {
+            Route::get('all',[
+                'as'=>'all',
+                'uses'=> 'ShippingController@index'
+            ]);
+        });
     });
     Route::group(['prefix' => 'promotion'], function () {
+        Route::group(['prefix' => 'list'], function () {
+            Route::get('all',[
+                'as'=>'all',
+                'uses'=> 'PromotionController@index'
+            ]);
+        });
         Route::post('add-promotion',[
             'as'=>'add-promotion',
             'uses'=> 'PromotionController@store'
         ]);
-        Route::get('delete-promotion',[
+        Route::get('delete-promotion/{id}',[
             'as'=>'delete-promotion',
             'uses'=> 'PromotionController@destroy'
+        ]);
+        Route::get('delete',[
+            'as'=>'delete',
+            'uses'=> 'PromotionController@delete'
+        ]);
+    });
+    Route::group(['prefix' => 'classify'], function () {
+        Route::group(['prefix' => 'list'], function () {
+            Route::get('all',[
+                'as'=>'all',
+                'uses'=> 'CLassifyController@index'
+            ]);
+        });
+        Route::post('add-classify',[
+            'as'=>'add-classify',
+            'uses'=> 'CLassifyController@store'
+        ]);
+        Route::post('edit-classify/{id}',[
+            'as'=>'edit-classify',
+            'uses'=> 'CLassifyController@update'
+        ]);
+        Route::get('delete-classify/{id}',[
+            'as'=>'delete-classify',
+            'uses'=> 'CLassifyController@destroy'
+        ]);
+        Route::get('delete',[
+            'as'=>'delete',
+            'uses'=> 'CLassifyController@delete'
         ]);
     });
 });

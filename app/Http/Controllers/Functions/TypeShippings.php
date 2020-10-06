@@ -7,15 +7,13 @@ use App\TypeShipping;
 
 class TypeShippings {
   public static function addShippingChannels($productId, $keys, $lst) {
-    $shippingChannels = str_replace(' ', '', $lst['shipping_channels']);
-    $lstShippingChannels = explode(',', $shippingChannels);
-    for ($i = 0; $i < count($lstShippingChannels); $i++) {
+    for ($i = 0; $i < count($lst['shipping_channels']); $i++) {
       $typeShipping = new TypeShipping;
       $typeShipping->product_id = $productId;
       foreach ($keys as $key) {
         if (in_array($key, Constants::REQUIRED_DATA_FIELD_TYPE_SHIPPING) == true) {
           if ($key === 'shipping_channels')
-            $typeShipping->shipping_channels = intval($lstShippingChannels[$i]);
+            $typeShipping->shipping_channels = intval($lst['shipping_channels'][$i]);
           else 
             $typeShipping->$key = $lst[$key];
         }
@@ -37,8 +35,6 @@ class TypeShippings {
   }
 
   public static function addShipping ($lst, $input) {
-    $shippingChannels = str_replace(' ', '', $input['shipping_channels']);
-    $lstShippingChannels = explode(',', $shippingChannels);
 
     $shippingExists = TypeShipping::where('product_id', '=', $lst['product'])->get('shipping_channels');
     $arrayShippingExists = [];
@@ -47,7 +43,7 @@ class TypeShippings {
     }
 
     $parameterShipping = TypeShipping::where('product_id', '=', $lst['product'])->first();
-    foreach ($lstShippingChannels as $key) {
+    foreach ($input['shipping_channels'] as $key) {
       if (in_array($key, $arrayShippingExists) == false) {
         $typeShipping = new TypeShipping;
         $typeShipping->product_id =  $lst['product'];
@@ -71,6 +67,15 @@ class TypeShippings {
       $delShipping = TypeShipping::where('product_id', '=', $lst['product'])->where('id', '=', $lst['shipping'])->first();
       $delShipping->delete();
       return 1;
+    }
+  }
+
+  public static function showAll ($id) {
+    $shipping = TypeShipping::where('product_id', '=', $id)->get();
+    if (count($shipping) == 0) {
+      return false;
+    } else {
+      return $shipping;
     }
   }
 }

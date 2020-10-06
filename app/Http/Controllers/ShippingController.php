@@ -14,7 +14,13 @@ class ShippingController extends Controller
      */
     public function index()
     {
-        //
+        $lst = $_GET;
+        $shipping = TypeShippings::showAll($lst['product']);
+        if ($shipping == false) {
+            return trans('error.not_found_shipping');
+        } else {
+            return $shipping;
+        }
     }
 
     /**

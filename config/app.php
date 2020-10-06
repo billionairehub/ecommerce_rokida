@@ -161,6 +161,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -228,6 +229,7 @@ return [
         'Constants' => App\Helpers\Constants::class, 
         'RecipeShipping' => App\Helpers\RecipeShipping::class, 
         'Validators' => App\Validators\Validators::class, 
+        'Image' => Intervention\Image\Facades\Image::class,
 
     ],
 

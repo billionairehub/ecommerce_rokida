@@ -4,14 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Controllers\Functions\Users;
-use App\Http\Controllers\Functions\Phones;
-
+use Constants;
 use Validators;
 
-use App\User;
+use App\Http\Controllers\Functions\Promotions;
 
-class UserController extends Controller
+class PromotionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +18,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $lst = $_GET;
+        $success = Promotions::getAll($lst['product']);
+        if ($success == false) {
+            return trans('message.not_found_promotion');
+        } else {
+            return $success;
+        }
     }
 
     /**
@@ -34,23 +38,6 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for login a account resource.
-     *
-     * @return \Illuminate\Http\Request  $request
-     */
-    public function login(Request $request)
-    {
-        // $lst = $request->all();
-        // $keys = $request->keys();
-        // $valid = Validators::requiredFieldLogin($lst, $keys);
-        // if ($valid == false) {
-        //     return trans('error.not_complete_information');
-        // } else {
-        //     Users::login($lst, $keys);
-        // }
-    }
-    
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -58,18 +45,17 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $lst = $request->all();
+        $lst = $_GET;
+        $input = $request->all();
         $keys = $request->keys();
-        
-        if ((Validators::requiredFieldUser($lst) === false) || (Validators::requiredFieldPhone($lst) === false)) {
-            return trans('error.not_complete_information');
-        } 
-        else if (Users::checkExists($lst) == false) {
-            return trans('error.user_exists');
-        } else {
-            $user = Users::register($lst, $keys);
-            return trans('message.register_success');
+        $validate = Validators::requiredFieldPromotion($input);
+        if ($validate == 1) {
+            $success = Promotions::addPromotion($lst['product'], $keys, $input);
+            if ($success == true) {
+                return trans('message.add_promotion_success');
+            }
         }
+        return trans('error.passed_argument_is_valid');
     }
 
     /**
@@ -114,6 +100,28 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $success = Promotions::singleDelete($id);
+        if ($success == false) {
+            return trans('error.delete_fail');
+        } else {
+            return trans('message.delete_promotion_success');
+        }
+    }
+    
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete()
+    {
+        $lst = $_GET;
+        $success = Promotions::delete($lst['product']);
+        if ($success == false) {
+            return trans('error.delete_fail');
+        } else {
+            return trans('message.delete_promotion_success');
+        }
     }
 }
