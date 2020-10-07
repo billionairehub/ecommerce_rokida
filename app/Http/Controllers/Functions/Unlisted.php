@@ -54,4 +54,16 @@ class Unlisted {
     $product = Product::where('author', '=', $userId)->where('hidden', '=', 1)->where('name', 'like', '%' . $name . '%')->where('infringe', '=', 0)->where('sku', 'like', '%' . $sku . '%')->where('product_code', 'like', '%' . $product_code . '%')->where('trademark', 'like', '%' . $branch . '%')->where('amount', '>=', $stockMin)->where('amount', '<=', $stockMax)->where('consumed', '>=', $soldMin)->where('consumed', '<=', $soldMax)->where('categories', 'like', '%' . $category . '%')->limit($limit)->offset($offset)->get();
     return $product;
   }
+
+  public static function updateHidden ($userId, $id) {
+    $product = Product::where('author', '=', $userId)->where('id', '=', $id)->first();
+    $product->hidden = 1;
+    return $product;
+  }
+
+  public static function updateShow ($userId, $id) {
+    $product = Product::where('author', '=', $userId)->where('id', '=', $id)->first();
+    $product->hidden = 0;
+    return $product;
+  }
 }

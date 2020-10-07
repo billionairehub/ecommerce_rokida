@@ -28,6 +28,14 @@ Route::group(['prefix' => 'portal'], function () {
             'as'=>'update-product',
             'uses'=> 'Seller\ProductController@update'
         ]);
+        Route::get('hidden-product/{id}',[
+            'as'=>'hidden-product',
+            'uses'=> 'Seller\UnlistedController@updateHidden'
+        ]);
+        Route::get('show-product/{id}',[
+            'as'=>'show-product',
+            'uses'=> 'Seller\UnlistedController@updateShow'
+        ]);
         Route::group(['prefix' => 'list'], function () {
             Route::get('all',[
                 'as'=>'all',

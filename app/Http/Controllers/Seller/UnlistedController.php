@@ -77,6 +77,18 @@ class UnlistedController extends Controller
         //
     }
 
+    public function updateHidden ($id) {
+        $userId = 1;
+        $success = Unlisted::updateHidden($userId, $id);
+        return $success;
+    }
+
+    public function updateShow ($id) {
+        $userId = 1;
+        $success = Unlisted::updateShow($userId, $id);
+        return $success;
+    }
+
     /**
      * Remove the specified resource from storage.
      *
