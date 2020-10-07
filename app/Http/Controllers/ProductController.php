@@ -24,7 +24,8 @@ class ProductController extends Controller
     public function index()
     {
         $lst = $_GET;
-        $product = Products::getListAll($lst);
+        $userId = 1;
+        $product = Products::getListAll($userId, $lst);
         return $product;
     }
 

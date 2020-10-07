@@ -20,4 +20,9 @@ class Constants
 
     const OFFSET = 0;
     const LIMIT = 15;
+
+    const STOCK_MIN = 0;
+    const STOCK_MAX = 10000;
+    const SOLD_MIN = 0;
+    const SOLD_MAX = 10000;
 }

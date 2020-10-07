@@ -7,7 +7,7 @@ use Image;
 
 class ResizeImage {
 
-  public static function generateRandomString($length = 10) {
+  public static function generateRandomString($length) {
     $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
     $randomString = '';
@@ -22,7 +22,7 @@ class ResizeImage {
     $uri = '';
     $countImg = count($file);
     for ($i = 0 ; $i < $countImg ; $i++ ) {
-      $generateName = ResizeImage::generateRandomString();
+      $generateName = ResizeImage::generateRandomString(10);
       $now = Carbon::now();
       $photoName = Carbon::parse($now)->format('YmdHis').$i.$generateName.'.jpg';
       $imageOriginal = Image::make($file[$i]->getRealPath())->filesize();

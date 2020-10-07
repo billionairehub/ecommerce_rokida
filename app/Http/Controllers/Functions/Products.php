@@ -32,6 +32,8 @@ class Products {
             }
         }
 
+        $product->product_code = ResizeImage::generateRandomString(15);
+
         $successProduct = $product->save();
         return $product;
     }
@@ -41,7 +43,10 @@ class Products {
         if (!$product)
             return false;
         foreach ($keys as $key) {
-            $product->$key = $lst[$key];
+            if ($key == 'image' || $key == 'thumb' || $key == 'img_user_manual') {
+                $uri = ResizeImage::resize($lst[$key]);
+                $product->$key = $uri;
+            } else $product->$key = $lst[$key];
         }
         $product->save();
         return true;
@@ -52,20 +57,69 @@ class Products {
         if (!$productsExists) {
             return 'error.not_found_item';
         }
+        $productsExists->deleted_by = $author;
+        $productsExists->save();
         $productsExists->delete();
         return true;
     }
 
-    public static function getListAll($lst) {
+    public static function getListAll($userId, $lst) {
         $offset = Constants::OFFSET;
         $limit = Constants::LIMIT;
+        $name = '';
+        $sku = '';
+        $product_code = '';
+        $branch = '';
+        $category = '';
+        $stockMin = Constants::STOCK_MIN;
+        $stockMax = Constants::STOCK_MAX;
+        $soldMin = Constants::SOLD_MIN;
+        $soldMax = Constants::SOLD_MAX;
         if (array_key_exists('offset', $lst) && $lst['offset'] != null) {
             $offset = $lst['offset'];
         }
         if (array_key_exists('limit', $lst) && $lst['limit'] !=  null) {
             $limit = $lst['limit'];
         }
-        $product = Product::limit($limit)->offset($offset)->get();
+        if (array_key_exists('name', $lst) && $lst['name'] !=  null) {
+            $name = $lst['name'];
+        }
+        if (array_key_exists('sku', $lst) && $lst['sku'] !=  null) {
+            $sku = $lst['sku'];
+        }
+        if (array_key_exists('product_code', $lst) && $lst['product_code'] !=  null) {
+            $product_code = $lst['product_code'];
+        }
+        if (array_key_exists('branch', $lst) && $lst['branch'] !=  null) {
+            $branch = $lst['branch'];
+        }
+        if (array_key_exists('branch', $lst) && $lst['branch'] !=  null) {
+            $branch = $lst['branch'];
+        }
+        if (array_key_exists('stockMin', $lst) && $lst['stockMin'] !=  null) {
+            $stockMin = $lst['stockMin'];
+        }
+        if (array_key_exists('stockMax', $lst) && $lst['stockMax'] !=  null) {
+            $stockMax = $lst['stockMax'];
+        }
+        if (array_key_exists('soldMin', $lst) && $lst['soldMin'] !=  null) {
+            $soldMin = $lst['soldMin'];
+        }
+        if (array_key_exists('soldMax', $lst) && $lst['soldMax'] !=  null) {
+            $soldMax = $lst['soldMax'];
+        }
+        if (array_key_exists('category', $lst) && $lst['category'] !=  null) {
+            $
+        }
+        $product = Product::where('author', '=', $userId)->where('name', 'like', '%' . $name . '%')->where('sku', 'like', '%' . $sku . '%')->where('product_code', 'like', '%' . $product_code . '%')->where('trademark', 'like', '%' . $branch . '%')->where('amount', '>=', $stockMin)->where('amount', '<=', $stockMax)->where('consumed', '>=', $soldMin)->where('consumed', '<=', $soldMax)->limit($limit)->offset($offset)->get();
+        for ($i = 0; $i < count($product); $i++) {
+            $product[$i]->thumb = str_replace(' ', '', $product[$i]->thumb);
+            $product[$i]->thumb = explode(', ', $product[$i]->thumb);
+            $product[$i]->image = str_replace(' ', '', $product[$i]->image);
+            $product[$i]->image = explode(', ', $product[$i]->image);
+            $product[$i]->img_user_manual = str_replace(' ', '', $product[$i]->img_user_manual);
+            $product[$i]->img_user_manual = explode(', ', $product[$i]->img_user_manual);
+        }
         return $product;
     }
 }
