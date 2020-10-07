@@ -13,6 +13,9 @@ use App\Http\Controllers\Functions\Products;
 use App\Http\Controllers\Functions\Promotions;
 use App\Http\Controllers\Functions\TypeShippings;
 use App\Http\Controllers\Functions\Classifies;
+use App\Product;
+use App\Custommer;
+use App\TypeShipping;
 
 class ProductController extends Controller
 {
@@ -125,4 +128,6 @@ class ProductController extends Controller
             return trans($success);
         }
     }
+
+    
 }

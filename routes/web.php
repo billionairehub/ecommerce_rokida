@@ -107,3 +107,10 @@ Route::group(['prefix' => 'user'], function () {
         'uses' => 'UserController@login'
     ]);
 });
+
+Route::group(['prefix' => 'customer'], function () {
+    Route::get('{slug}',[
+        'as' => 'get-detail-product',
+        'uses' => 'Customer\DetailProController@getdetailPro'
+    ]);
+});

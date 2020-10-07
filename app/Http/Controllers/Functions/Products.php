@@ -108,9 +108,7 @@ class Products {
         if (array_key_exists('soldMax', $lst) && $lst['soldMax'] !=  null) {
             $soldMax = $lst['soldMax'];
         }
-        if (array_key_exists('category', $lst) && $lst['category'] !=  null) {
-            $
-        }
+        
         $product = Product::where('author', '=', $userId)->where('name', 'like', '%' . $name . '%')->where('sku', 'like', '%' . $sku . '%')->where('product_code', 'like', '%' . $product_code . '%')->where('trademark', 'like', '%' . $branch . '%')->where('amount', '>=', $stockMin)->where('amount', '<=', $stockMax)->where('consumed', '>=', $soldMin)->where('consumed', '<=', $soldMax)->limit($limit)->offset($offset)->get();
         for ($i = 0; $i < count($product); $i++) {
             $product[$i]->thumb = str_replace(' ', '', $product[$i]->thumb);
@@ -122,4 +120,6 @@ class Products {
         }
         return $product;
     }
+
+    
 }
