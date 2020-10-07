@@ -5,8 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Category extends Model
+
+class Infringe extends Model
 {
     use SoftDeletes;
-    public $table = 'rokida_categories';
+    public $table = 'rokida_infringe';
 }

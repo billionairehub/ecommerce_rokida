@@ -18,36 +18,66 @@ Route::group(['prefix' => 'portal'], function () {
     Route::group(['prefix' => 'product'], function () {
         Route::post('add-product',[
             'as'=>'add-product',
-            'uses'=> 'ProductController@store'
+            'uses'=> 'Seller\ProductController@store'
         ]);
         Route::get('delete-product/{id}',[
             'as'=>'delete-product',
-            'uses'=> 'ProductController@destroy'
+            'uses'=> 'Seller\ProductController@destroy'
         ]);
         Route::post('update-product/{id}',[
             'as'=>'update-product',
-            'uses'=> 'ProductController@update'
+            'uses'=> 'Seller\ProductController@update'
+        ]);
+        Route::get('hidden-product/{id}',[
+            'as'=>'hidden-product',
+            'uses'=> 'Seller\UnlistedController@updateHidden'
+        ]);
+        Route::get('show-product/{id}',[
+            'as'=>'show-product',
+            'uses'=> 'Seller\UnlistedController@updateShow'
         ]);
         Route::group(['prefix' => 'list'], function () {
             Route::get('all',[
                 'as'=>'all',
-                'uses'=> 'ProductController@index'
+                'uses'=> 'Seller\ProductController@index'
             ]);
+            Route::get('active',[
+                'as'=>'active',
+                'uses'=> 'Seller\ProductController@index'
+            ]);
+            Route::get('soldout',[
+                'as'=>'soldout',
+                'uses'=> 'Seller\ProductController@soldout'
+            ]);
+            Route::get('unlisted',[
+                'as'=>'unlisted',
+                'uses'=> 'Seller\UnlistedController@index'
+            ]);
+            Route::group(['prefix' => 'banded'], function () {
+                Route::get('action',[
+                    'as'=>'action',
+                    'uses'=> 'Seller\ProductBandedController@action'
+                ]);
+                Route::get('history',[
+                    'as'=>'history',
+                    'uses'=> 'Seller\ProductBandedController@index'
+                ]);
+            });
         });
     });
     Route::group(['prefix' => 'shipping'], function () {
         Route::post('add-shipping',[
             'as'=>'add-shipping',
-            'uses'=> 'ShippingController@store'
+            'uses'=> 'Seller\ShippingController@store'
         ]);
         Route::get('delete-shipping',[
             'as'=>'delete-shipping',
-            'uses'=> 'ShippingController@destroy'
+            'uses'=> 'Seller\ShippingController@destroy'
         ]);
         Route::group(['prefix' => 'list'], function () {
             Route::get('all',[
                 'as'=>'all',
-                'uses'=> 'ShippingController@index'
+                'uses'=> 'Seller\ShippingController@index'
             ]);
         });
     });
@@ -55,44 +85,44 @@ Route::group(['prefix' => 'portal'], function () {
         Route::group(['prefix' => 'list'], function () {
             Route::get('all',[
                 'as'=>'all',
-                'uses'=> 'PromotionController@index'
+                'uses'=> 'Seller\PromotionController@index'
             ]);
         });
         Route::post('add-promotion',[
             'as'=>'add-promotion',
-            'uses'=> 'PromotionController@store'
+            'uses'=> 'Seller\PromotionController@store'
         ]);
         Route::get('delete-promotion/{id}',[
             'as'=>'delete-promotion',
-            'uses'=> 'PromotionController@destroy'
+            'uses'=> 'Seller\PromotionController@destroy'
         ]);
         Route::get('delete',[
             'as'=>'delete',
-            'uses'=> 'PromotionController@delete'
+            'uses'=> 'Seller\PromotionController@delete'
         ]);
     });
     Route::group(['prefix' => 'classify'], function () {
         Route::group(['prefix' => 'list'], function () {
             Route::get('all',[
                 'as'=>'all',
-                'uses'=> 'CLassifyController@index'
+                'uses'=> 'Seller\CLassifyController@index'
             ]);
         });
         Route::post('add-classify',[
             'as'=>'add-classify',
-            'uses'=> 'CLassifyController@store'
+            'uses'=> 'Seller\CLassifyController@store'
         ]);
         Route::post('edit-classify/{id}',[
             'as'=>'edit-classify',
-            'uses'=> 'CLassifyController@update'
+            'uses'=> 'Seller\CLassifyController@update'
         ]);
         Route::get('delete-classify/{id}',[
             'as'=>'delete-classify',
-            'uses'=> 'CLassifyController@destroy'
+            'uses'=> 'Seller\CLassifyController@destroy'
         ]);
         Route::get('delete',[
             'as'=>'delete',
-            'uses'=> 'CLassifyController@delete'
+            'uses'=> 'Seller\CLassifyController@delete'
         ]);
     });
 });
@@ -112,5 +142,10 @@ Route::group(['prefix' => 'customer'], function () {
     Route::get('{slug}',[
         'as' => 'get-detail-product',
         'uses' => 'Customer\DetailProController@getdetailPro'
+    ]);
+
+    Route::post('buy-product',[
+        'as' => 'buy-product',
+        'uses' => 'Customer\BuyProductController@store'
     ]);
 });
