@@ -96,9 +96,6 @@ class Products {
         if (array_key_exists('branch', $lst) && $lst['branch'] !=  null) {
             $branch = $lst['branch'];
         }
-        if (array_key_exists('branch', $lst) && $lst['branch'] !=  null) {
-            $branch = $lst['branch'];
-        }
         if (array_key_exists('stockMin', $lst) && $lst['stockMin'] !=  null) {
             $stockMin = $lst['stockMin'];
         }
@@ -115,7 +112,7 @@ class Products {
             $cate = Category::where('name', '=', $lst['category'])->first('id');
             $category = $cate->id;
         }
-        $product = Product::where('author', '=', $userId)->where('name', 'like', '%' . $name . '%')->where('sku', 'like', '%' . $sku . '%')->where('product_code', 'like', '%' . $product_code . '%')->where('trademark', 'like', '%' . $branch . '%')->where('amount', '>=', $stockMin)->where('amount', '<=', $stockMax)->where('consumed', '>=', $soldMin)->where('consumed', '<=', $soldMax)->where('categories', 'like', '%' . $category . '%')->limit($limit)->offset($offset)->get();
+        $product = Product::where('author', '=', $userId)->where('name', 'like', '%' . $name . '%')->where('infringe', '=', 0)->where('sku', 'like', '%' . $sku . '%')->where('product_code', 'like', '%' . $product_code . '%')->where('trademark', 'like', '%' . $branch . '%')->where('amount', '>=', $stockMin)->where('amount', '<=', $stockMax)->where('consumed', '>=', $soldMin)->where('consumed', '<=', $soldMax)->where('categories', 'like', '%' . $category . '%')->limit($limit)->offset($offset)->get();
         for ($i = 0; $i < count($product); $i++) {
             $product[$i]->thumb = str_replace(' ', '', $product[$i]->thumb);
             $product[$i]->thumb = explode(', ', $product[$i]->thumb);
@@ -151,9 +148,6 @@ class Products {
         }
         if (array_key_exists('product_code', $lst) && $lst['product_code'] !=  null) {
             $product_code = $lst['product_code'];
-        }
-        if (array_key_exists('branch', $lst) && $lst['branch'] !=  null) {
-            $branch = $lst['branch'];
         }
         if (array_key_exists('branch', $lst) && $lst['branch'] !=  null) {
             $branch = $lst['branch'];

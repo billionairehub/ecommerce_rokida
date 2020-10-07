@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Seller;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Functions\TypeShippings;
 
-class ShippingController extends Controller
+use App\Http\Controllers\Functions\Unlisted;
+
+class UnlistedController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +17,9 @@ class ShippingController extends Controller
     public function index()
     {
         $lst = $_GET;
-        $shipping = TypeShippings::showAll($lst['product']);
-        if ($shipping == false) {
-            return trans('error.not_found_shipping');
-        } else {
-            return $shipping;
-        }
+        $userId = 1;
+        $success = Unlisted::getListAll($userId, $lst);
+        return $success;
     }
 
     /**
@@ -41,15 +40,7 @@ class ShippingController extends Controller
      */
     public function store(Request $request)
     {
-        $lst = $_GET;
-        $input = $request->all();
-        if (array_key_exists('shipping_channels', $input) == false || $input['shipping_channels'] == null) {
-            return trans('error.not_complete_information');
-        }
-        $add = TypeShippings::addShipping($lst, $input);
-        if ($add == true) {
-            return trans('message.add_type_shipping_success');
-        }
+        //
     }
 
     /**
@@ -92,14 +83,8 @@ class ShippingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy()
+    public function destroy($id)
     {
-        $lst = $_GET;
-        $delete = TypeShippings::deleteShipping($lst);
-        if ($delete == 0) {
-            return trans('error.can_not_delete_shipping');
-        } else if ($delete == 1) {
-            return trans('message.delete_shipping_success');
-        }
+        //
     }
 }
