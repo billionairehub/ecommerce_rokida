@@ -33,6 +33,14 @@ Route::group(['prefix' => 'portal'], function () {
                 'as'=>'all',
                 'uses'=> 'ProductController@index'
             ]);
+            Route::get('active',[
+                'as'=>'active',
+                'uses'=> 'ProductController@index'
+            ]);
+            Route::get('soldout',[
+                'as'=>'soldout',
+                'uses'=> 'ProductController@soldout'
+            ]);
         });
     });
     Route::group(['prefix' => 'shipping'], function () {

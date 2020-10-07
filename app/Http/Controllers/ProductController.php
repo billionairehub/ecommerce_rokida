@@ -29,6 +29,13 @@ class ProductController extends Controller
         return $product;
     }
 
+    public function soldout() {
+        $lst = $_GET;
+        $userId = 1;
+        $product = Products::getListSoldout($userId, $lst);
+        return $product;
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -45,7 +52,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Response $response)
     {
         $lst = $request->all();
         $keys = $request->keys();
@@ -55,6 +62,10 @@ class ProductController extends Controller
             return trans('error.not_complete_information');
             
         $product = Products::addProduct($userID, $keys, $lst);
+        $key['slug'] = str_replace(' ', '-', $product->name) . '.' . $product->id;
+        $key['product_code'] = $product->id;
+        $code = ['slug', 'product_code'];
+        Products::updateProduct($userID, $code, $key, $product->id);
         $productId = $product->id;
         if (Validators::requiredFieldPromotion($lst) == 1)
             Promotions::addPromotion($productId, $keys, $lst);
