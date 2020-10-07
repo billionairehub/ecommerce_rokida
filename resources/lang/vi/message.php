@@ -10,5 +10,8 @@ return [
     'categories_exist' => 'Loại sản phẩm đã tồn tại',
     'categories_not_exist' => 'Loại sản phẩm không tồn tại',
     'update_categories_success' => 'Cập nhật loại sản phẩm thành công',
-    'delete_categories_success' => 'Xóa loại sản phẩm thành công'
+    'delete_categories_success' => 'Xóa loại sản phẩm thành công',
+    'unauthenticate' => 'Bạn chưa có quyền để thực hiện thành động này!',
+    'get_info' => 'Lấy thông tin thành công!',
+    'logout_success' => 'Đăng xuất thành công!',
 ]; 

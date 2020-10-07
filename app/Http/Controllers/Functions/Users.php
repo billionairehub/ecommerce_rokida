@@ -23,8 +23,8 @@ class Users {
         $user->$key = $lst[$key];
       foreach ($keys as $key)
       if (in_array($key, Constants::DATA_FIELD_USER) == true){
-        if ($key == 'password') {
-          $user->password = Hash::make($lst['password']);
+        if ($key == 'passwords') {
+          $user->passwords = Hash::make($lst['passwords']);
         } else {
           $user->$key = $lst[$key];
         }
