@@ -125,6 +125,16 @@ Route::group(['prefix' => 'portal'], function () {
             'uses'=> 'Seller\CLassifyController@delete'
         ]);
     });
+    Route::group(['prefix' => 'sale'], function () {
+        Route::get('all', [
+            'as' => 'all',
+            'uses' => 'Seller\OrderController@index'
+        ]);
+        Route::get('returnlist', [
+            'as' => 'returnlist',
+            'uses' => 'Seller\OrderController@return'
+        ]);
+    });
 });
 
 Route::group(['prefix' => 'user'], function () {
