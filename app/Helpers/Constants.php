@@ -17,6 +17,7 @@ class Constants
     const REQUIRED_DATA_FIELD_PROMOTION = ['pro_from', 'pro_to', 'pro_price'];
     const DATA_FIELD_PROMOTION = ['pro_from', 'pro_to', 'pro_price', 'expired_time'];
     const REQUIRED_DATA_FIELD_TYPE_SHIPPING = ['shipping_channels', 'weight', 'length', 'width', 'height'];
+    const REQUIRED_DATE_FIELD_TYPE_BANK_ACCOUNT = ['user_name', 'identity_card', 'account_name', 'bank_name', 'account_number', 'area', 'branch'];
 
     const OFFSET = 0;
     const LIMIT = 15;

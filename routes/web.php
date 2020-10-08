@@ -137,10 +137,28 @@ Route::group(['prefix' => 'portal'], function () {
     });
     Route::group(['prefix' => 'finance'], function () {
         Route::group(['prefix' => 'wallet'], function () {
-            Route::get('cards', [
-                'as' => 'cards',
-                'uses' => 'Seller\OrderController@index'
-            ]);
+            Route::group(['prefix' => 'cards'], function () {
+                Route::get('/', [
+                    'as' => '/',
+                    'uses' => 'Seller\BankAccountController@index'
+                ]);
+                Route::get('card/{id}', [
+                    'as' => 'card',
+                    'uses' => 'Seller\BankAccountController@show'
+                ]);
+                Route::post('add-card', [
+                    'as' => 'add-card',
+                    'uses' => 'Seller\BankAccountController@store'
+                ]);
+                Route::get('delete-card/{id}', [
+                    'as' => 'delete-card',
+                    'uses' => 'Seller\BankAccountController@destroy'
+                ]);
+                Route::get('change-default/{id}', [
+                    'as' => 'change-default',
+                    'uses' => 'Seller\BankAccountController@changeDefault'
+                ]);
+            });
         });
     });
 });

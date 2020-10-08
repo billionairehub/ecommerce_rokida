@@ -137,4 +137,13 @@ class Validators
     }
     return true;
   }
+
+  public static function requiredFieldBankAccount ($lst, $keys) {
+    foreach (Constants::REQUIRED_DATE_FIELD_TYPE_BANK_ACCOUNT as $key) {
+      if (array_key_exists($key, $lst) == false || $lst[$key] == null) {
+        return false;
+      }
+    }
+    return true;
+  }
 }

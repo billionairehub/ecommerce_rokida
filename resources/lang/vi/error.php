@@ -10,4 +10,7 @@ return [
     'not_found_classify' => 'Không tìm thấy phân loại cho sản phẩm này',
     'classify_same' => 'Thêm phân loại không thành công, phân loại bị trùng',
     'update_classify_fail' => 'Chỉnh sửa phân loại thất bại',
+    'account_bank_exists' => 'Tài khoản ngân hàng đã tồn tại',
+    'can_not_delete' => 'Bạn không thể xóa tài khoản ngân hàng này',
+    'account_bank_is_default' => 'Tài khoản này đang là mặc định',
 ]; 

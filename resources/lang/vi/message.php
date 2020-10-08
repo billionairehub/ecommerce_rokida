@@ -12,4 +12,5 @@ return [
     'delete_classify_success' => 'Xóa phân loại thành công!',
     'add_classify_success' => 'Thêm phân loại thành công',
     'update_classify_success' => 'Chỉnh sửa phân loại thành công',
+    'delete_bank_succcess' => 'Xóa tài khoản ngân hàng thành công',
 ]; 
