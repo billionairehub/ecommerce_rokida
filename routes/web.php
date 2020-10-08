@@ -135,6 +135,14 @@ Route::group(['prefix' => 'portal'], function () {
             'uses' => 'Seller\OrderController@return'
         ]);
     });
+    Route::group(['prefix' => 'finance'], function () {
+        Route::group(['prefix' => 'wallet'], function () {
+            Route::get('cards', [
+                'as' => 'cards',
+                'uses' => 'Seller\OrderController@index'
+            ]);
+        });
+    });
 });
 
 Route::group(['prefix' => 'user'], function () {
