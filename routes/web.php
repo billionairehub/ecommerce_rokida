@@ -160,6 +160,20 @@ Route::group(['prefix' => 'portal'], function () {
                 ]);
             });
         });
+        Route::group(['prefix' => 'income'], function () {
+            Route::get('/', [
+                'as' => '/',
+                'uses' => 'Seller\RevenueController@index'
+            ]);
+            Route::get('will-pay', [
+                'as' => 'will-pay',
+                'uses' => 'Seller\RevenueController@willpay'
+            ]);
+            Route::get('paid', [
+                'as' => 'will-pay',
+                'uses' => 'Seller\RevenueController@paid'
+            ]);
+        });
     });
 });
 

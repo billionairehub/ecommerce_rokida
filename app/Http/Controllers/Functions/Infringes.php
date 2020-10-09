@@ -5,7 +5,10 @@ use Constants;
 use Carbon\Carbon;
 
 use App\Infringe;
+use App\Category;
+use App\User;
 use App\Product;
+use App\Shop;
 
 class Infringes {
   public static function getListAll($userId, $lst) {
@@ -34,7 +37,7 @@ class Infringes {
         $branch = $lst['branch'];
     }
     
-    $product = Product::where('author', '=', $userId)->get(['id']);
+    $product = Product::where('author', '=', $userId)->where('infringe', '=', 1)->get(['id']);
     $arrProduct = [];
     for ($i = 0; $i < count($product); $i++) {
       array_push($arrProduct, $product[$i]->id);
@@ -45,8 +48,27 @@ class Infringes {
     for ($i = 0; $i < count($infringes); $i++) {
       array_push($arrInfringe, $infringes[$i]->product_id);
     }
-    $result = Product::whereIn('id', $arrInfringe)->where('name', 'like', '%' . $name . '%')->where('sku', 'like', '%' . $sku . '%')->where('product_code', 'like', '%' . $product_code . '%')->where('trademark', 'like', '%' . $branch . '%')->limit($limit)->offset($offset)->get();
-    return $result;
+    $product = Product::whereIn('id', $arrInfringe)->where('name', 'like', '%' . $name . '%')->where('sku', 'like', '%' . $sku . '%')->where('product_code', 'like', '%' . $product_code . '%')->where('trademark', 'like', '%' . $branch . '%')->limit($limit)->offset($offset)->get();
+    
+    for ($i = 0; $i < count($product); $i++) {
+      $product[$i]->thumb = str_replace(' ', '', $product[$i]->thumb);
+      $product[$i]->thumb = explode(', ', $product[$i]->thumb);
+      $product[$i]->image = str_replace(' ', '', $product[$i]->image);
+      $product[$i]->image = explode(', ', $product[$i]->image);
+      $product[$i]->img_user_manual = str_replace(' ', '', $product[$i]->img_user_manual);
+      $product[$i]->img_user_manual = explode(', ', $product[$i]->img_user_manual);
+      $author = User::where('id', '=', $product[$i]->author)->first();
+      $product[$i]->author = $author;
+      $shop = Shop::where('id', '=', $product[$i]->shop_id)->first();
+      $product[$i]->shop_id = $shop;
+      $categories = Category::where('id', '=', $product[$i]->categories)->first();
+      $product[$i]->categories = $categories;
+      $infringes = Infringe::where('product_id', '=', $product[$i]->id)->first();
+      $product[$i]->time_update = $infringes->time_update;
+      $product[$i]->error_correction_deadline = $infringes->error_correction_deadline;
+      $product[$i]->violation_at = $infringes->created_at;
+    }
+    return $product;
   }
 
   public static function getListHistory($userId, $lst) {
@@ -72,7 +94,25 @@ class Infringes {
     for ($i = 0; $i < count($infringes); $i++) {
       array_push($arrInfringe, $infringes[$i]->product_id);
     }
-    $result = Product::whereIn('id', $arrInfringe)->limit($limit)->offset($offset)->get();
-    return $result;
+    $product = Product::whereIn('id', $arrInfringe)->limit($limit)->offset($offset)->get();
+    for ($i = 0; $i < count($product); $i++) {
+      $product[$i]->thumb = str_replace(' ', '', $product[$i]->thumb);
+      $product[$i]->thumb = explode(', ', $product[$i]->thumb);
+      $product[$i]->image = str_replace(' ', '', $product[$i]->image);
+      $product[$i]->image = explode(', ', $product[$i]->image);
+      $product[$i]->img_user_manual = str_replace(' ', '', $product[$i]->img_user_manual);
+      $product[$i]->img_user_manual = explode(', ', $product[$i]->img_user_manual);
+      $author = User::where('id', '=', $product[$i]->author)->first();
+      $product[$i]->author = $author;
+      $shop = Shop::where('id', '=', $product[$i]->shop_id)->first();
+      $product[$i]->shop_id = $shop;
+      $categories = Category::where('id', '=', $product[$i]->categories)->first();
+      $product[$i]->categories = $categories;
+      $infringes = Infringe::where('product_id', '=', $product[$i]->id)->first();
+      $product[$i]->time_update = $infringes->time_update;
+      $product[$i]->error_correction_deadline = $infringes->error_correction_deadline;
+      $product[$i]->violation_at = $infringes->created_at;
+    }
+    return $product;
   }
 }

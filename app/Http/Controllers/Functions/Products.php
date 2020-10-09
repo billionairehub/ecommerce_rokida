@@ -4,6 +4,8 @@ use Constants;
 
 use App\Product;
 use App\Category;
+use App\User;
+use App\Shop;
 use App\Http\Controllers\Functions\ResizeImage;
 
 class Products {
@@ -33,11 +35,6 @@ class Products {
             }
         }
         $successProduct = $product->save();
-
-        // dd($product->save());
-        
-        // $product->slug = str_replace(' ', '-', $lst['name']) . '.' . $id;
-        // $product->product_code = $id;
         return $product;
     }
 
@@ -120,6 +117,12 @@ class Products {
             $product[$i]->image = explode(', ', $product[$i]->image);
             $product[$i]->img_user_manual = str_replace(' ', '', $product[$i]->img_user_manual);
             $product[$i]->img_user_manual = explode(', ', $product[$i]->img_user_manual);
+            $author = User::where('id', '=', $product[$i]->author)->first();
+            $product[$i]->author = $author;
+            $shop = Shop::where('id', '=', $product[$i]->shop_id)->first();
+            $product[$i]->shop_id = $shop;
+            $categories = Category::where('id', '=', $product[$i]->categories)->first();
+            $product[$i]->categories = $categories;
         }
         return $product;
     }
@@ -170,6 +173,12 @@ class Products {
             $product[$i]->image = explode(', ', $product[$i]->image);
             $product[$i]->img_user_manual = str_replace(' ', '', $product[$i]->img_user_manual);
             $product[$i]->img_user_manual = explode(', ', $product[$i]->img_user_manual);
+            $author = User::where('id', '=', $product[$i]->author)->first();
+            $product[$i]->author = $author;
+            $shop = Shop::where('id', '=', $product[$i]->shop_id)->first();
+            $product[$i]->shop_id = $shop;
+            $categories = Category::where('id', '=', $product[$i]->categories)->first();
+            $product[$i]->categories = $categories;
         }
         return $product;
     }

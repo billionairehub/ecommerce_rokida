@@ -63,6 +63,7 @@ class ProductController extends Controller
             return trans('error.not_complete_information');
             
         $product = Products::addProduct($userID, $keys, $lst);
+        
         $key['slug'] = str_replace(' ', '-', $product->name) . '.' . $product->id;
         $key['product_code'] = $product->id;
         $code = ['slug', 'product_code'];
