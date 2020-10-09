@@ -132,12 +132,7 @@ Route::group(['prefix' => 'user'], function () {
         'as' => 'register',
         'uses' => 'UserController@store'
     ]);
-    Route::post('login', [
-        'as' => 'login',
-        'uses' => 'UserController@login'
-    ]);
 });
-
 //*****CUSTOMER
 Route::get('get-detail-product/{slug}',[
         'as' => 'get-detail-product',
@@ -148,13 +143,49 @@ Route::get('get-detail-product/{slug}',[
 //         'as' => 'buy-product',
 //         'uses' => 'Customer\BuyProductController@store'
 // ]);
-   
+
+   //get all categories
 Route::get('get-all-categories',[
     'as' => 'get-all-categories',
     'uses' => 'Customer\GetCategoryController@index'
 ]);
-
+//get deail categories
 Route::get('get-detail-categories/{slug}',[
     'as' => 'get-detail-categories',
     'uses' => 'Customer\GetCategoryController@getDetailCategory'
 ]);
+
+//get products sale 
+Route::get('products-sale', [
+    'as' => 'product-sale',
+    'uses' => 'Customer\SaleProductController@getSaleProduct'
+]);
+
+//search 
+Route::get('search', [
+    'as' => 'search',
+    'uses' => 'Customer\SearchProductController@searchProduct'
+]);
+//get product top search
+Route::get('top-products', [
+    'as' => 'top-products',
+    'uses' => 'Customer\SearchProductController@TopProducts'
+]);
+
+//add-category
+Route::post('add-category', [
+    'as' => 'add-category',
+    'uses' => 'CategoriesController@store'
+]);
+//update-category
+Route::post('update-category/{id}', [
+    'as' => 'update-category',
+    'uses' => 'CategoriesController@update'
+]);
+//update-category
+Route::post('delete-category/{id}', [
+    'as' => 'delete-category',
+    'uses' => 'CategoriesController@destroy'
+]);
+
+

@@ -8,6 +8,7 @@ use App\Product;
 use App\Promotion;
 use App\Category;
 use App\Classify;
+use App\Shop;
 
 class GetCategoryController extends Controller
 {
@@ -53,8 +54,8 @@ class GetCategoryController extends Controller
      */
     public function getDetailCategory($slug)
     {
-        $category = Category::find($slug);
-        if($category == null){
+        $category = Category::where('slug',$slug)->get();
+        if(count($category) == 0){
             $result = [
 
                 'success' => true,
@@ -67,7 +68,17 @@ class GetCategoryController extends Controller
     
             ];
         }
-        $result = [
+        else 
+        {
+        $shop = Shop::join('rokida_categories','rokida_categories.id','=','rokida_shops.categories_id')
+        ->where('categories_id',$category[0]->id)
+        ->get(['shop_name', 'shop_adress', 'shop_status', 'banner_id', 'avatar_shop', 'amount_follow']);
+
+        $product = Product::join('rokida_categories','rokida_categories.id','=','rokida_products.categories')
+        ->where('categories',$category[0]->id)
+        ->get(['author', 'sku', 'rokida_products.name', 'product_code', 'price', 'promotional_price', 'thumb', 'image', 'location']);
+
+            $result = [
 
             'success' => true,
 
@@ -75,9 +86,14 @@ class GetCategoryController extends Controller
 
             'message'=> trans('message.get_categories_sucess'),
 
-            'data' => $category
+            'data' => $category,
 
-        ];
+            'shop' => $shop,
+
+            'products' => $product
+
+            ];
+        }
         return response()->json($result);
     }
 
