@@ -138,14 +138,23 @@ Route::group(['prefix' => 'user'], function () {
     ]);
 });
 
-Route::group(['prefix' => 'customer'], function () {
-    Route::get('{slug}',[
+//*****CUSTOMER
+Route::get('get-detail-product/{slug}',[
         'as' => 'get-detail-product',
         'uses' => 'Customer\DetailProController@getdetailPro'
-    ]);
+]);
 
-    Route::post('buy-product',[
-        'as' => 'buy-product',
-        'uses' => 'Customer\BuyProductController@store'
-    ]);
-});
+// Route::post('buy-product',[
+//         'as' => 'buy-product',
+//         'uses' => 'Customer\BuyProductController@store'
+// ]);
+   
+Route::get('get-all-categories',[
+    'as' => 'get-all-categories',
+    'uses' => 'Customer\GetCategoryController@index'
+]);
+
+Route::get('get-detail-categories/{slug}',[
+    'as' => 'get-detail-categories',
+    'uses' => 'Customer\GetCategoryController@getDetailCategory'
+]);

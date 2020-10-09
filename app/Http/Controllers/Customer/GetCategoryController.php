@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Customer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Product;
-use App\Order;
-use App\OrderDetail;
-use App\Custommer;
+use App\Promotion;
+use App\Category;
+use App\Classify;
 
-class BuyProductController extends Controller
+class GetCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,32 @@ class BuyProductController extends Controller
      */
     public function index()
     {
-        //
+        $category = Category::orderBy('created_at', 'DESC')->get();
+        if($category == null){
+            $result = [
+
+                'success' => true,
+    
+                'code' => 200,
+    
+                'message'=> trans('message.categories_not_found'),
+    
+                'data' => null
+    
+            ];
+        }
+        $result = [
+
+            'success' => true,
+
+            'code' => 200,
+
+            'message'=> trans('message.get_categories_sucess'),
+
+            'data' => $category
+
+        ];
+        return response()->json($result);
     }
 
     /**
@@ -26,9 +51,34 @@ class BuyProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function getDetailCategory($slug)
     {
-        
+        $category = Category::find($slug);
+        if($category == null){
+            $result = [
+
+                'success' => true,
+    
+                'code' => 200,
+    
+                'message'=> trans('message.categories_not_found'),
+    
+                'data' => null
+    
+            ];
+        }
+        $result = [
+
+            'success' => true,
+
+            'code' => 200,
+
+            'message'=> trans('message.get_categories_sucess'),
+
+            'data' => $category
+
+        ];
+        return response()->json($result);
     }
 
     /**
@@ -39,28 +89,7 @@ class BuyProductController extends Controller
      */
     public function store(Request $request)
     {
-        $order = new Order;
-        $order->user_id = 1;
-        $order->amount = $request->amount;
-        $order->ship_name = $request->ship_name;
-        $order->ship_address = $request->ship_address;
-        $order->phone = $request->phone;
-        $order->email = $request->email;
-        $order->sku = $request->sku;
-        $order->status = $request->status;
-
-        $idorder = Order::all();
-        $orderDetail = new OrderDetail;
-        $orderDetail->order_id = count($idorder) + 1;
-        $orderDetail->product_id = $request->product_id;
-        $orderDetail->name = $request->name;
-        $orderDetail->price = $request->price;
-        $orderDetail->sku = $request->sku;
-        $orderDetail->quantity = $request->quantity;
-        $orderDetail->type_ship_id = $request->type_ship_id;
-        $result = $orderDetail->save();
-        $resultOrder = $order->save();
-        dd($result, $resultOrder);
+        //
     }
 
     /**

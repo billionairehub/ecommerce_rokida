@@ -12,5 +12,7 @@ return [
     'delete_classify_success' => 'Xóa phân loại thành công!',
     'add_classify_success' => 'Thêm phân loại thành công',
     'update_classify_success' => 'Chỉnh sửa phân loại thành công',
-    'get_detail_pro_success' => 'Xem chi tiết sản phẩm thành công'
+    'get_detail_pro_success' => 'Xem chi tiết sản phẩm thành công',
+    'get_categories_sucess' => 'Lấy loại sản phẩm thành công',
+    'categories_not_found' => 'Không tìm thấy loại sản phẩm',
 ]; 
