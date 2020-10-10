@@ -43,16 +43,36 @@ class Revenues {
     for ($i = 0; $i < count($willPay); $i++) {
       $total = $total + $willPay[$i]->total_bill + $willPay[$i]->fees_ship;
     }
-    return $total;
+    $total = '{"total":' . $total . '}';
+    $result = json_decode($total, true);
+    return $result;
   }
 
   public static function TotalPaid($userId, $lst) {
-    $Paid = Order::where('user_id', '=', $userId)->where('payment_status', '=', 1)->get();
+    if (array_key_exists('type', $lst) && $lst['type'] == 'week') {
+      $dayOfWeek = Carbon::now()->dayOfWeek;
+      if ($dayOfWeek == 0) {
+        $day = 6;
+      } else {
+        $day = $dayOfWeek - 1;
+      }
+      $timeIs = Carbon::now()->subDays($day);
+      $Paid = Order::where('user_id', '=', $userId)->where('payment_status', '=', 1)->where('payment_on', '>=', $timeIs)->get();
+    } else if (array_key_exists('type', $lst) && $lst['type'] == 'month') {
+      $day = Carbon::now()->format('d');
+      $day = $day - 1;
+      $timeIs = Carbon::now()->subDays($day);
+      $Paid = Order::where('user_id', '=', $userId)->where('payment_status', '=', 1)->where('payment_on', '>=', $timeIs)->get();
+    } else {
+      $Paid = Order::where('user_id', '=', $userId)->where('payment_status', '=', 1)->get();
+    }
     $total = 0;
     for ($i = 0; $i < count($Paid); $i++) {
       $total = $total + $Paid[$i]->total_bill + $Paid[$i]->fees_ship;
     }
-    return $total;
+    $total = '{"total":' . $total . '}';
+    $result = json_decode($total, true);
+    return $result;
   }
 
 }

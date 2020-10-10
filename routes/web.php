@@ -175,6 +175,14 @@ Route::group(['prefix' => 'portal'], function () {
             ]);
         });
     });
+    Route::group(['prefix' => 'settings'], function () {
+        Route::group(['prefix' => 'shop'], function () {
+            Route::get('rating', [
+                'as' => 'rating',
+                'uses' => 'RateReviewController@index'
+            ]);
+        });
+    });
 });
 
 Route::group(['prefix' => 'user'], function () {
