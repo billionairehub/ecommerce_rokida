@@ -179,7 +179,11 @@ Route::group(['prefix' => 'portal'], function () {
         Route::group(['prefix' => 'shop'], function () {
             Route::get('rating', [
                 'as' => 'rating',
-                'uses' => 'RateReviewController@index'
+                'uses' => 'Seller\RateReviewShopController@index'
+            ]);
+            Route::post('reply-review/{id}', [
+                'as' => 'reply-review',
+                'uses' => 'Seller\RateReviewShopController@store'
             ]);
         });
     });

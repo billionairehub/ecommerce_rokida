@@ -40,7 +40,11 @@ class RateReviewShopController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $lst = $_GET;
+        $input = $request->all();
+        $userId = 1;
+        $success = RateReviewShops::replyReview($userId, $input, $lst);
+        return $success;
     }
 
     /**
