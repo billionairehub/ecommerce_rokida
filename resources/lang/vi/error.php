@@ -14,4 +14,6 @@ return [
     'can_not_delete' => 'Bạn không thể xóa tài khoản ngân hàng này',
     'account_bank_is_default' => 'Tài khoản này đang là mặc định',
     'not_found_rate' => 'Không tìm thấy đánh giá',
+    'not_found_category' => 'Không tìm thấy danh mục',
+    'you_can_not_show_category' => 'Bạn không thể bật khi không có sản phẩm nào',
 ]; 

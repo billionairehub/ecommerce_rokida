@@ -191,6 +191,36 @@ Route::group(['prefix' => 'portal'], function () {
             ]);
         });
     });
+    Route::group(['prefix' => 'category'], function () {
+        Route::get('/', [
+            'as' => '/',
+            'uses' => 'Seller\ShopCategoryController@index'
+        ]);
+        Route::get('/{id}', [
+            'as' => '/',
+            'uses' => 'Seller\ShopCategoryController@show'
+        ]);
+        Route::post('add-category', [
+            'as' => 'add-category',
+            'uses' => 'Seller\ShopCategoryController@store'
+        ]);
+        Route::post('edit-category/{id}', [
+            'as' => 'edit-category',
+            'uses' => 'Seller\ShopCategoryController@update'
+        ]);
+        Route::get('delete-category/{id}', [
+            'as' => 'delete-category',
+            'uses' => 'Seller\ShopCategoryController@destroy'
+        ]);
+        Route::get('show-category/{id}', [
+            'as' => 'show-category',
+            'uses' => 'Seller\ShopCategoryController@showCategory'
+        ]);
+        Route::get('hide-category/{id}', [
+            'as' => 'hide-category',
+            'uses' => 'Seller\ShopCategoryController@hideCategory'
+        ]);
+    });
 });
 
 Route::group(['prefix' => 'user'], function () {
