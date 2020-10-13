@@ -22,6 +22,12 @@ class RateReviewShopController extends Controller
         return $success;
     }
 
+    public function shopRatting() {
+        $userId = 1;
+        $success = RateReviewShops::shopRatting($userId);
+        return $success;
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -38,12 +44,14 @@ class RateReviewShopController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        $lst = $_GET;
         $input = $request->all();
         $userId = 1;
-        $success = RateReviewShops::replyReview($userId, $input, $lst);
+        $success = RateReviewShops::replyReview($userId, $input, $id);
+        if ($success == false) {
+            return trans('error.not_found_rate');
+        }
         return $success;
     }
 

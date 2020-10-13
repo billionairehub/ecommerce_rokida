@@ -185,6 +185,10 @@ Route::group(['prefix' => 'portal'], function () {
                 'as' => 'reply-review',
                 'uses' => 'Seller\RateReviewShopController@store'
             ]);
+            Route::get('shop-ratting', [
+                'as' => 'shop-ratting',
+                'uses' => 'Seller\RateReviewShopController@shopRatting'
+            ]);
         });
     });
 });

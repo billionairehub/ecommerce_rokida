@@ -65,17 +65,41 @@ class RateReviewShops {
     return $result;
   }
 
-  public static function replyReview ($userId, $input, $lst) {
-    $isValid = RateReviewShop::where('id', '=', $userId)->first();
+  public static function replyReview ($userId, $input, $id) {
+    $isValid = RateReviewShop::where('user_id', '=', $userId)->where('id', '=', $id)->first();
     if ($isValid == null) {
       return false;
     } else {
       $replyReview = new RateReviewShop;
       $replyReview->shop_id = $isValid->shop_id;
       $replyReview->user_id  = $userId;
-      $replyReview->product_id = $product_id;
-      $replyReview->content  = $input['content'];
-      $replyReview->comment_id = $lst;
+      $replyReview->product_id = $isValid->product_id;
+      $replyReview->content = $input['content'];
+      if (array_key_exists('content_image', $input) && $nput['content_image'] != null ) {
+        $uri = ResizeImage::resize($input['content_image']);
+        $replyReview->content_image = $uri;
+      }
+      $replyReview->comment_id = $id;
+      $success = $replyReview->save();
+      if ($success == true) {
+        $findRateReview = RateReviewShop::where('id', '=', $id)->first();
+        $findRateReview->replied = 2;
+        $findRateReview->save();
+        return $replyReview;
+      } else return false;
     }
+  }
+
+  public static function shopRatting($userId) {
+    $rate = RateReviewShop::where('user_id', '=', $userId)->where('vote', '<>', NULL)->get();
+    $total = 0;
+    for ($i = 0; $i < count($rate); $i++) {
+      $total = $total + $rate[$i]->vote;
+    }
+    $total = $total / count($rate);
+    $total = floor($total * 10) / 10;
+    $total = '{"total":' . $total . '}';
+    $result = json_decode($total, true);
+    return $result;
   }
 }
