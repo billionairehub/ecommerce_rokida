@@ -47,4 +47,15 @@ class ResizeImage {
     }
     return $uri;
   }
+
+  public static function video($file) {
+    $now = Carbon::now();
+    $uri = '';
+    $generateName = ResizeImage::generateRandomString(10);
+    $videoName = Carbon::parse($now)->format('YmdHis').$generateName.'.mp4';
+    $path = './videoOriginal';
+    $upload_path = Storage::putFileAs($path, $file, $videoName);
+    $videoUrl = asset('/storage/videoOriginal/'.$videoName);
+    return $videoUrl;
+  }
 }

@@ -6,7 +6,7 @@ use App\Product;
 use App\Category;
 use App\User;
 use App\Shop;
-use App\Http\Controllers\Functions\ResizeImage;
+use App\Http\Controllers\Functions\Seller\ResizeImage;
 
 class Products {
     public static function addProduct($userID, $keys, $lst) {

@@ -189,6 +189,16 @@ Route::group(['prefix' => 'portal'], function () {
                 'as' => 'shop-ratting',
                 'uses' => 'Seller\RateReviewShopController@shopRatting'
             ]);
+            Route::group(['prefix' => 'profile'], function () {
+                Route::get('/', [
+                    'as' => '/',
+                    'uses' => 'Seller\ProfileShopController@index'
+                ]);
+                Route::post('/', [
+                    'as' => '/',
+                    'uses' => 'Seller\ProfileShopController@update'
+                ]);
+            });
         });
     });
     Route::group(['prefix' => 'category'], function () {

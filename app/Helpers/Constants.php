@@ -18,14 +18,15 @@ class Constants
     const DATA_FIELD_PROMOTION = ['pro_from', 'pro_to', 'pro_price', 'expired_time'];
     const REQUIRED_DATA_FIELD_TYPE_SHIPPING = ['shipping_channels', 'weight', 'length', 'width', 'height'];
     const REQUIRED_DATE_FIELD_TYPE_BANK_ACCOUNT = ['user_name', 'identity_card', 'account_name', 'bank_name', 'account_number', 'area', 'branch'];
+    const DATA_FIELD_SHOP = ['shop_name', 'avatar_shop', 'cover_avatar', 'des_image_video', 'description', 'shop_address'];
 
     const OFFSET = 0;
     const LIMIT = 15;
 
     const STOCK_MIN = 0;
-    const STOCK_MAX = 10000;
+    const STOCK_MAX = 100000;
     const SOLD_MIN = 0;
-    const SOLD_MAX = 10000;
+    const SOLD_MAX = 100000;
 
     const WAIT_FOR_CONFIRMATION = 0;
     const WAITING_TO_GET_THE_GOODS = 1;
