@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Product;
 use App\TopSearch;
+use App\TypeShipping;
+use App\Category;
 
 class SearchProductController extends Controller
 {
@@ -17,7 +19,7 @@ class SearchProductController extends Controller
         {
             $result = [
 
-                'success' => true,
+                'status' => true,
     
                 'code' => 200,
     
@@ -45,7 +47,7 @@ class SearchProductController extends Controller
             
             $result = [
 
-                'success' => true,
+                'status' => true,
     
                 'code' => 200,
     
@@ -60,14 +62,43 @@ class SearchProductController extends Controller
 
     public function TopProducts()
     {
-        $keytop = TopSearch::orderBy('quantity', 'DESC')->take(3)->get();
-        foreach($keytop as $key )
+        $keytop = TopSearch::orderBy('quantity', 'DESC')->take(5)->get();
+        $arr = [];
+        for($i = 0; $i < 5; $i++)
         {
-            $proTop = Product::where('name','LIKE', '%'.$key.'%')->get();
-            dd($proTop);
+            $proTop = Product::where('name','LIKE', '%'.$keytop[$i]->key_search.'%')->get();
+            array_push($arr, $proTop);
         }
-        
-        
+        $result = [
+
+            'status' => true,
+
+            'code' => 200,
+
+            'message'=> trans('message.search_sucess'),
+
+            'data' => $arr
+
+        ];
+        return response()->json($result);
     }
-    
+
+    public function TopKeySearch()
+    {
+        $keytop = TopSearch::orderBy('quantity', 'DESC')->take(5)->get(['key_search','quantity']);
+        
+        $result = [
+
+            'status' => true,
+
+            'code' => 200,
+
+            'message'=> trans('message.search_sucess'),
+
+            'data' => $keytop
+
+        ];
+        return response()->json($result);
+    }
+
 }

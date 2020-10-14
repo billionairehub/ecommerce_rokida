@@ -138,18 +138,44 @@ Route::get('get-detail-product/{slug}',[
         'as' => 'get-detail-product',
         'uses' => 'Customer\DetailProController@getdetailPro'
 ]);
-
-// Route::post('buy-product',[
-//         'as' => 'buy-product',
-//         'uses' => 'Customer\BuyProductController@store'
+//order confirm (Xác nhận đơn hàng)
+// Route::post('order-confirmation',[
+//         'as' => 'order-confirmation',
+//         'uses' => 'Customer\OrderController@OderProducts'
 // ]);
 
-   //get all categories
+//get same product of shop
+Route::post('same-products/{id}',[
+    'as' => 'same-products',
+    'uses' => 'Customer\OrderController@SameProductOfShop'
+]);
+//get all same products
+Route::post('same-products/{id}',[
+    'as' => 'same-products',
+    'uses' => 'Customer\OrderController@SameProducts'
+]);
+//get products just for you
+Route::get('products-just-for-you',[
+    'as' => 'products-just-for-you',
+    'uses' => 'Customer\OrderController@ProductsJustForYou'
+]);
+//get salling product 
+Route::get('salling-products',[
+    'as' => 'salling-products',
+    'uses' => 'Customer\OrderController@SaleProducts'
+]);
+//get reviews product 
+Route::get('reviews/{slug}',[
+    'as' => 'reviews',
+    'uses' => 'Customer\RatingController@GetRateProduct'
+]);
+
+//get all categories parent
 Route::get('get-all-categories',[
     'as' => 'get-all-categories',
     'uses' => 'Customer\GetCategoryController@index'
 ]);
-//get deail categories
+//get deail categories and fillter location, shipping unit, price, status products
 Route::get('get-detail-categories/{slug}',[
     'as' => 'get-detail-categories',
     'uses' => 'Customer\GetCategoryController@getDetailCategory'
@@ -171,6 +197,27 @@ Route::get('top-products', [
     'as' => 'top-products',
     'uses' => 'Customer\SearchProductController@TopProducts'
 ]);
+//get top keys search
+Route::get('top-keywords', [
+    'as' => 'top-keywords',
+    'uses' => 'Customer\SearchProductController@TopKeySearch'
+]);
+//add rate product
+Route::post('add-rate-product/{id}', [
+    'as' => 'add-rate-product',
+    'uses' => 'Customer\RatingController@AddRateProduct'
+]);
+//update rate product
+Route::post('update-rate-product/{id}', [
+    'as' => 'update-rate-product',
+    'uses' => 'Customer\RatingController@UpdateRateProduct'
+]);
+//Delete rate
+Route::post('delete-rate/{id}', [
+    'as' => 'delete-rate',
+    'uses' => 'Customer\RatingController@DeleteRate'
+]);
+
 
 //add-category
 Route::post('add-category', [

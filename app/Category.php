@@ -9,4 +9,10 @@ class Category extends Model
 {
     use SoftDeletes;
     public $table = 'rokida_categories';
+
+	public function childs() {
+        return $this->hasMany('App\Category','cate_parent','id') ;
+    }
+    
+
 }

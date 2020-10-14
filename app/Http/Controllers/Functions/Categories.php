@@ -2,8 +2,7 @@
 namespace App\Http\Controllers\Functions;
 use Constants;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Storage;     
 use App\Category;
 
 class Categories {

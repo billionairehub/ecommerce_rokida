@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Product;
 use App\Promotion;
 use App\Category;
+use App\TypeShipping;
 use App\Classify;
 use App\Shop;
 
@@ -19,11 +20,12 @@ class GetCategoryController extends Controller
      */
     public function index()
     {
-        $category = Category::orderBy('created_at', 'DESC')->get();
+        $category = Category::where('cate_parent', NULL)->orderBy('created_at', 'DESC')->get();
+        $allCategories = Category::pluck('name','id')->all();
         if($category == null){
             $result = [
 
-                'success' => true,
+                'status' => true,
     
                 'code' => 200,
     
@@ -35,13 +37,15 @@ class GetCategoryController extends Controller
         }
         $result = [
 
-            'success' => true,
+            'status' => true,
 
             'code' => 200,
 
             'message'=> trans('message.get_categories_sucess'),
 
-            'data' => $category
+            'data' => $category,
+
+            'allCategories' => $allCategories
 
         ];
         return response()->json($result);
@@ -54,11 +58,11 @@ class GetCategoryController extends Controller
      */
     public function getDetailCategory($slug)
     {
-        $category = Category::where('slug',$slug)->get();
+        $category = Category::where('slug', 'LIKE', '%'.$slug.'%')->get();
         if(count($category) == 0){
             $result = [
 
-                'success' => true,
+                'status' => true,
     
                 'code' => 200,
     
@@ -70,29 +74,68 @@ class GetCategoryController extends Controller
         }
         else 
         {
-        $shop = Shop::join('rokida_categories','rokida_categories.id','=','rokida_shops.categories_id')
-        ->where('categories_id',$category[0]->id)
-        ->get(['shop_name', 'shop_adress', 'shop_status', 'banner_id', 'avatar_shop', 'amount_follow']);
+            $shop = Shop::join('rokida_categories','rokida_categories.id','=','rokida_shops.categories_id')
+            ->where('categories_id',$category[0]->id)
+            ->get(['shop_name', 'shop_adress', 'shop_status', 'banner_id', 'avatar_shop', 'amount_follow']);
 
-        $product = Product::join('rokida_categories','rokida_categories.id','=','rokida_products.categories')
-        ->where('categories',$category[0]->id)
-        ->get(['author', 'sku', 'rokida_products.name', 'product_code', 'price', 'promotional_price', 'thumb', 'image', 'location']);
+            $product = Product::join('rokida_categories','rokida_categories.id','=','rokida_products.categories')
+            ->join('rokida_type_shipping', 'rokida_type_shipping.product_id','=', 'rokida_products.id')
+            ->join('rokida_shipping_channels', 'rokida_shipping_channels.id','=', 'rokida_type_shipping.shipping_channels') 
+            ->where('categories',$category[0]->id)
+            ->get(['author', 'sku', 'rokida_products.name', 'rokida_products.status as Status','product_code', 'price', 'promotional_price', 'thumb', 'image', 'location', 'shipping_channels', 'rokida_shipping_channels.name as Name']);
+            $lst = $_GET;
+            if(count($product) > 0)
+            {
+                if(array_key_exists('location', $lst) && $lst['location'] != null )
+                {
+                    $value = explode(', ',$lst['location']);
+                    $product = $product->whereIn('location', $value);
+                }
+                if(array_key_exists('typeship', $lst) && $lst['typeship'] != null )
+                {
+                    $typeship = explode(', ',$lst['typeship']);
+                    $product = $product->whereIn('Name', $typeship);
+                }
+                if(array_key_exists('minPrice', $lst) && $lst['minPrice'] != null && array_key_exists('maxPrice', $lst) && $lst['maxPrice'] != null )
+                {
+                    $minPrice = $lst['minPrice'];
+                    $maxPrice = $lst['maxPrice'];
+                    $product = $product->whereBetween('price', [$minPrice, $maxPrice]);
+                }
+                if(array_key_exists('minPrice', $lst) && $lst['minPrice'] != null )
+                {
+                    $minPrice = $lst['minPrice'];
+                    $maxPrice = $product->max('price');
+                    $product = $product->whereBetween('price', [$minPrice, $maxPrice]);
+                }
+                if(array_key_exists('maxPrice', $lst) && $lst['maxPrice'] != null )
+                {
+                    $minPrice = $product->min('price');
+                    $maxPrice = $lst['maxPrice'];
+                    $product = $product->whereBetween('price', [$minPrice, $maxPrice]);
+                }
+                if(array_key_exists('status', $lst) && $lst['status'] != null )
+                {
+                    $product = $product->where('Status', $lst['status']);
+                }
+                
+                $result = [
 
-            $result = [
-
-            'success' => true,
-
-            'code' => 200,
-
-            'message'=> trans('message.get_categories_sucess'),
-
-            'data' => $category,
-
-            'shop' => $shop,
-
-            'products' => $product
-
-            ];
+                    'status' => true,
+        
+                    'code' => 200,
+        
+                    'message'=> trans('message.get_categories_sucess'),
+        
+                    'data' => $category,
+        
+                    'shop' => $shop,
+        
+                    'products' => $product
+        
+                    ];
+            }
+            
         }
         return response()->json($result);
     }

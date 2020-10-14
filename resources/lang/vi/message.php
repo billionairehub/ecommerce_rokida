@@ -30,5 +30,19 @@ return [
     'product_sale_not_exits' => 'Không tìm thấy sản phẩm khuyến mãi',
     'get_product_sale_sucess' => 'Lấy sản phẩm khuyến mãi thành công',
     'search_not_found' => 'Không tìm thấy sản phẩm thích hợp',
-    'search_sucess' => 'Tìm kiếm thành công'
+    'search_sucess' => 'Tìm kiếm thành công',
+    'add_rate_sucess' => 'Thêm đánh giá sản phẩm thành công',
+    'add_rate_unsucess' => 'Thêm đánh giá sản phẩm không thành công',
+    'update_rate_sucess' => 'Cập nhật đánh giá sản phẩm thành công',
+    'update_rate_unsucess' => 'Cập nhật đánh giá sản phẩm không thành công',
+    'delete_rate_sucess' => 'Xóa đánh giá thành công',
+    'not_found_rate' => 'Không tìm thấy đánh giá thích hợp',
+    'oder_confirm_sucess' => 'Xác nhận đơn hàng thành công',
+    'oder_confirm_unsucess' => 'Xác nhận đơn hàng không thành công',
+    'the_same_products' => 'Tìm thấy sản phẩm tương tự',
+    'not_same_products' => 'Không tìm thấy sản phẩm tương tự của shop',
+    'get_product_sucess' => 'Lấy sản phẩm thành công',
+    'get_product_unsucess' => 'Không tìm thấy sản phẩm',
+    'get_reviews_sucess' => 'Lấy đánh giá sản phẩm thành công',
+    'not_reviews' => 'Không tồn tại đánh giá'
 ]; 
