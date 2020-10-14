@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Functions\Infringes;
+use App\Http\Controllers\Functions\Seller\Infringes;
 
 class ProductBandedController extends Controller
 {

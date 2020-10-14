@@ -200,6 +200,10 @@ Route::group(['prefix' => 'portal'], function () {
             'as' => '/',
             'uses' => 'Seller\ShopCategoryController@show'
         ]);
+        Route::post('/{id}', [
+            'as' => '/',
+            'uses' => 'Seller\ShopCategoryController@addProduct'
+        ]);
         Route::post('add-category', [
             'as' => 'add-category',
             'uses' => 'Seller\ShopCategoryController@store'

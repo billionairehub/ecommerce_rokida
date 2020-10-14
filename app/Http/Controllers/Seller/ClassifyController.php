@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 use Validators;
 
-use App\Http\Controllers\Functions\Classifies;
+use App\Http\Controllers\Functions\Seller\Classifies;
 
 class ClassifyController extends Controller
 {

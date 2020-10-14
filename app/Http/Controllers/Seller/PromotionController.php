@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Constants;
 use Validators;
 
-use App\Http\Controllers\Functions\Promotions;
+use App\Http\Controllers\Functions\Seller\Promotions;
 
 class PromotionController extends Controller
 {

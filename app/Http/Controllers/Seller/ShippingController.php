@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Functions\TypeShippings;
+use App\Http\Controllers\Functions\Seller\TypeShippings;
 
 class ShippingController extends Controller
 {

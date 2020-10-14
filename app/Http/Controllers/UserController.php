@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Controllers\Functions\Users;
-use App\Http\Controllers\Functions\Phones;
+use App\Http\Controllers\Functions\Seller\Users;
+use App\Http\Controllers\Functions\Seller\Phones;
 
 use Validators;
 

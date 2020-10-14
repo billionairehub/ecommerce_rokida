@@ -58,7 +58,9 @@ class ShopCategoryController extends Controller
     public function show($id)
     {
         $lst = $_GET;
-        
+        $userId = 1;
+        $success = ShopCategories::getCategory($userId, $lst, $id);
+        return $success;
     }
 
     /**
@@ -124,5 +126,19 @@ class ShopCategoryController extends Controller
             return trans('error.not_found_category');
         }
         return $success;
+    }
+
+    public function addProduct (Request $request, $id) {
+        $lst = $request->all();
+        $userId = 1;
+        $success = ShopCategories::addProduct($userId, $id, $lst);
+        if ($success == 2) {
+            return trans('error.not_found_category');
+        } else if ($success == 3) {
+            return trans('error.product_exists_in_category');
+        } else if ($success == 4) {
+            return trans('error.not_found_item');
+        }
+        return trans('message.add_product_success');
     }
 }

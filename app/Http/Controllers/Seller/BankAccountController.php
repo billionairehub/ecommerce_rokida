@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 use Validators;
 
-use App\Http\Controllers\Functions\BankAccounts;
+use App\Http\Controllers\Functions\Seller\BankAccounts;
 
 class BankAccountController extends Controller
 {

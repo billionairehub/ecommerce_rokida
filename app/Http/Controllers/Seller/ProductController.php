@@ -10,10 +10,10 @@ use Constants;
 use Validators;
 use Image;
 
-use App\Http\Controllers\Functions\Products;
-use App\Http\Controllers\Functions\Promotions;
-use App\Http\Controllers\Functions\TypeShippings;
-use App\Http\Controllers\Functions\Classifies;
+use App\Http\Controllers\Functions\Seller\Products;
+use App\Http\Controllers\Functions\Seller\Promotions;
+use App\Http\Controllers\Functions\Seller\TypeShippings;
+use App\Http\Controllers\Functions\Seller\Classifies;
 
 class ProductController extends Controller
 {

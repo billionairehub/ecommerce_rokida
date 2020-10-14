@@ -35,9 +35,31 @@ class ShopCategories {
     if ($shopCategory == null) {
       return false;
     } else {
-      $shopCategory->name = $lst['name'];
-      $shopCategory->save();
-      return $shopCategory;
+      if (array_key_exists('name', $lst) && $lst['name'] != null) {
+        $shopCategory->name = $lst['name'];
+        $shopCategory->save();
+        return $shopCategory;
+      } else if (array_key_exists('index', $lst) && $lst['index'] != null) {
+        if ($lst['index'] > $shopCategory->index) {
+          $index = ShopCategory::where('user_id', '=', $userId)->where('index', '>', $shopCategory->index)->where('index', '<=', $lst['index'])->get();
+          for ($i = 0; $i < count($index); $i++) {
+            $index[$i]->index = $index[$i]->index - 1;
+            $index[$i]->save();
+          }
+          $shopCategory->index = $lst['index'];
+          $shopCategory->save();
+          return $shopCategory;
+        } else if ($lst['index'] < $shopCategory->index) {
+          $index = ShopCategory::where('user_id', '=', $userId)->where('index', '<', $shopCategory->index)->where('index', '>=', $lst['index'])->get();
+          for ($i = 0; $i < count($index); $i++) {
+            $index[$i]->index = $index[$i]->index + 1;
+            $index[$i]->save();
+          }
+          $shopCategory->index = $lst['index'];
+          $shopCategory->save();
+          return $shopCategory;
+        }
+      }
     }
   }
   
@@ -91,4 +113,38 @@ class ShopCategories {
     return $shopCategory;
   }
 
+  public static function getCategory ($userId, $lst, $id) {
+    $productCategory = ProductShopCategory::where('shop_category_id', '=', $id)->get('product_id');
+    $product = Product::whereIn('id', $productCategory)->get();
+    if (array_key_exists('search', $lst) && $lst['search'] != null) {
+      $product = Product::whereIn('id', $productCategory)->where('name', 'like', '%' . $lst['search'] . '%')->get();
+    }
+    return $product;
+  }
+
+  public static function addProduct ($userId, $id, $lst) {
+    $category = ShopCategory::where('user_id', '=', $userId)->where('id', '=', $id)->first();
+    if (!$category) {
+      return 2;
+    }
+    $lst['product_id'] = str_replace(' ', '', $lst['product_id']);
+    $lst['product_id'] = explode(',', $lst['product_id']);
+    for ($i = 0; $i < count($lst['product_id']); $i++) {
+      $product = Product::where('author', '=', $userId)->where('id', '=', $lst['product_id'][$i])->first();
+      if (!$product) {
+        return 4;
+      }
+    }
+    $exists = ProductShopCategory::where('shop_category_id', '=', $id)->whereIn('product_id', $lst['product_id'])->first();
+    if ($exists) {
+      return 3;
+    }
+    for ($i = 0; $i < count($lst['product_id']); $i++) {
+      $product = new ProductShopCategory;
+      $product->product_id = $lst['product_id'][$i];
+      $product->shop_category_id = $id;
+      $product->save();
+    }
+    return 1;
+  }
 }

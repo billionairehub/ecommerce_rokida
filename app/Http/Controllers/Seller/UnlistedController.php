@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Seller;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Http\Controllers\Functions\Unlisted;
+use App\Http\Controllers\Functions\Seller\Unlisted;
 
 class UnlistedController extends Controller
 {

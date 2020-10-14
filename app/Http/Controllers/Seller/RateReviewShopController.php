@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Seller;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Http\Controllers\Functions\RateReviewShops;
+use App\Http\Controllers\Functions\Seller\RateReviewShops;
 
 class RateReviewShopController extends Controller
 {

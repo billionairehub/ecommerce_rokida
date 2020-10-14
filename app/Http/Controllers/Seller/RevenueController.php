@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Seller;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Http\Controllers\Functions\Revenues;
+use App\Http\Controllers\Functions\Seller\Revenues;
 use App\Helpers\RecipeExpectedPaymentDate;
 
 class RevenueController extends Controller

@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Functions;
+namespace App\Http\Controllers\Functions\Seller;
 use Constants;
 
 use Carbon\Carbon;
