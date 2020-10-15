@@ -14,4 +14,6 @@ return [
     'update_classify_success' => 'Chỉnh sửa phân loại thành công',
     'delete_bank_succcess' => 'Xóa tài khoản ngân hàng thành công',
     'show_category_success' => 'Hiển thị danh mục thành công',
+    'add_banner_success' => 'Thêm banner thành công',
+    'add_category_image_success' => 'Thêm danh mục bằng hình ảnh thành công',
 ]; 

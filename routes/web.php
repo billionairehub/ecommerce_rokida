@@ -237,6 +237,25 @@ Route::group(['prefix' => 'portal'], function () {
     });
 });
 
+Route::group(['prefix' => 'decoration'], function () {
+    Route::get('/', [
+        'as' => '/',
+        'uses' => 'Seller\DecorationController@index'
+    ]);
+    Route::post('/', [
+        'as' => '/',
+        'uses' => 'Seller\DecorationController@store'
+    ]);
+    Route::post('/add-banner', [
+        'as' => 'add-banner',
+        'uses' => 'Seller\BannerController@store'
+    ]);
+    Route::post('/add-image-category', [
+        'as' => 'add-image-category',
+        'uses' => 'Seller\ImageCategoryController@store'
+    ]);
+});
+
 Route::group(['prefix' => 'user'], function () {
     Route::post('register', [
         'as' => 'register',

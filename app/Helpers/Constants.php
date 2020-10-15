@@ -19,6 +19,9 @@ class Constants
     const REQUIRED_DATA_FIELD_TYPE_SHIPPING = ['shipping_channels', 'weight', 'length', 'width', 'height'];
     const REQUIRED_DATE_FIELD_TYPE_BANK_ACCOUNT = ['user_name', 'identity_card', 'account_name', 'bank_name', 'account_number', 'area', 'branch'];
     const DATA_FIELD_SHOP = ['shop_name', 'avatar_shop', 'cover_avatar', 'des_image_video', 'description', 'shop_address'];
+    const DATA_FIELD_CATEGORY_IMAGE = ['image', 'name', 'url'];
+    const DATA_FIELD_DECORATION = ['id_category_shop', 'id_promotion', 'id_image_category_shop'];
+    const REQURED_DATA_FIELD_BANNERS = ['url_img','content','url_pro', 'content'];
 
     const OFFSET = 0;
     const LIMIT = 15;
