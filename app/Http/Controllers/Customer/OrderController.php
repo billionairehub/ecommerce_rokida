@@ -79,13 +79,43 @@ class OrderController extends Controller
 
     }
 
-    public function SameProductOfShop($id)
+    public function SameProductOfShop($slug)
     {
-        $productOrder = Product::find($id);
-        $shopID = $productOrder->shop_id;
-        $sameProducts = Product::where('shop_id', $shopID)
-                                ->get();
-        if(count($sameProducts) == 0)
+        $productOrder = Product::where('slug', $slug)->first();
+        if($productOrder)
+        {
+            $shopID = $productOrder->shop_id;
+            $sameProducts = Product::where('shop_id', $shopID)->get();
+            if(count($sameProducts) == 0)
+            {
+                $result = [
+
+                    'status' => true,
+        
+                    'code' => 200,
+        
+                    'message'=> trans('message.not_same_products'),
+
+                    'data' => null
+        
+                ];
+            }
+            else
+            {
+                $result = [
+
+                    'status' => true,
+        
+                    'code' => 200,
+        
+                    'message'=> trans('message.the_same_products'),
+
+                    'data' => $sameProducts
+        
+                ];
+            }
+        }
+        else
         {
             $result = [
 
@@ -99,26 +129,17 @@ class OrderController extends Controller
     
             ];
         }
-        else
-        {
-            $result = [
-
-                'status' => true,
-    
-                'code' => 200,
-    
-                'message'=> trans('message.the_same_products'),
-
-                'data' => $sameProducts
-    
-            ];
-        }
+        
         return response()->json($result);
     }
 
-    public function SameProducts($id)
+    public function SameProducts($slug)
     {
         $productOrder = Product::find($id);
+        if(!$productOrder)
+        {
+            dd('Không tìm thấy sp');
+        }
         $namePro = $productOrder->name;
         $sameProducts = Product::where('name', 'LIKE', '%'.$namePro.'%')->get();
         if(count($sameProducts) == 0)

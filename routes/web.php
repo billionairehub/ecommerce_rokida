@@ -145,12 +145,12 @@ Route::get('get-detail-product/{slug}',[
 // ]);
 
 //get same product of shop
-Route::post('same-products/{id}',[
-    'as' => 'same-products',
+Route::get('same-products-shop/{slug}',[
+    'as' => 'same-products-shop',
     'uses' => 'Customer\OrderController@SameProductOfShop'
 ]);
 //get all same products
-Route::post('same-products/{id}',[
+Route::post('same-products/{slug}',[
     'as' => 'same-products',
     'uses' => 'Customer\OrderController@SameProducts'
 ]);
