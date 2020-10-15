@@ -127,6 +127,7 @@ Route::group(['prefix' => 'portal'], function () {
     });
 });
 
+
 Route::group(['prefix' => 'user'], function () {
     Route::post('register', [
         'as' => 'register',
@@ -150,7 +151,7 @@ Route::get('same-products-shop/{slug}',[
     'uses' => 'Customer\OrderController@SameProductOfShop'
 ]);
 //get all same products
-Route::post('same-products/{slug}',[
+Route::get('same-products/{slug}',[
     'as' => 'same-products',
     'uses' => 'Customer\OrderController@SameProducts'
 ]);
@@ -160,9 +161,19 @@ Route::get('products-just-for-you',[
     'uses' => 'Customer\OrderController@ProductsJustForYou'
 ]);
 //get salling product 
-Route::get('salling-products',[
-    'as' => 'salling-products',
+Route::get('selling-products',[
+    'as' => 'selling-products',
     'uses' => 'Customer\OrderController@SaleProducts'
+]);
+//get product viewing history
+Route::get('history-view-products',[
+    'as' => 'history-view-products',
+    'uses' => 'Customer\OrderController@HistoryProduct'
+]);
+//get cookies 
+Route::get('get-cookies',[
+    'as' => 'get-cookies',
+    'uses' => 'Customer\OrderController@getCookie'
 ]);
 //get reviews product 
 Route::get('reviews/{slug}',[
@@ -233,6 +244,28 @@ Route::post('update-category/{id}', [
 Route::post('delete-category/{id}', [
     'as' => 'delete-category',
     'uses' => 'CategoriesController@destroy'
+]);
+
+
+//create banner
+Route::post('create-banner',[
+    'as'=>'create-banner',
+    'uses'=> 'BannerController@store'
+]);
+//get banner
+Route::get('get-banner',[
+    'as'=>'get-banner',
+    'uses'=> 'BannerController@index'
+]);
+//update banner
+Route::post('update-banner/{id}',[
+    'as'=>'update-banner',
+    'uses'=> 'BannerController@update'
+]);
+//delete banner
+Route::post('delete-banner/{id}',[
+    'as'=>'delete-banner',
+    'uses'=> 'BannerController@destroy'
 ]);
 
 

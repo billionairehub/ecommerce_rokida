@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Product;
 use App\Custommer;
 use App\TypeShipping;
@@ -135,14 +136,41 @@ class OrderController extends Controller
 
     public function SameProducts($slug)
     {
-        $productOrder = Product::find($id);
-        if(!$productOrder)
+        $productOrder = Product::where('slug', $slug)->first();
+        if($productOrder)
         {
-            dd('Không tìm thấy sp');
+            $namePro = $productOrder->name;
+            $sameProducts = Product::where('name', 'LIKE', '%'.$namePro.'%')->get();
+            if(count($sameProducts) == 0)
+            {
+                $result = [
+
+                    'status' => true,
+        
+                    'code' => 200,
+        
+                    'message'=> trans('message.not_same_products'),
+
+                    'data' => null
+        
+                ];
+            }
+            else
+            {
+                $result = [
+
+                    'status' => true,
+        
+                    'code' => 200,
+        
+                    'message'=> trans('message.the_same_products'),
+
+                    'data' => $sameProducts
+        
+                ];
+            }
         }
-        $namePro = $productOrder->name;
-        $sameProducts = Product::where('name', 'LIKE', '%'.$namePro.'%')->get();
-        if(count($sameProducts) == 0)
+        else
         {
             $result = [
 
@@ -156,27 +184,14 @@ class OrderController extends Controller
     
             ];
         }
-        else
-        {
-            $result = [
-
-                'status' => true,
-    
-                'code' => 200,
-    
-                'message'=> trans('message.the_same_products'),
-
-                'data' => $sameProducts
-    
-            ];
-        }
+        
         return response()->json($result);
     }
 
     public function ProductsJustForYou()
     {
         //Random products just for you 
-        $salePro = Product::inRandomOrder()->limit(24)->get();
+        $salePro = Product::inRandomOrder()->limit(12)->get();
         $result = [
 
             'status' => true,
@@ -210,7 +225,7 @@ class OrderController extends Controller
     
                 'message'=> trans('message.get_product_unsucess'),
     
-                'data' => $arrProduct
+                'data' => null
     
             ];
         }
@@ -231,4 +246,39 @@ class OrderController extends Controller
         return response()->json($result);
     }
 
+    public function HistoryProduct()
+    {
+        $minutes = 1;
+
+        $lst = $_GET;
+
+        $data = Product::where('id', $lst['id'])->first();
+        $arr = [];
+        array_push($arr, $data);
+        $response = new Response('<b>Hello</b>');
+        if(!isset($_COOKIE['name']))
+        {
+            echo('new');
+            $response->withCookie(cookie('name', implode(',',$arr), $minutes));
+        }
+        else
+        {
+            $data =  Cookie::get('name');
+            dd(array("data" => $data));
+            $data = Product::where('id', $lst['id'])->first();
+            $array = [];
+            array_push($array, $data);
+            echo('exist');
+            $response->withCookie(cookie('name', implode(',',$arr), $minutes));
+                
+        }
+
+        return $response;
+    }
+    public function getCookie(Request $request)
+    { 
+        $arr = Cookie::get('name');
+        //$data = json_decode($_COOKIE['keys'], true);
+        dd($arr);
+    }
 }
