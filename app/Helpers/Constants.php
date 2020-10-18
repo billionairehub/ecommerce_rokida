@@ -22,6 +22,7 @@ class Constants
     const DATA_FIELD_CATEGORY_IMAGE = ['image_category', 'name_category', 'url_category'];
     const DATA_FIELD_DECORATION = ['id_category_shop', 'id_promotion'];
     const REQURED_DATA_FIELD_BANNERS = ['image_banner','content_banner','url_banner', 'type_banner', 'name_banner'];
+    const DATA_FIELD_ADDRESS = ['full_name', 'address', 'district', 'province', 'city', 'default', 'pickup', 'return'];
 
     const OFFSET = 0;
     const LIMIT = 15;

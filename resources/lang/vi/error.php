@@ -17,4 +17,7 @@ return [
     'not_found_category' => 'Không tìm thấy danh mục',
     'you_can_not_show_category' => 'Bạn không thể bật khi không có sản phẩm nào',
     'product_exists_in_category' => 'Sản phẩm đã tồn tại trong danh mục này',
+    'not_found_address_or_not_delete_default' => 'Không tìm thấy địa chỉ hoặc không thể xóa địa chỉ mặc định',
+    'not_found_address' => 'Không tìm thấy địa chỉ',
+    'is_default_pickup_return' => 'Bạn không thể thực hiện thao tác',
 ]; 

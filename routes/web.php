@@ -199,6 +199,36 @@ Route::group(['prefix' => 'portal'], function () {
                     'uses' => 'Seller\ProfileShopController@update'
                 ]);
             });
+            Route::group(['prefix' => 'address'], function () {
+                Route::get('/', [
+                    'as' => '/',
+                    'uses' => 'Seller\AddressController@index'
+                ]);
+                Route::post('add', [
+                    'as' => 'add',
+                    'uses' => 'Seller\AddressController@store'
+                ]);
+                Route::post('update/{id}', [
+                    'as' => 'update',
+                    'uses' => 'Seller\AddressController@update'
+                ]);
+                Route::get('set-default/{id}', [
+                    'as' => 'set-default',
+                    'uses' => 'Seller\AddressController@setDefault'
+                ]);
+                Route::get('pick-up-address/{id}', [
+                    'as' => 'pick-up-address',
+                    'uses' => 'Seller\AddressController@pickup'
+                ]);
+                Route::get('return-address/{id}', [
+                    'as' => 'return-address',
+                    'uses' => 'Seller\AddressController@return'
+                ]);
+                Route::get('delete/{id}', [
+                    'as' => 'update',
+                    'uses' => 'Seller\AddressController@destroy'
+                ]);
+            });
         });
     });
     Route::group(['prefix' => 'category'], function () {
