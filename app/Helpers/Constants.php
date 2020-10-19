@@ -41,4 +41,6 @@ class Constants
 
     const RETURNS_AND_REFUND_WITHOUT_HANDLING = 0;
     const RETURNS_AND_REFUND_HANDLED = 1;
+
+    const LANGUAGE = ['vi', 'en'];
 }

@@ -230,6 +230,119 @@ Route::group(['prefix' => 'portal'], function () {
                 ]);
             });
         });
+        Route::group(['prefix' => 'basic'], function () {
+            Route::group(['prefix' => 'shop'], function () {
+                Route::post('enable-phone-call', [
+                    'as' => 'enable-phone-call',
+                    'uses' => 'Seller\SettingController@enablePhoneCall'
+                ]);
+                Route::post('enable-vacation-mode', [
+                    'as' => 'enable-vacation-mode',
+                    'uses' => 'Seller\SettingController@enableVacationMode'
+                ]);
+                Route::post('transify-lang', [
+                    'as' => 'transify-lang',
+                    'uses' => 'Seller\SettingController@transifyLang'
+                ]);
+            });
+            Route::group(['prefix' => 'payment'], function () {
+                Route::post('creditcard-payment-enabled', [
+                    'as' => 'creditcard-payment-enabled',
+                    'uses' => 'Seller\SettingController@creditcardPaymentEnabled'
+                ]);
+                Route::post('change-payment-password', [
+                    'as' => 'change-payment-password',
+                    'uses' => 'Seller\SettingController@changePaymentPassword'
+                ]);
+            });
+            Route::group(['prefix' => 'privacy'], function () {
+                Route::post('feed-private', [
+                    'as' => 'feed-private',
+                    'uses' => 'Seller\SettingController@feedPrivate'
+                ]);
+                Route::post('hide-likes', [
+                    'as' => 'hide-likes',
+                    'uses' => 'Seller\SettingController@hideLike'
+                ]);
+                Route::get('block-list', [
+                    'as' => 'block-list',
+                    'uses' => 'Seller\BlocklistController@index'
+                ]);
+                Route::get('delete-user-block-list/{id}', [
+                    'as' => 'delete-user-block-list/{id}',
+                    'uses' => 'Seller\BlocklistController@destroy'
+                ]);
+            });
+            Route::group(['prefix' => 'chat'], function () {
+                Route::post('make-offer-status', [
+                    'as' => 'make-offer-status',
+                    'uses' => 'Seller\SettingController@makeOfferStatus'
+                ]);
+                Route::post('chat-status', [
+                    'as' => 'chat-status',
+                    'uses' => 'Seller\SettingController@chatStatus'
+                ]);
+            });
+            Route::group(['prefix' => 'notification'], function () {
+                Route::post('enable-email-notifications', [
+                    'as' => 'enable-email-notifications',
+                    'uses' => 'Seller\SettingController@enableEmailNotifications'
+                ]);
+                Route::post('enable-order-updates-email', [
+                    'as' => 'enable-order-updates-email',
+                    'uses' => 'Seller\SettingController@enableOrderUpdatesEmail'
+                ]);
+                Route::post('enable-newsletter', [
+                    'as' => 'enable-newsletter',
+                    'uses' => 'Seller\SettingController@enableNewsletter'
+                ]);
+                Route::post('enable-listing-updates', [
+                    'as' => 'enable-listing-updates',
+                    'uses' => 'Seller\SettingController@enableListingUpdates'
+                ]);
+                Route::post('enable-personalised-content', [
+                    'as' => 'enable-personalised-content',
+                    'uses' => 'Seller\SettingController@enablePersonalisedContent'
+                ]);
+                // 
+                Route::post('enable-push-notifications', [
+                    'as' => 'enable-push-notifications',
+                    'uses' => 'Seller\SettingController@enablePushNotifications'
+                ]);
+                Route::post('enable-notifications-by-batch', [
+                    'as' => 'enable-notifications-by-batch',
+                    'uses' => 'Seller\SettingController@enableNotificationsByBatch'
+                ]);
+                Route::post('enable-order-updates-push', [
+                    'as' => 'enable-order-updates-push',
+                    'uses' => 'Seller\SettingController@enableOrderUpdatesPush'
+                ]);
+                Route::post('enable-chats', [
+                    'as' => 'enable-chats',
+                    'uses' => 'Seller\SettingController@enableChats'
+                ]);
+                Route::post('enable-shopee-promotions', [
+                    'as' => 'enable-shopee-promotions',
+                    'uses' => 'Seller\SettingController@enableShopeePromotions'
+                ]);
+                Route::post('enable-follows-and-comments', [
+                    'as' => 'enable-follows-and-comments',
+                    'uses' => 'Seller\SettingController@enableFollowsAndComments'
+                ]);
+                Route::post('enable-products-sold-out', [
+                    'as' => 'enable-products-sold-out',
+                    'uses' => 'Seller\SettingController@enableProductsSoldOut'
+                ]);
+                Route::post('enable-wallet-updates', [
+                    'as' => 'enable-wallet-updates',
+                    'uses' => 'Seller\SettingController@enableWalletUpdates'
+                ]);
+            });
+            Route::get('/', [
+                'as' => '/',
+                'uses' => 'Seller\SettingController@index'
+            ]);
+        });
     });
     Route::group(['prefix' => 'category'], function () {
         Route::get('/', [

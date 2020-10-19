@@ -20,4 +20,10 @@ return [
     'not_found_address_or_not_delete_default' => 'Không tìm thấy địa chỉ hoặc không thể xóa địa chỉ mặc định',
     'not_found_address' => 'Không tìm thấy địa chỉ',
     'is_default_pickup_return' => 'Bạn không thể thực hiện thao tác',
-]; 
+    'not_found_language' => 'Không tìm thấy ngôn ngữ yêu cầu',
+    'password_and_repassword_not_same' => 'Mật khẩu và mật khẩu xác nhận phải giống nhau',
+    'password_length_is_6' => 'Mật khẩu có độ dài là 6',
+    'password_is_number' => 'Mật khẩu là số gồm 6 ký tự',
+    'not_fill_the_key' => 'Vui lòng nhập đầy đủ thông tin',
+    'not_fount_block_list' => 'Không tìm thấy người bị chặn',
+];
