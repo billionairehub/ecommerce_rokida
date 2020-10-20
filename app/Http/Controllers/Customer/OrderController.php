@@ -246,39 +246,64 @@ class OrderController extends Controller
         return response()->json($result);
     }
 
-    public function HistoryProduct()
+    public function ViewCart()
     {
-        $minutes = 1;
+        return  view('cart');
+    }
 
-        $lst = $_GET;
-
-        $data = Product::where('id', $lst['id'])->first();
-        $arr = [];
-        array_push($arr, $data);
-        $response = new Response('<b>Hello</b>');
-        if(!isset($_COOKIE['name']))
+    public function SetCookiesOrder(Request $req)
+    {
+        $lst = $req->all();
+        $array = [];
+        if($lst['pro_name'] != null && $lst['price'] != null && $lst['quantity'] != null)
         {
-            echo('new');
-            $response->withCookie(cookie('name', implode(',',$arr), $minutes));
+            array_push($array, array('pro_name' => $req->input('pro_name'),'price' => $req->input('price'),'classify' => $req->input('classify'),'quantity' => (int)$req->input('quantity')));
+        }
+        
+        if(!isset($_COOKIE['order']) || Cookie::get('order') == null)
+        {
+            $response = new Response('<b>create new cookies</b>');
+            $response->withCookie(cookie('order',json_encode($array, true), 5));
         }
         else
         {
-            $data =  Cookie::get('name');
-            dd(array("data" => $data));
-            $data = Product::where('id', $lst['id'])->first();
-            $array = [];
-            array_push($array, $data);
-            echo('exist');
-            $response->withCookie(cookie('name', implode(',',$arr), $minutes));
-                
+            $string = Cookie::get('order');
+            $string = stripslashes($string);    // string is stored with escape double quotes 	
+            $string = json_decode($string, true);
+            for($i = 0; $i < count($string); $i++)
+            {
+                if($string[$i]['pro_name'] == $req->input('pro_name') && $string[$i]['price'] == $req->input('price') && $string[$i]['classify'] == $req->input('classify'))
+                {
+                    $array[$i]['quantity'] = (int)$string[$i]['quantity'] + (int)$req->input('quantity');
+                    $response = new Response('<b> cookies</b>');
+                    $response->withCookie(cookie('order',json_encode($array, true), 5));
+                }
+                else
+                {
+                    $array = $string;
+                    $array[] = array('pro_name' => $req->input('pro_name'),'price' => $req->input('price'),'classify' => $req->input('classify'),'quantity' => (int)$req->input('quantity'));
+                    $response = new Response('<b> cookies else x2</b>');
+                    $response->withCookie(cookie('order',json_encode($array, true), 5));
+                }
+            }
         }
-
         return $response;
-    }
+        }
+    
+    
     public function getCookie(Request $request)
     { 
-        $arr = Cookie::get('name');
-        //$data = json_decode($_COOKIE['keys'], true);
-        dd($arr);
+        $string = Cookie::get('order');
+        $string = stripslashes($string);    // string is stored with escape double quotes 	
+        $string = json_decode($string, true);
+        dd($string);
+    }
+
+    public function deleteCookie()
+    {
+        $response = new Response('<b> cookies</b>');
+        $response->withCookie(cookie('order',null, 5));
+        return $response;
+
     }
 }

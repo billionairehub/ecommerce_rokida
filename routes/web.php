@@ -135,15 +135,38 @@ Route::group(['prefix' => 'user'], function () {
     ]);
 });
 //*****CUSTOMER
-Route::get('get-detail-product/{slug}',[
+//get detail product and set cookies history view products
+Route::get('get-detail-product',[
         'as' => 'get-detail-product',
         'uses' => 'Customer\DetailProController@getdetailPro'
 ]);
+//get cookies 
+Route::get('get-cookies',[
+    'as' => 'get-cookies',
+    'uses' => 'Customer\DetailProController@getCookie'
+]);
 //order confirm (Xác nhận đơn hàng)
-// Route::post('order-confirmation',[
-//         'as' => 'order-confirmation',
-//         'uses' => 'Customer\OrderController@OderProducts'
-// ]);
+Route::post('order-confirmation',[
+        'as' => 'order-confirmation',
+        'uses' => 'Customer\OrderController@OderProducts'
+]);
+Route::get('view-cart',[
+    'as' => 'view-cart',
+    'uses' => 'Customer\OrderController@ViewCart'
+]);
+//set cookies order
+Route::post('buy-pro',[
+    'as' => 'buy-pro',
+    'uses' => 'Customer\OrderController@SetCookiesOrder'
+]);
+Route::get('get-cookies-pro',[
+    'as' => 'get-cookies-pro',
+    'uses' => 'Customer\OrderController@getCookie'
+]);
+Route::get('delete-cookies-pro',[
+    'as' => 'delete-cookies-pro',
+    'uses' => 'Customer\OrderController@deleteCookie'
+]);
 
 //get same product of shop
 Route::get('same-products-shop/{slug}',[
@@ -164,16 +187,6 @@ Route::get('products-just-for-you',[
 Route::get('selling-products',[
     'as' => 'selling-products',
     'uses' => 'Customer\OrderController@SaleProducts'
-]);
-//get product viewing history
-Route::get('history-view-products',[
-    'as' => 'history-view-products',
-    'uses' => 'Customer\OrderController@HistoryProduct'
-]);
-//get cookies 
-Route::get('get-cookies',[
-    'as' => 'get-cookies',
-    'uses' => 'Customer\OrderController@getCookie'
 ]);
 //get reviews product 
 Route::get('reviews/{slug}',[
@@ -197,7 +210,15 @@ Route::get('products-sale', [
     'as' => 'product-sale',
     'uses' => 'Customer\SaleProductController@getSaleProduct'
 ]);
-
+//get notify customer
+Route::get('notify', [
+    'as' => 'notify',
+    'uses' => 'Customer\NotifyController@getNotify'
+]);
+Route::get('notify', [
+    'as' => 'notify',
+    'uses' => 'Customer\NotifyController@getNotifyofOrder'
+]);
 //search 
 Route::get('search', [
     'as' => 'search',
@@ -245,7 +266,11 @@ Route::post('delete-category/{id}', [
     'as' => 'delete-category',
     'uses' => 'CategoriesController@destroy'
 ]);
-
+//get chill category
+Route::get('get-chill-category', [
+    'as' => 'get-chill-category',
+    'uses' => 'Customer\GetCategoryController@getChillCategory'
+]);
 
 //create banner
 Route::post('create-banner',[

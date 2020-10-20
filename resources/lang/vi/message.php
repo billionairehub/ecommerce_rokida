@@ -44,5 +44,8 @@ return [
     'get_product_sucess' => 'Lấy sản phẩm thành công',
     'get_product_unsucess' => 'Không tìm thấy sản phẩm',
     'get_reviews_sucess' => 'Lấy đánh giá sản phẩm thành công',
-    'not_reviews' => 'Không tồn tại đánh giá'
+    'not_reviews' => 'Không tồn tại đánh giá',
+    'notify_not_found'  => 'Không có thông báo',
+    'find_notify_sucess' => 'Lấy thông báo thành công',
+    'not_find_category' => 'Không tồn tại loại sản phẩm cùng chung loại'
 ]; 

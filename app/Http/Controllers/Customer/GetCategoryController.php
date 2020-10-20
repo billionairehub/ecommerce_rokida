@@ -133,66 +133,54 @@ class GetCategoryController extends Controller
         
                     'products' => $product
         
-                    ];
+                ];
             }
             
         }
         return response()->json($result);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function getChillCategory()
     {
-        //
-    }
+        $cate_paren = Category::where('cate_parent', NULL)->get(['id', 'name']);
+        $arr = [];
+        for($i = 0 ; $i < count($cate_paren); $i++)
+        {
+            $data = Category::where('cate_parent',  $cate_paren[$i]->id)->get();
+            if(count($data) > 0)
+            {
+                $arr[] = array('name_paren' => $cate_paren[$i]->name, 'data' => $data);
+            }
+        }
+        if(count($arr) == 0)
+        {
+            $result = [
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+                'status' => true,
+        
+                'code' => 200,
+        
+                'message'=> trans('message.not_find_category'),
+        
+                'data' => null
+        
+            ];
+        }
+        else
+        {
+            $result = [
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+                'status' => true,
+        
+                'code' => 200,
+        
+                'message'=> trans('message.get_categories_sucess'),
+        
+                'data' => $arr
+        
+            ];
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return response()->json($result);
     }
 }
