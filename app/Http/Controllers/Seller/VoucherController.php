@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Seller;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Http\Controllers\Functions\Seller\Marketings;
+use App\Http\Controllers\Functions\Seller\Vouchers;
 
-class MarketingController extends Controller
+class VoucherController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class MarketingController extends Controller
     {
         $lst = $_GET;
         $userId = 1;
-        $success = Marketings::listVoucher ($userId, $lst);
+        $success = Vouchers::listVoucher ($userId, $lst);
         return $success;
     }
 
@@ -43,9 +43,9 @@ class MarketingController extends Controller
         $lst = $request->all();
         $userId = 1;
         $keys = $request->keys();
-        $success = Marketings::addVoucher ($userId, $keys, $lst);
-        if ($success == false) {
-            return trans('error.please_fill_out_the_form');
+        $success = Vouchers::addVoucher ($userId, $keys, $lst);
+        if (gettype($success) == 'string') {
+            return trans($success);
         }
         return $success;
     }
@@ -99,7 +99,7 @@ class MarketingController extends Controller
     {
         $lst = $_GET;
         $userId = 1;
-        $success = Marketings::dashboard($userId, $lst);
+        $success = Vouchers::dashboard($userId, $lst);
         return $success;
     }
 }

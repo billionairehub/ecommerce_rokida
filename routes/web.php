@@ -382,16 +382,34 @@ Route::group(['prefix' => 'portal'], function () {
         Route::group(['prefix' => 'vouchers'], function () {
             Route::post('new', [
                 'as' => 'new',
-                'uses' => 'Seller\MarketingController@store'
+                'uses' => 'Seller\VoucherController@store'
             ]);
             Route::group(['prefix' => 'list'], function () {
                 Route::get('/', [
                     'as' => '/',
-                    'uses' => 'Seller\MarketingController@index'
+                    'uses' => 'Seller\VoucherController@index'
                 ]);
                 Route::get('dashboard', [
                     'as' => 'dashboard',
-                    'uses' => 'Seller\MarketingController@dashboard'
+                    'uses' => 'Seller\VoucherController@dashboard'
+                ]);
+            });
+        });
+        Route::group(['prefix' => 'discount'], function () {
+            Route::post('create', [
+                'as' => 'create',
+                'uses' => 'Seller\DiscountController@store'
+            ]);
+        });
+        Route::group(['prefix' => 'list'], function () {
+            Route::group(['prefix' => 'discount'], function () {
+                Route::get('/', [
+                    'as' => '/',
+                    'uses' => 'Seller\DiscountController@index'
+                ]);
+                Route::get('dashboard', [
+                    'as' => 'dashboard',
+                    'uses' => 'Seller\DiscountController@dashboard'
                 ]);
             });
         });

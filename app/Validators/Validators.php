@@ -155,4 +155,13 @@ class Validators
     }
     return true;
   }
+
+  public static function requiredFieldDiscount ($lst, $keys) {
+    foreach (Constants::REQUIRED_DATA_FIELD_DISCOUNT as $key) {
+      if (array_key_exists($key, $lst) == false || $lst[$key] == null) {
+        return false;
+      }
+    }
+    return true;
+  }
 }

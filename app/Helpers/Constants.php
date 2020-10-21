@@ -24,6 +24,7 @@ class Constants
     const REQURED_DATA_FIELD_BANNERS = ['image_banner','content_banner','url_banner', 'type_banner', 'name_banner'];
     const DATA_FIELD_ADDRESS = ['full_name', 'address', 'district', 'province', 'city', 'default', 'pickup', 'return'];
     const REQUIRED_DATA_FIELD_VOUCHER = ['code', 'name', 'code_type', 'time_start',	'time_end',	'voucher_type','discount_type', 'reduction', 'minimum_order_value', 'amount', 'display', 'product'];
+    const REQUIRED_DATA_FIELD_DISCOUNT = ['name', 'time_start', 'time_end'];
 
     const OFFSET = 0;
     const LIMIT = 15;
@@ -49,4 +50,7 @@ class Constants
     const PROMOTION_STATUS_UPCOMING = 1;
     const PROMOTION_STATUS_HAPPENNING = 2;
     const PROMOTION_STATUS_FINISHED = 3;
+
+    const VOUCHER = 1;
+    const DISCOUNT = 2;
 }
