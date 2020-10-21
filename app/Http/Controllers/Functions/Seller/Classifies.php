@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\Functions\Seller;
 use Constants;
 
-use App\Classify;
+use App\Models\Classify;
 
 class Classifies {
   public static function addClassify($productId, $keys, $lst) {

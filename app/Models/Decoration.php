@@ -1,12 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Phone extends Model
+class Decoration extends Model
 {
     use SoftDeletes;
-    protected $table = 'rokida_phone'; 
+    public $table = 'rokida_decoration';
 }

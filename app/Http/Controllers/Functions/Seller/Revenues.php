@@ -4,11 +4,11 @@ use Constants;
 
 use Carbon\Carbon;
 
-use App\Product;
-use App\Order;
-use App\OrderDetail;
-use App\User;
-use App\Shop;
+use App\Models\Product;
+use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\User;
+use App\Models\Shop;
 
 class Revenues {
   public static function willPay($userId, $lst) {

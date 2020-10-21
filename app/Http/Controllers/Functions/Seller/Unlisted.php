@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\Functions\Seller;
 use Constants;
 
-use App\Product;
+use App\Models\Product;
 
 class Unlisted {
   public static function getListAll ($userId, $lst) {

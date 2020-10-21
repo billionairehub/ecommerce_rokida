@@ -2,8 +2,8 @@
 namespace App\Http\Controllers\Functions\Seller;
 use Constants;
 
-use App\Address;
-use App\User;
+use App\Models\Address;
+use App\Models\User;
 
 class Addresss {
   public static function addAddress ($userId, $keys, $lst) {

@@ -5,8 +5,9 @@ use Validators;
 
 use Carbon\Carbon;
 
-use App\Marketing;
-use App\Shop;
+use App\Models\Marketing;
+use App\Models\Shop;
+use App\Models\Order;
 
 class Marketings {
   public static function addVoucher($userId, $keys, $lst) {
@@ -48,10 +49,43 @@ class Marketings {
     $now = Carbon::now();
     $now->setTimezone(7);
     $marketing = Marketing::where('user_id', '=', $userId)->where('time_start', '<', $now)->get();
+    $obj = (object)[];
+    // 
     $totalUsed = 0;
     for ($i = 0; $i < count($marketing); $i++) {
       $totalUsed = $totalUsed + $marketing[$i]->used;
     }
-    return $totalUsed;
+    $obj->used = $totalUsed;
+    // 
+    $shop = Shop::where('user_id', '=', $userId)->first();
+    $sold = Order::where('shop_id', '=', $shop->id)->where('status_ship', '=', Constants::DELIVERED)->where('voucher', '<>', NULL)->get();
+    $totalSold = $totalRevenue = 0;
+    for ($i = 0; $i < count($sold); $i++) {
+      $totalSold = $totalSold + $sold[$i]->amount;
+      $totalRevenue = $totalRevenue + $sold[$i]->total_bill;
+    }
+    // Buyer
+    $totalBuyer = Order::where('shop_id', '=', $shop->id)->where('status_ship', '=', Constants::DELIVERED)->where('voucher', '<>', NULL)->get();
+    $buyer = 0;
+    for ($i = 0; $i < count($totalBuyer); $i++) {
+      $count = 0;
+      for ($j = $i + 1; $j < count($totalBuyer); $j++) {
+        if ($totalBuyer[$i]->user_id == $totalBuyer[$j]->user_id) {
+          $count = 1;
+        }
+      }
+      if ($count == 0) {
+        $buyer = $buyer + 1;
+      }
+    }
+    
+    $obj->sold = $totalSold;
+    $obj->revenue = $totalRevenue;
+    $obj->average = $totalRevenue / count($sold);
+    $obj->buyer = $buyer;
+
+    $obj = '{"sold":' . $totalSold . ', "revenue":' . $totalRevenue . ', "average":' . $totalRevenue / count($sold) . ', "buyer":' . $buyer . '}';
+    $result = json_decode($obj, true);
+    return $result;
   }
 }

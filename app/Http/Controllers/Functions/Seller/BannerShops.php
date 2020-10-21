@@ -4,9 +4,9 @@ use Constants;
 
 use Carbon\Carbon;
 
-use App\BannerShop;
+use App\Models\BannerShop;
 use App\Http\Controllers\Functions\Seller\ResizeImage;
-use App\Shop;
+use App\Models\Shop;
 
 class BannerShops {
   public static function addBanner ($userId, $lst) {

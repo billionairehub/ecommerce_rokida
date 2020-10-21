@@ -4,8 +4,8 @@ use Constants;
 
 use Carbon\Carbon;
 
-use App\Blocklist;
-use App\User;
+use App\Models\Blocklist;
+use App\Models\User;
 
 class Blocklists {
   public static function getAllList ($userId) {

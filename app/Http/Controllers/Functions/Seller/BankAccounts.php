@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\Functions\Seller;
 use Constants;
 
-use App\BankAccount;
+use App\Models\BankAccount;
 
 class BankAccounts {
   public static function addCard($userId, $keys, $lst) {

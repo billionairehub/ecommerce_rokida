@@ -7,8 +7,8 @@ use Constants;
 
 use App\Http\Controllers\Functions\Seller\ResizeImage;
 
-use App\Shop;
-use App\User;
+use App\Models\Shop;
+use App\Models\User;
 
 class ProfileShop extends ServiceProvider{
   public static function profileShop ($userId) {

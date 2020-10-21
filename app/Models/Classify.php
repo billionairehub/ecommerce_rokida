@@ -1,12 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ImageCategoryShop extends Model
+class Classify extends Model
 {
     use SoftDeletes;
-    public $table = 'rokida_image_category_shop';
+    public $table = 'rokida_classify';
 }

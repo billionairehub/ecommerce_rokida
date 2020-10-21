@@ -9,7 +9,7 @@ use App\Http\Controllers\Functions\Seller\Phones;
 
 use Validators;
 
-use App\User;
+use App\Models\User;
 
 class UserController extends Controller
 {

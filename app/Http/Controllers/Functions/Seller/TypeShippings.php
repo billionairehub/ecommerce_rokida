@@ -3,7 +3,7 @@ namespace App\Http\Controllers\Functions\Seller;
 use Constants;
 use RecipeShipping;
 
-use App\TypeShipping;
+use App\Models\TypeShipping;
 
 class TypeShippings {
   public static function addShippingChannels($productId, $keys, $lst) {

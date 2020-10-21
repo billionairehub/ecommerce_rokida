@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\Functions\Seller;
 use Constants;
 
-use App\Promotion;
+use App\Models\Promotion;
 
 class Promotions {
   public static function addPromotion($productId, $keys, $lst) {

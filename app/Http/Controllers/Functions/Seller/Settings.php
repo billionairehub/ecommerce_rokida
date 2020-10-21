@@ -3,7 +3,7 @@ namespace App\Http\Controllers\Functions\Seller;
 use Constants;
 use Crypt;
 
-use App\Setting;
+use App\Models\Setting;
 
 class Settings {
   public static function enablePhoneCall($userId) {

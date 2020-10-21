@@ -2,10 +2,10 @@
 namespace App\Http\Controllers\Functions\Seller;
 use Constants;
 
-use App\ShopCategory;
-use App\Shop;
-use App\Product;
-use App\ProductShopCategory;
+use App\Models\ShopCategory;
+use App\Models\Shop;
+use App\Models\Product;
+use App\Models\ProductShopCategory;
 
 class ShopCategories {
   public static function addCategory ($userId, $lst) {

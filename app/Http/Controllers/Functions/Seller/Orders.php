@@ -4,9 +4,9 @@ use Constants;
 
 use Carbon\Carbon;
 
-use App\Product;
-use App\Order;
-use App\OrderDetail;
+use App\Models\Product;
+use App\Models\Order;
+use App\Models\OrderDetail;
 
 class Orders {
   public static function getListAll ($userId, $lst) {

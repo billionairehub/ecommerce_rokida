@@ -4,9 +4,9 @@ use Constants;
 
 use Carbon\Carbon;
 
-use App\ImageCategoryShop;
+use App\Models\ImageCategoryShop;
 use App\Http\Controllers\Functions\Seller\ResizeImage;
-use App\Shop;
+use App\Models\Shop;
 
 class ImageCategoryShops {
   public static function addCategoryImage ($userId, $lst) {

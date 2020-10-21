@@ -1,13 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
-class Infringe extends Model
+class Product extends Model
 {
     use SoftDeletes;
-    public $table = 'rokida_infringe';
+    public $table = 'rokida_products';
 }

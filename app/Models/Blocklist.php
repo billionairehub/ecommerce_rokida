@@ -1,12 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class OrderDetail extends Model
+class Blocklist extends Model
 {
     use SoftDeletes;
-    public $table = 'rokida_order_details';
+    public $table = 'rokida_blocklists';
 }

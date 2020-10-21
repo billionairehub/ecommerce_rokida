@@ -97,7 +97,7 @@ class MarketingController extends Controller
 
     public function dashboard()
     {
-        $lst = $_GET;;
+        $lst = $_GET;
         $userId = 1;
         $success = Marketings::dashboard($userId, $lst);
         return $success;

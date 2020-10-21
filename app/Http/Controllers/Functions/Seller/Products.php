@@ -2,10 +2,10 @@
 namespace App\Http\Controllers\Functions\Seller;
 use Constants;
 
-use App\Product;
-use App\Category;
-use App\User;
-use App\Shop;
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\User;
+use App\Models\Shop;
 use App\Http\Controllers\Functions\Seller\ResizeImage;
 
 class Products {

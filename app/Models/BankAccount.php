@@ -1,12 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class RateReviewShop extends Model
+class BankAccount extends Model
 {
     use SoftDeletes;
-    public $table = 'rokida_rates';
+    public $table = 'rokida_bank_account';
 }

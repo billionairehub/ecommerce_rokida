@@ -4,11 +4,11 @@ use Constants;
 
 use Carbon\Carbon;
 
-use App\Infringe;
-use App\Category;
-use App\User;
-use App\Product;
-use App\Shop;
+use App\Models\Infringe;
+use App\Models\Category;
+use App\Models\User;
+use App\Models\Product;
+use App\Models\Shop;
 
 class Infringes {
   public static function getListAll($userId, $lst) {

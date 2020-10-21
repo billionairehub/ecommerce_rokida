@@ -4,11 +4,11 @@ use Constants;
 
 use Carbon\Carbon;
 
-use App\RateReviewShop;
-use App\Product;
-use App\User;
-use App\Classify;
-use App\Shop;
+use App\Models\RateReviewShop;
+use App\Models\Product;
+use App\Models\User;
+use App\Models\Classify;
+use App\Models\Shop;
 use DB;
 
 class RateReviewShops {

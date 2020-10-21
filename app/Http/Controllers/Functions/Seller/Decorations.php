@@ -7,10 +7,10 @@ use App\Http\Controllers\Functions\Seller\ImageCategoryShops;
 
 use Carbon\Carbon;
 
-use App\Decoration;
-use App\ImageCategoryShop;
-use App\Shop;
-use App\User;
+use App\Models\Decoration;
+use App\Models\ImageCategoryShop;
+use App\Models\Shop;
+use App\Models\User;
 
 class Decorations {
   public static function addDecoration($userId, $keys, $lst) {

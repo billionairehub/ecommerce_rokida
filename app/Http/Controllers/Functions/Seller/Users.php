@@ -3,7 +3,7 @@ namespace App\Http\Controllers\Functions\Seller;
 use Illuminate\Support\Facades\Auth;
 use Constants;
 
-use App\User;
+use App\Models\User;
 
 class Users {
   public static function checkExists($lst) {
