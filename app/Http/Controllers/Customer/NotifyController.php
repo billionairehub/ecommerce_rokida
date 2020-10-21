@@ -101,7 +101,25 @@ class NotifyController extends Controller
 
     public function CreateNotify(Request $req)
     {
+        $notify = new Notify;
+        $lst = $req->all();
+        if(array_key_exists('user_id', $lst) && $lst['user_id'] != null )
+        {
+            $user_id = $req->user_id;
+        }
+        if(array_key_exists('order_id', $lst) && $lst['order_id'] != null )
+        {
+            $user_id = $req->order_id;
+        }
+        if(array_key_exists('promotion_id', $lst) && $lst['promotion_id'] != null )
+        {
+            $user_id = $req->promotion_id;
+        }
 
-        
+        $notify->title = $req->input('title');	
+        $notify->img_notify = $req->file('img_notify');	 
+        $notify->content = $req->iput('content');	
+
+        $notify->save();
     }
 }

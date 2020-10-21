@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Notify extends Model
 {
     use SoftDeletes;
-    public $table = 'rokida_notifys';
+    public $table = 'rokida_notification';
 }

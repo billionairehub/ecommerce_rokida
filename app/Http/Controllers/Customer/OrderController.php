@@ -19,10 +19,12 @@ class OrderController extends Controller
     public function OderProducts(Request $req)
     {
         $lst = $req->all();
+        $string = Cookie::get('order');
+        $string = stripslashes($string);  
+        $string = json_decode($string, true);
         $order = new Order;
         $user = auth('api')->user()->id;
         $order->user_id = $user;
-        $order->shop_id = cookie('shop_id', $req->shop_id, 30);
         $order->amount = $req->amount;
         $order->total_bill = $req->total_bill;
         $order->order_code = $req->order_code;
@@ -34,7 +36,6 @@ class OrderController extends Controller
         if (array_key_exists('status_order', $lst)) {
             $order->status_order = $lst['status_order'];
         }
-        $order->voucher = $req->voucher;
         $order->ship_address = $req->ship_address;
         $order->phone = $req->phone;
         $order->email = $req->email;
@@ -42,15 +43,21 @@ class OrderController extends Controller
         if (array_key_exists('deleted_by', $lst)) {
             $order->deleted_by = $lst['deleted_by'];
         }
-        $confirm_order = $order->save();        
-        $orderDetail = new OrderDetail();
+        $confirm_order = $order->save();
         
-        $orderDetail->order_id = $order->id;
-        $orderDetail->product_id = $req->product_id;
-        $orderDetail->product_classify = $req->product_classify;
-        $orderDetail->quantity = $req->quantity;
-        $orderDetail->deleted_by = $req->deleted_by;
-        $confirm_orderDetail = $orderDetail->save();
+        foreach($string as $key => $value)    
+        {
+            $orderDetail = new OrderDetail();
+            $orderDetail->order_id = $order->id;
+            $orderDetail->product_id = $string[$key]['item_id'];
+            $orderDetail->shop_id = $string[$key]['shop_id'];
+            $orderDetail->voucher = $req->input('voucher');
+            $orderDetail->product_classify = $string[$key]['Classify'];
+            $orderDetail->quantity = $string[$key]['quantity'];
+            $orderDetail->deleted_by = $req->deleted_by;
+            $confirm_orderDetail = $orderDetail->save();
+        }    
+        setcookie('order',null, 50);
        
         if($confirm_orderDetail == 1 && $confirm_order == 1)
         {
@@ -254,41 +261,49 @@ class OrderController extends Controller
     public function SetCookiesOrder(Request $req)
     {
         $lst = $req->all();
-        $array = [];
-        if($lst['pro_name'] != null && $lst['price'] != null && $lst['quantity'] != null)
+        if(isset($_COOKIE['order']))
         {
-            array_push($array, array('pro_name' => $req->input('pro_name'),'price' => $req->input('price'),'classify' => $req->input('classify'),'quantity' => (int)$req->input('quantity')));
-        }
-        
-        if(!isset($_COOKIE['order']) || Cookie::get('order') == null)
-        {
-            $response = new Response('<b>create new cookies</b>');
-            $response->withCookie(cookie('order',json_encode($array, true), 5));
+            $cookies_data = Cookie::get('order');
+            $cookies_data = stripslashes($cookies_data);
+            $cart_data = json_decode($cookies_data, true);
         }
         else
         {
-            $string = Cookie::get('order');
-            $string = stripslashes($string);    // string is stored with escape double quotes 	
-            $string = json_decode($string, true);
-            for($i = 0; $i < count($string); $i++)
+            $cart_data = array();
+        }
+        if($cart_data == null)
+        {
+            $item_arr = array('Product_name' => $req->input('pro_name'),'price' => $req->input('price'),'Promotional_price' => $req->input('promotional_price'),'shop_id' => $req->input('shop_id'), 'item_id' => $req->input('id'),'Classify' => $req->input('classify'),'quantity' => (int)$req->input('quantity'));
+            $cart_data[] = $item_arr;
+        }
+        else
+        {
+            $item_list = array_column($cart_data, 'item_id');
+            $item_classfily = array_column($cart_data, 'Classify');
+            $shop_id = array_column($cart_data, 'shop_id');
+            if(in_array($req->input('id'), $item_list) && in_array($req->input('classify'), $item_classfily) && in_array($req->input('shop_id'), $shop_id))
             {
-                if($string[$i]['pro_name'] == $req->input('pro_name') && $string[$i]['price'] == $req->input('price') && $string[$i]['classify'] == $req->input('classify'))
+                foreach($cart_data as $key => $value)
                 {
-                    $array[$i]['quantity'] = (int)$string[$i]['quantity'] + (int)$req->input('quantity');
-                    $response = new Response('<b> cookies</b>');
-                    $response->withCookie(cookie('order',json_encode($array, true), 5));
-                }
-                else
-                {
-                    $array = $string;
-                    $array[] = array('pro_name' => $req->input('pro_name'),'price' => $req->input('price'),'classify' => $req->input('classify'),'quantity' => (int)$req->input('quantity'));
-                    $response = new Response('<b> cookies else x2</b>');
-                    $response->withCookie(cookie('order',json_encode($array, true), 5));
+                    if($cart_data[$key]['item_id'] == $req->input('id'))
+                    {
+                        $cart_data[$key]['quantity'] = $cart_data[$key]['quantity'] + $req->input('quantity');
+                    }
                 }
             }
+            else
+            {
+                $item_arr = array('Product_name' => $req->input('pro_name'),'price' => $req->input('price'),'Promotional_price' => $req->input('promotional_price'),'shop_id' => $req->input('shop_id'), 'item_id' => $req->input('id'),'Classify' => $req->input('classify'),'quantity' => (int)$req->input('quantity'));
+                $cart_data[] = $item_arr;
+            }
         }
+        $item_data = json_encode($cart_data, JSON_UNESCAPED_UNICODE);
+        $cart = json_decode($item_data);
+        $response = new Response('<b> cookies else x2</b>');
+        $response->withCookie(cookie('order',$item_data, 60));
         return $response;
-        }
+    }
+
     
     
     public function getCookie(Request $request)
@@ -297,12 +312,13 @@ class OrderController extends Controller
         $string = stripslashes($string);    // string is stored with escape double quotes 	
         $string = json_decode($string, true);
         dd($string);
+        
     }
 
     public function deleteCookie()
     {
         $response = new Response('<b> cookies</b>');
-        $response->withCookie(cookie('order',null, 5));
+        setcookie('order',null, 50);
         return $response;
 
     }
