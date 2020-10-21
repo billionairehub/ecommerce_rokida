@@ -146,4 +146,13 @@ class Validators
     }
     return true;
   }
+
+  public static function requiredFieldVoucher ($lst, $keys) {
+    foreach (Constants::REQUIRED_DATA_FIELD_VOUCHER as $key) {
+      if (array_key_exists($key, $lst) == false || $lst[$key] == null) {
+        return false;
+      }
+    }
+    return true;
+  }
 }

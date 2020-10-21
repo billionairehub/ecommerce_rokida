@@ -378,6 +378,24 @@ Route::group(['prefix' => 'portal'], function () {
             'uses' => 'Seller\ShopCategoryController@hideCategory'
         ]);
     });
+    Route::group(['prefix' => 'marketing'], function () {
+        Route::group(['prefix' => 'vouchers'], function () {
+            Route::post('new', [
+                'as' => 'new',
+                'uses' => 'Seller\MarketingController@store'
+            ]);
+            Route::group(['prefix' => 'list'], function () {
+                Route::get('/', [
+                    'as' => '/',
+                    'uses' => 'Seller\MarketingController@index'
+                ]);
+                Route::get('dashboard', [
+                    'as' => 'dashboard',
+                    'uses' => 'Seller\MarketingController@dashboard'
+                ]);
+            });
+        });
+    });
 });
 
 Route::group(['prefix' => 'decoration'], function () {

@@ -23,6 +23,7 @@ class Constants
     const DATA_FIELD_DECORATION = ['id_category_shop', 'id_promotion'];
     const REQURED_DATA_FIELD_BANNERS = ['image_banner','content_banner','url_banner', 'type_banner', 'name_banner'];
     const DATA_FIELD_ADDRESS = ['full_name', 'address', 'district', 'province', 'city', 'default', 'pickup', 'return'];
+    const REQUIRED_DATA_FIELD_VOUCHER = ['code', 'name', 'code_type', 'time_start',	'time_end',	'voucher_type','discount_type', 'reduction', 'minimum_order_value', 'amount', 'display', 'product'];
 
     const OFFSET = 0;
     const LIMIT = 15;
@@ -43,4 +44,9 @@ class Constants
     const RETURNS_AND_REFUND_HANDLED = 1;
 
     const LANGUAGE = ['vi', 'en'];
+
+    const PROMOTION_STATUS_ALL = 0;
+    const PROMOTION_STATUS_UPCOMING = 1;
+    const PROMOTION_STATUS_HAPPENNING = 2;
+    const PROMOTION_STATUS_FINISHED = 3;
 }

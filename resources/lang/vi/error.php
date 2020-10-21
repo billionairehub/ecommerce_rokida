@@ -26,4 +26,5 @@ return [
     'password_is_number' => 'Mật khẩu là số gồm 6 ký tự',
     'not_fill_the_key' => 'Vui lòng nhập đầy đủ thông tin',
     'not_fount_block_list' => 'Không tìm thấy người bị chặn',
+    'please_fill_out_the_form' => 'Chú em vui lòng điền đầy đủ thông tin giúp anh nhá',
 ];
