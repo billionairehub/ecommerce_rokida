@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Seller;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Http\Controllers\Functions\Seller\Discounts;
+use App\Http\Controllers\Functions\Seller\FollowPrizzes;
 
-class DiscountController extends Controller
+class FollowPrizeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class DiscountController extends Controller
     {
         $lst = $_GET;
         $userId = 1;
-        $success = Discounts::listDiscount ($userId, $lst);
+        $success = FollowPrizzes::listFollowPrizze ($userId, $lst);
         return $success;
     }
 
@@ -43,10 +43,11 @@ class DiscountController extends Controller
         $userId = 1;
         $lst = $request->all();
         $keys = $request->keys();
-        $success = Discounts::addDiscount($userId, $keys, $lst);
+        $success = FollowPrizzes::addFollowPrizze($userId, $keys, $lst);
         if (gettype($success) == 'string') {
             return trans($success);
         }
+        return $success;
     }
 
     /**
@@ -92,12 +93,12 @@ class DiscountController extends Controller
     public function destroy($id)
     {
         //
-    }
+    }    
 
-    public function dasboard () {
+    public function dashboard () {
         $lst = $_GET;
         $userId = 1;
-        $success = Discounts::dashboard($userId, $lst);
+        $success = FollowPrizzes::dashboard($userId, $lst);
         return $success;
     }
 }

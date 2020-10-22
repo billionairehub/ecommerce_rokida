@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Seller;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Http\Controllers\Functions\Seller\Discounts;
+use App\Http\Controllers\Functions\Seller\HotSales;
 
-class DiscountController extends Controller
+class HotSaleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,8 @@ class DiscountController extends Controller
      */
     public function index()
     {
-        $lst = $_GET;
         $userId = 1;
-        $success = Discounts::listDiscount ($userId, $lst);
+        $success = HotSales::getHotsale ($userId);
         return $success;
     }
 
@@ -40,13 +39,15 @@ class DiscountController extends Controller
      */
     public function store(Request $request)
     {
-        $userId = 1;
         $lst = $request->all();
+        $userId = 1;
         $keys = $request->keys();
-        $success = Discounts::addDiscount($userId, $keys, $lst);
-        if (gettype($success) == 'string') {
+        $success = HotSales::addHotSale ($userId, $keys, $lst);
+        if (gettype($success) == 'string')
+        {
             return trans($success);
         }
+        return $success;
     }
 
     /**
@@ -57,7 +58,9 @@ class DiscountController extends Controller
      */
     public function show($id)
     {
-        //
+        $userId = 1;
+        $success = HotSales::show ($userId, $id);
+        return $success;
     }
 
     /**
@@ -91,13 +94,11 @@ class DiscountController extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
-
-    public function dasboard () {
-        $lst = $_GET;
         $userId = 1;
-        $success = Discounts::dashboard($userId, $lst);
+        $success = HotSales::delete ($userId, $id);
+        if (gettype($success) == 'string') {
+            return trans($success);
+        }
         return $success;
     }
 }

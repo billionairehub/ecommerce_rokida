@@ -9,46 +9,46 @@ use App\Models\Voucher;
 use App\Models\Shop;
 use App\Models\Order;
 
-class Discounts {
+class Bundles {
 
-  public static function addDiscount($userId, $keys, $lst) {
-    $isValid = Validators::requiredFieldDiscount($lst, $keys);
+  public static function addBundle($userId, $keys, $lst) {
+    $isValid = Validators::requiredFieldBundle($lst, $keys);
     if ($isValid == false) {
       return false;
     }
-    $discount = new Voucher;
-    $discount->user_id = $userId;
-    foreach (Constants::REQUIRED_DATA_FIELD_DISCOUNT as $key) {
-      $discount->$key = $lst[$key];
+    $bundle = new Voucher;
+    $bundle->user_id = $userId;
+    foreach (Constants::REQUIRED_DATA_FIELD_BUNDLE as $key) {
+      $bundle->$key = $lst[$key];
     }
-    $discount->type = Constants::DISCOUNT;
-    $discount->save();
-    return $discount;
+    $bundle->type = Constants::BUNDLE;
+    $bundle->save();
+    return $bundle;
   }
 
-  public static function listDiscount($userId, $lst) {
+  public static function listBundle($userId, $lst) {
     $now = Carbon::now();
     $now->setTimezone(7);
     if (array_key_exists('type', $lst) == true && $lst['type'] == Constants::PROMOTION_STATUS_HAPPENNING) {
-      $discount = Voucher::where('user_id', '=', $userId)->where('type', '=', Constants::DISCOUNT)->where('time_start', '<=', $now)->where('time_end', '>=', $now)->get();
-      return $discount;
+      $bundle = Voucher::where('user_id', '=', $userId)->where('type', '=', Constants::BUNDLE)->where('time_start', '<=', $now)->where('time_end', '>=', $now)->get();
+      return $bundle;
     } else if (array_key_exists('type', $lst) == true && $lst['type'] == Constants::PROMOTION_STATUS_UPCOMING) {
-      $discount = Voucher::where('user_id', '=', $userId)->where('type', '=', Constants::DISCOUNT)->where('time_start', '>', $now)->get();
-      return $discount;
+      $bundle = Voucher::where('user_id', '=', $userId)->where('type', '=', Constants::BUNDLE)->where('time_start', '>', $now)->get();
+      return $bundle;
     } else if (array_key_exists('type', $lst) == true && $lst['type'] == Constants::PROMOTION_STATUS_FINISHED) {
-      $discount = Voucher::where('user_id', '=', $userId)->where('type', '=', Constants::DISCOUNT)->where('time_end', '<', $now)->get();
-      return $discount;
+      $bundle = Voucher::where('user_id', '=', $userId)->where('type', '=', Constants::BUNDLE)->where('time_end', '<', $now)->get();
+      return $bundle;
     } else {
-      $discount = Voucher::where('user_id', '=', $userId)->where('type', '=', Constants::DISCOUNT)->get();
-      return $discount;
+      $bundle = Voucher::where('user_id', '=', $userId)->where('type', '=', Constants::BUNDLE)->get();
+      return $bundle;
     }
   }
 
   public static function dashboard($userId, $lst) {
     $now = Carbon::now();
     $now->setTimezone(7);
-    $voucher = Voucher::where('user_id', '=', $userId)->where('type', '=', Constants::DISCOUNT)->where('time_start', '<', $now)->get();
-    $listVoucher = Voucher::where('user_id', '=', $userId)->where('type', '=', Constants::DISCOUNT)->get('id');
+    $voucher = Voucher::where('user_id', '=', $userId)->where('type', '=', Constants::BUNDLE)->where('time_start', '<', $now)->get();
+    $listVoucher = Voucher::where('user_id', '=', $userId)->where('type', '=', Constants::BUNDLE)->get('id');
     $obj = (object)[];
     // 
     $totalUsed = 0;

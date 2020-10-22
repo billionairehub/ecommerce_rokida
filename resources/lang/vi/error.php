@@ -28,4 +28,5 @@ return [
     'not_fount_block_list' => 'Không tìm thấy người bị chặn',
     'please_fill_out_the_form' => 'Chú em vui lòng điền đầy đủ thông tin giúp anh nhá',
     'voucher_exists' => 'Mã giảm giá đã tồn tại',
+    'not_found_hot_save' => 'Không tìm thấy danh sách sản phẩm bán chạy',
 ];

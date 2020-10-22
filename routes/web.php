@@ -413,6 +413,64 @@ Route::group(['prefix' => 'portal'], function () {
                 ]);
             });
         });
+        Route::group(['prefix' => 'bundle'], function () {
+            Route::group(['prefix' => 'new'], function () {
+                Route::post('/', [
+                    'as' => '/',
+                    'uses' => 'Seller\BundleController@store'
+                ]);
+            });
+            Route::group(['prefix' => 'list'], function () {
+                Route::get('/', [
+                    'as' => '/',
+                    'uses' => 'Seller\BundleController@index'
+                ]);
+                Route::get('dashboard', [
+                    'as' => 'dashboard',
+                    'uses' => 'Seller\BundleController@dashboard'
+                ]);
+            });
+        });
+        Route::group(['prefix' => 'follow-prize'], function () {
+            Route::group(['prefix' => 'create'], function () {
+                Route::post('/', [
+                    'as' => '/',
+                    'uses' => 'Seller\FollowPrizeController@store'
+                ]);
+            });
+            Route::group(['prefix' => 'list'], function () {
+                Route::get('/', [
+                    'as' => '/',
+                    'uses' => 'Seller\FollowPrizeController@index'
+                ]);
+                Route::get('dashboard', [
+                    'as' => 'dashboard',
+                    'uses' => 'Seller\FollowPrizeController@dashboard'
+                ]);
+            });
+        });
+        Route::group(['prefix' => 'hotsale'], function () {
+            Route::group(['prefix' => 'new'], function () {
+                Route::post('/', [
+                    'as' => '/',
+                    'uses' => 'Seller\HotSaleController@store'
+                ]);
+            });
+            Route::group(['prefix' => 'list'], function () {
+                Route::get('/', [
+                    'as' => '/',
+                    'uses' => 'Seller\HotSaleController@index'
+                ]);
+                Route::get('/{id}', [
+                    'as' => '/{id}',
+                    'uses' => 'Seller\HotSaleController@show'
+                ]);
+                Route::get('delete/{id}', [
+                    'as' => 'delete/{id}',
+                    'uses' => 'Seller\HotSaleController@destroy'
+                ]);
+            });
+        });
     });
 });
 

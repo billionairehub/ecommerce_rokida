@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Seller;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Http\Controllers\Functions\Seller\Discounts;
+use App\Http\Controllers\Functions\Seller\Bundles;
 
-class DiscountController extends Controller
+class BundleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class DiscountController extends Controller
     {
         $lst = $_GET;
         $userId = 1;
-        $success = Discounts::listDiscount ($userId, $lst);
+        $success = Bundles::listBundle ($userId, $lst);
         return $success;
     }
 
@@ -43,10 +43,11 @@ class DiscountController extends Controller
         $userId = 1;
         $lst = $request->all();
         $keys = $request->keys();
-        $success = Discounts::addDiscount($userId, $keys, $lst);
+        $success = Bundles::addBundle($userId, $keys, $lst);
         if (gettype($success) == 'string') {
             return trans($success);
         }
+        return $success;
     }
 
     /**
@@ -94,10 +95,10 @@ class DiscountController extends Controller
         //
     }
 
-    public function dasboard () {
+    public function dashboard () {
         $lst = $_GET;
         $userId = 1;
-        $success = Discounts::dashboard($userId, $lst);
+        $success = Bundles::dashboard($userId, $lst);
         return $success;
     }
 }

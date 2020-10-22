@@ -164,4 +164,31 @@ class Validators
     }
     return true;
   }
+
+  public static function requiredFieldBundle ($lst, $keys) {
+    foreach (Constants::REQUIRED_DATA_FIELD_BUNDLE as $key) {
+      if (array_key_exists($key, $lst) == false || $lst[$key] == null) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public static function requiredFieldFollowPrizze ($lst, $keys) {
+    foreach (Constants::REQUIRED_DATA_FIELD_FOLLOW_PRIZZE as $key) {
+      if (array_key_exists($key, $lst) == false || $lst[$key] == null) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  public static function requiredFieldHotsale ($lst, $keys) {
+    foreach (Constants::REQUIRED_DATA_FIELD_HOTSALE as $key) {
+      if (array_key_exists($key, $lst) == false || $lst[$key] == null) {
+        return false;
+      }
+    }
+    return true;
+  }
 }

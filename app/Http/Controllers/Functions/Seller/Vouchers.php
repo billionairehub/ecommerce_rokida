@@ -37,23 +37,24 @@ class Vouchers {
       $now = Carbon::now();
       $now->setTimezone(7);
     if (array_key_exists('promotion_type', $lst) == true && $lst['promotion_type'] == Constants::PROMOTION_STATUS_HAPPENNING) {
-      $voucher = Voucher::where('user_id', '=', $userId)->where('type', '=', Constant::VOUCHER)->where('time_start', '<=', $now)->where('time_end', '>=', $now)->get();
+      $voucher = Voucher::where('user_id', '=', $userId)->where('type', '=', Constants::VOUCHER)->where('time_start', '<=', $now)->where('time_end', '>=', $now)->get();
       return $voucher;
     } else if (array_key_exists('promotion_type', $lst) == true && $lst['promotion_type'] == Constants::PROMOTION_STATUS_UPCOMING) {
-      $voucher = Voucher::where('user_id', '=', $userId)->where('type', '=', Constant::VOUCHER)->where('time_start', '>', $now)->get();
+      $voucher = Voucher::where('user_id', '=', $userId)->where('type', '=', Constants::VOUCHER)->where('time_start', '>', $now)->get();
       return $voucher;
     } else if (array_key_exists('promotion_type', $lst) == true && $lst['promotion_type'] == Constants::PROMOTION_STATUS_FINISHED) {
-      $voucher = Voucher::where('user_id', '=', $userId)->where('type', '=', Constant::VOUCHER)->where('time_end', '<', $now)->get();
+      $voucher = Voucher::where('user_id', '=', $userId)->where('type', '=', Constants::VOUCHER)->where('time_end', '<', $now)->get();
       return $voucher;
     } else {
-      $voucher = Voucher::where('user_id', '=', $userId)->where('type', '=', Constant::VOUCHER)->get();
+      $voucher = Voucher::where('user_id', '=', $userId)->where('type', '=', Constants::VOUCHER)->get();
       return $voucher;
     }
   }
   public static function dashboard($userId, $lst) {
     $now = Carbon::now();
     $now->setTimezone(7);
-    $voucher = Voucher::where('user_id', '=', $userId)->where('type', '=', Constant::VOUCHER)->where('time_start', '<', $now)->get();
+    $voucher = Voucher::where('user_id', '=', $userId)->where('type', '=', Constants::VOUCHER)->where('time_start', '<', $now)->get();
+    $listVoucher = Voucher::where('user_id', '=', $userId)->where('type', '=', Constants::VOUCHER)->get('id');
     $obj = (object)[];
     // 
     $totalUsed = 0;
@@ -63,14 +64,14 @@ class Vouchers {
     $obj->used = $totalUsed;
     // 
     $shop = Shop::where('user_id', '=', $userId)->first();
-    $sold = Order::where('shop_id', '=', $shop->id)->where('status_ship', '=', Constants::DELIVERED)->where('voucher', '<>', NULL)->get();
+    $sold = Order::where('shop_id', '=', $shop->id)->whereIn('voucher',$listVoucher)->where('status_ship', '=', Constants::DELIVERED)->where('voucher', '<>', NULL)->get();
     $totalSold = $totalRevenue = 0;
     for ($i = 0; $i < count($sold); $i++) {
       $totalSold = $totalSold + $sold[$i]->amount;
       $totalRevenue = $totalRevenue + $sold[$i]->total_bill;
     }
     // Buyer
-    $totalBuyer = Order::where('shop_id', '=', $shop->id)->where('status_ship', '=', Constants::DELIVERED)->where('voucher', '<>', NULL)->get();
+    $totalBuyer = Order::where('shop_id', '=', $shop->id)->whereIn('voucher',$listVoucher)->where('status_ship', '=', Constants::DELIVERED)->where('voucher', '<>', NULL)->get();
     $buyer = 0;
     for ($i = 0; $i < count($totalBuyer); $i++) {
       $count = 0;
@@ -89,7 +90,7 @@ class Vouchers {
     $obj->average = $totalRevenue / count($sold);
     $obj->buyer = $buyer;
 
-    $obj = '{"sold":' . $totalSold . ', "revenue":' . $totalRevenue . ', "average":' . $totalRevenue / count($sold) . ', "buyer":' . $buyer . '}';
+    $obj = '{"used":' . $totalUsed . ', "sold":' . $totalSold . ', "revenue":' . $totalRevenue . ', "average":' . $totalRevenue / count($sold) . ', "buyer":' . $buyer . '}';
     $result = json_decode($obj, true);
     return $result;
   }

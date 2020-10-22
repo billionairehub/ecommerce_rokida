@@ -25,6 +25,9 @@ class Constants
     const DATA_FIELD_ADDRESS = ['full_name', 'address', 'district', 'province', 'city', 'default', 'pickup', 'return'];
     const REQUIRED_DATA_FIELD_VOUCHER = ['code', 'name', 'code_type', 'time_start',	'time_end',	'voucher_type','discount_type', 'reduction', 'minimum_order_value', 'amount', 'display', 'product'];
     const REQUIRED_DATA_FIELD_DISCOUNT = ['name', 'time_start', 'time_end'];
+    const REQUIRED_DATA_FIELD_BUNDLE = ['name', 'time_start', 'time_end', 'type_bundle', 'minimum_order_value', 'order_limit', 'reduction', 'product'];
+    const REQUIRED_DATA_FIELD_FOLLOW_PRIZZE = ['name', 'time_start', 'time_end', 'voucher_type', 'discount_type', 'reduction', 'minimum_order_value', 'amount'];
+    const REQUIRED_DATA_FIELD_HOTSALE = ['name', 'product'];
 
     const OFFSET = 0;
     const LIMIT = 15;
@@ -53,4 +56,10 @@ class Constants
 
     const VOUCHER = 1;
     const DISCOUNT = 2;
+    const BUNDLE = 3;
+    const FOLLOW_PRIZZE = 4;
+
+    const TYPE_BUNDLE_DISCOUNT_PER_PERCENT = 1;
+    const DISCOUNT_BY_AMOUNT = 2;
+    const SPECIAL_SALE = 3;
 }
