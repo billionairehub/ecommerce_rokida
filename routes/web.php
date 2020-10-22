@@ -472,6 +472,12 @@ Route::group(['prefix' => 'portal'], function () {
             });
         });
     });
+    Route::group(['prefix' => 'seller-management'], function () {
+        Route::get('/', [
+            'as' => '/',
+            'uses' => 'Seller\FavoriteShopController@index'
+        ]);
+    });
 });
 
 Route::group(['prefix' => 'decoration'], function () {
