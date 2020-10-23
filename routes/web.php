@@ -479,6 +479,50 @@ Route::group(['prefix' => 'portal'], function () {
         ]);
     });
 });
+Route::group(['prefix' => 'datacenter'], function () {
+    Route::group(['prefix' => 'dashboard'], function () {
+        Route::get('/', [
+            'as' => '/',
+            'uses' => 'Seller\DatacenterController@dashboard'
+        ]);
+    });
+    Route::group(['prefix' => 'products'], function () {
+        Route::group(['prefix' => 'overview'], function () {
+            //
+        });
+        Route::group(['prefix' => 'performance'], function () {
+            //
+        });
+        Route::group(['prefix' => 'diagnosis'], function () {
+            //
+        });
+    });
+    Route::group(['prefix' => 'sales'], function () {
+        Route::group(['prefix' => 'overview'], function () {
+            //
+        });
+        Route::group(['prefix' => 'composition'], function () {
+            //
+        });
+    });
+    Route::group(['prefix' => 'marketing'], function () {
+        Route::group(['prefix' => 'discount'], function () {
+            //
+        });
+        Route::group(['prefix' => 'bundle'], function () {
+            //
+        });
+        Route::group(['prefix' => 'prize'], function () {
+            //
+        });
+        Route::group(['prefix' => 'voucher'], function () {
+            //
+        });
+    });
+    Route::group(['prefix' => 'chat'], function () {
+        //
+    });
+});
 
 Route::group(['prefix' => 'decoration'], function () {
     Route::get('/', [

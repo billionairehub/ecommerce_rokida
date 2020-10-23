@@ -62,4 +62,5 @@ class Constants
     const TYPE_BUNDLE_DISCOUNT_PER_PERCENT = 1;
     const DISCOUNT_BY_AMOUNT = 2;
     const SPECIAL_SALE = 3;
+    const TOP_PRODUCT = 5;
 }
