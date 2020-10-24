@@ -488,7 +488,10 @@ Route::group(['prefix' => 'datacenter'], function () {
     });
     Route::group(['prefix' => 'products'], function () {
         Route::group(['prefix' => 'overview'], function () {
-            //
+            Route::get('/', [
+                'as' => '/',
+                'uses' => 'Seller\DatacenterController@productStatistics'
+            ]);
         });
         Route::group(['prefix' => 'performance'], function () {
             //

@@ -92,6 +92,14 @@ class DatacenterController extends Controller
         $success = Datacenters::dashboard($userId, $lst);
         $success = json_decode($success, true);
         return $success;
+    }
+
+    public function productStatistics()
+    {
+        $lst = $_GET;
+        $userId = 1;
+        $success = Datacenters::productStatistics($userId, $lst);
+        $success = json_decode($success, true);
         return $success;
     }
 }

@@ -2,6 +2,8 @@
 namespace App\Http\Controllers\Functions\Seller;
 use Constants;
 
+use Carbon\Carbon;
+
 use App\Models\Order;
 use App\Models\User;
 use App\Models\OrderDetail;
@@ -9,29 +11,38 @@ use App\Models\Shop;
 use App\Models\VisitView;
 use App\Models\Product;
 use App\Models\ProductView;
+use App\Models\ProductLike;
 
 class Datacenters {
   public static function dashboard($userId, $lst) {
+    $startTime = '1970-01-01 00:00:00';
+    $endTime = Carbon::now();
+    if (array_key_exists('start_time', $lst) && $lst['start_time'] != null) {
+      $startTime = $lst['start_time'];
+    }
+    if (array_key_exists('end_time', $lst) && $lst['end_time'] != null) {
+      $startTime = $lst['end_time'];
+    }
     $shop = Shop::where('user_id', $userId)->first();
     $orderDetail = OrderDetail::where('shop_id', $shop->id)->get('order_id');
     // Doanh thu
-    $datacenterRevenue = Order::whereIn('id', $orderDetail)->where('status_ship', '<>', Constants::CANCELED)->sum('total_bill');
+    $datacenterRevenue = Order::whereIn('id', $orderDetail)->where('status_ship', '<>', Constants::CANCELED)->where('created_at', '>=', $startTime)->where('created_at', '<=', $endTime)->sum('total_bill');
     // Đơn hàng
-    $datacenterOrder = Order::whereIn('id', $orderDetail)->get()->count();
+    $datacenterOrder = Order::whereIn('id', $orderDetail)->where('created_at', '>=', $startTime)->where('created_at', '<=', $endTime)->get()->count();
     // Doanh thu / đơn hàng
-    $countDatacenterRevenue = Order::whereIn('id', $orderDetail)->where('status_ship', '<>', Constants::CANCELED)->count();
+    $countDatacenterRevenue = Order::whereIn('id', $orderDetail)->where('created_at', '>=', $startTime)->where('created_at', '<=', $endTime)->where('status_ship', '<>', Constants::CANCELED)->count();
     $turnoverOfOrder = (int)$datacenterRevenue / (int)$countDatacenterRevenue;
     // Lượt truy cập
-    $visits = VisitView::where('shop_id', $shop->id)->sum('visits');
+    $visits = VisitView::where('shop_id', $shop->id)->where('created_at', '>=', $startTime)->where('created_at', '<=', $endTime)->sum('visits');
     // Lượt xem
-    $views = VisitView::where('shop_id', $shop->id)->sum('views');
+    $views = VisitView::where('shop_id', $shop->id)->where('created_at', '>=', $startTime)->where('created_at', '<=', $endTime)->sum('views');
     // Tỉ lệ chuyển đổi khách đặt hàng trên lượt truy cập
-    $guestOrder = Order::whereIn('id', $orderDetail)->count();
+    $guestOrder = Order::whereIn('id', $orderDetail)->where('created_at', '>=', $startTime)->where('created_at', '<=', $endTime)->count();
     $personVisit = 100 / (int)$visits;
     $conversionRate = (floor( (int)$guestOrder * $personVisit) * 10) / 10;
     // Thứ hạng sản phẩm theo doanh thu
     // + Theo doanh thu
-    $revenue = OrderDetail::where('shop_id', $shop->id)->get();
+    $revenue = OrderDetail::where('shop_id', $shop->id)->where('created_at', '>=', $startTime)->where('created_at', '<=', $endTime)->get();
     $arrRevenue = [];
     for ($i  = 0; $i < count($revenue); $i++) {
       $quantity = $revenue[$i]->quantity;
@@ -62,7 +73,7 @@ class Datacenters {
       $i++;
     }
     // + Theo số sản phẩm đã bán
-    $orderOtherCancel = Order::whereIn('id', $orderDetail)->where('status_ship', '<>', Constants::CANCELED)->where('status_ship', '<>', Constants::WAIT_FOR_CONFIRMATION)->get('id');
+    $orderOtherCancel = Order::whereIn('id', $orderDetail)->where('status_ship', '<>', Constants::CANCELED)->where('status_ship', '<>', Constants::WAIT_FOR_CONFIRMATION)->where('created_at', '>=', $startTime)->where('created_at', '<=', $endTime)->get('id');
     $productsSold = OrderDetail::whereIn('order_id', $orderOtherCancel)->get();
     $arrProductsSold = [];
     for ($i  = 0; $i < count($productsSold); $i++) {
@@ -94,7 +105,7 @@ class Datacenters {
       $i++;
     }
     // + Theo lượt xem
-    $product = Product::where('author', $userId)->get('id');
+    $product = Product::where('author', $userId)->where('created_at', '>=', $startTime)->where('created_at', '<=', $endTime)->get('id');
     $productView = ProductView::whereIn('product_id', $product)->orderByDesc('views')->take(Constants::TOP_PRODUCT)->get();
     //$keys = array_keys($productView);
     if (count($productView) < Constants::TOP_PRODUCT) {
@@ -108,7 +119,7 @@ class Datacenters {
       array_push($arrayViews, $parseProduct);
     }
     // + Theo tỷ lệ chuyển đổi
-    $orderOtherCancel = Order::whereIn('id', $orderDetail)->where('status_ship', '<>', Constants::CANCELED)->where('status_ship', '<>', Constants::WAIT_FOR_CONFIRMATION)->get('id');
+    $orderOtherCancel = Order::whereIn('id', $orderDetail)->where('status_ship', '<>', Constants::CANCELED)->where('created_at', '>=', $startTime)->where('created_at', '<=', $endTime)->where('status_ship', '<>', Constants::WAIT_FOR_CONFIRMATION)->get('id');
     $orderDetail = OrderDetail::whereIn('order_id', $orderOtherCancel)->get();
     $arrProductsRatio = [];
     for ($i  = 0; $i < count($orderDetail); $i++) {
@@ -134,8 +145,6 @@ class Datacenters {
       array_push($arrayProductRatio, $parseProduct);
       $i++;
     }
-    // Thứ hạng ngành hàng
-    // + Theo doanh thu
     $object = (object)[];
     $object->datacenter_revenue = $datacenterRevenue;
     $object->datacenter_order = $datacenterOrder;
@@ -149,5 +158,22 @@ class Datacenters {
     $object->products_ratio = $arrayProductRatio;
     $object = json_encode($object, true);
     return $object;
+  }
+
+  public static function productStatistics ($userId, $lst) {
+    // Tổng quan về sản phẩm
+    // + Lượt truy cập
+    // - Lượt truy cập
+    // - Lượt xem
+    // - Số sản phẩm được xem
+    // - Lượt thích
+    // + thêm vào giỏ hàng
+    // - Sản phẩm
+    // - Tỉ lệ chuyển đổi (theo số lần được thêm vào giỏ hàng)
+    // + Đơn Đã Xác Nhận
+    // - Sản phẩm
+    // - Doanh thu
+    // - Sản phẩm được duyệt
+    // - Tỉ lệ chuyển đổi (Lượt truy cập - Đơn đã xác nhận)
   }
 }
