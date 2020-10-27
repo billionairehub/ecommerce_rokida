@@ -94,7 +94,7 @@ class DiscountController extends Controller
         //
     }
 
-    public function dasboard () {
+    public function dashboard () {
         $lst = $_GET;
         $userId = 1;
         $success = Discounts::dashboard($userId, $lst);

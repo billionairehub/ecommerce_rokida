@@ -16,4 +16,5 @@ return [
     'show_category_success' => 'Hiển thị danh mục thành công',
     'add_banner_success' => 'Thêm banner thành công',
     'add_category_image_success' => 'Thêm danh mục bằng hình ảnh thành công',
+    'update_user_success' => 'Cập nhật người dùng thành công',
 ]; 

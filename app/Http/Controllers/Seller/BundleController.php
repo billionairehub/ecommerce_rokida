@@ -99,6 +99,7 @@ class BundleController extends Controller
         $lst = $_GET;
         $userId = 1;
         $success = Bundles::dashboard($userId, $lst);
+        $success = json_decode($success, true);
         return $success;
     }
 }

@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Models\Voucher;
 use App\Models\Shop;
 use App\Models\Order;
+use App\Models\OrderDetail;
 
 class Discounts {
 
@@ -58,14 +59,15 @@ class Discounts {
     $obj->used = $totalUsed;
     // 
     $shop = Shop::where('user_id', '=', $userId)->first();
-    $sold = Order::where('shop_id', '=', $shop->id)->whereIn('voucher',$listVoucher)->where('status_ship', '=', Constants::DELIVERED)->where('voucher', '<>', NULL)->get();
+    $orderDetail = OrderDetail::where('shop_id', '=', $shop->id)->whereIn('voucher',$listVoucher)->where('voucher', '<>', NULL)->get('order_id');
+    $sold = Order::whereIn('id', $orderDetail)->where('status_ship', '=', Constants::DELIVERED)->get();
     $totalSold = $totalRevenue = 0;
     for ($i = 0; $i < count($sold); $i++) {
       $totalSold = $totalSold + $sold[$i]->amount;
       $totalRevenue = $totalRevenue + $sold[$i]->total_bill;
     }
     // Buyer
-    $totalBuyer = Order::where('shop_id', '=', $shop->id)->whereIn('voucher',$listVoucher)->where('status_ship', '=', Constants::DELIVERED)->where('voucher', '<>', NULL)->get();
+    $totalBuyer = Order::whereIn('id', $orderDetail)->where('status_ship', '=', Constants::DELIVERED)->get();
     $buyer = 0;
     for ($i = 0; $i < count($totalBuyer); $i++) {
       $count = 0;

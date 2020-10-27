@@ -99,6 +99,7 @@ class FollowPrizeController extends Controller
         $lst = $_GET;
         $userId = 1;
         $success = FollowPrizzes::dashboard($userId, $lst);
+        $success = json_decode($success, true);
         return $success;
     }
 }

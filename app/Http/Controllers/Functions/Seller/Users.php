@@ -42,6 +42,22 @@ class Users {
     return $user;
   }
 
+  public static function updateProfile ($userId, $lst, $keys) {
+    try {
+      $user = User::where('id', $userId)->first();
+      if (array_key_exists('gender', $lst) == false || $lst['gender'] == null || array_key_exists('birthday', $lst) == false || $lst['birthday'] == null) {
+        return 'error.please_fill_out_the_form';
+      } else {
+        $user->gender = $lst['gender'];
+        $user->birthday = $lst['birthday'];
+        $user->save();
+        return $user;
+      }
+    } catch (Throwable $e) {
+      return false;
+    }
+  }
+
   public static function login($lst, $keys) {
     // foreach ($keys as $key) {
     //   if ($key != 'password') {

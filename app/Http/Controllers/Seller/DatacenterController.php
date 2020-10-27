@@ -94,11 +94,37 @@ class DatacenterController extends Controller
         return $success;
     }
 
-    public function productStatistics()
+    public function productStatisticsOverview()
     {
         $lst = $_GET;
         $userId = 1;
-        $success = Datacenters::productStatistics($userId, $lst);
+        $success = Datacenters::productStatisticsOverview($userId, $lst);
+        $success = json_decode($success, true);
+        return $success;
+    }
+
+    public function productStatisticsPerformance()
+    {
+        $lst = $_GET;
+        $userId = 1;
+        $success = Datacenters::productStatisticsPerformance($userId, $lst);
+        return $success;
+    }
+
+    public function salesOverview()
+    {
+        $lst = $_GET;
+        $userId = 1;
+        $success = Datacenters::salesOverview($userId, $lst);
+        $success = json_decode($success, true);
+        return $success;
+    }
+
+    public function chat()
+    {
+        $lst = $_GET;
+        $userId = 1;
+        $success = Datacenters::chat($userId, $lst);
         $success = json_decode($success, true);
         return $success;
     }

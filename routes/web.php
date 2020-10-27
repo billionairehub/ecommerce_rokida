@@ -490,43 +490,57 @@ Route::group(['prefix' => 'datacenter'], function () {
         Route::group(['prefix' => 'overview'], function () {
             Route::get('/', [
                 'as' => '/',
-                'uses' => 'Seller\DatacenterController@productStatistics'
+                'uses' => 'Seller\DatacenterController@productStatisticsOverview'
             ]);
         });
         Route::group(['prefix' => 'performance'], function () {
-            //
-        });
-        Route::group(['prefix' => 'diagnosis'], function () {
-            //
+            Route::get('/', [
+                'as' => '/',
+                'uses' => 'Seller\DatacenterController@productStatisticsPerformance'
+            ]);
         });
     });
     Route::group(['prefix' => 'sales'], function () {
         Route::group(['prefix' => 'overview'], function () {
-            //
-        });
-        Route::group(['prefix' => 'composition'], function () {
-            //
+            Route::get('/', [
+                'as' => '/',
+                'uses' => 'Seller\DatacenterController@salesOverview'
+            ]);
         });
     });
     Route::group(['prefix' => 'marketing'], function () {
         Route::group(['prefix' => 'discount'], function () {
-            //
+            Route::get('/', [
+                'as' => '/',
+                'uses' => 'Seller\DiscountController@dashboard'
+            ]);
         });
         Route::group(['prefix' => 'bundle'], function () {
-            //
+            Route::get('/', [
+                'as' => '/',
+                'uses' => 'Seller\BundleController@dashboard'
+            ]);
         });
         Route::group(['prefix' => 'prize'], function () {
-            //
+            Route::get('/', [
+                'as' => '/',
+                'uses' => 'Seller\FollowPrizeController@dashboard'
+            ]);
         });
         Route::group(['prefix' => 'voucher'], function () {
-            //
+            Route::get('/', [
+                'as' => '/',
+                'uses' => 'Seller\VoucherController@dashboard'
+            ]);
         });
     });
     Route::group(['prefix' => 'chat'], function () {
-        //
+        Route::get('/', [
+            'as' => '/',
+            'uses' => 'Seller\DatacenterController@chat'
+        ]);
     });
 });
-
 Route::group(['prefix' => 'decoration'], function () {
     Route::get('/', [
         'as' => '/',
@@ -545,8 +559,13 @@ Route::group(['prefix' => 'decoration'], function () {
         'uses' => 'Seller\ImageCategoryController@store'
     ]);
 });
-
 Route::group(['prefix' => 'user'], function () {
+    Route::group(['prefix' => 'selleraccount'], function () {
+        Route::post('set_account_settings', [
+            'as' => 'set_account_settings',
+            'uses' => 'UserController@updateProfile'
+        ]);
+    });
     Route::post('register', [
         'as' => 'register',
         'uses' => 'UserController@store'

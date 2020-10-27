@@ -100,6 +100,7 @@ class VoucherController extends Controller
         $lst = $_GET;
         $userId = 1;
         $success = Vouchers::dashboard($userId, $lst);
+        $success = json_decode($success, true);
         return $success;
     }
 }

@@ -72,6 +72,7 @@ class UserController extends Controller
         }
     }
 
+
     /**
      * Display the specified resource.
      *
@@ -115,5 +116,20 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function updateProfile (Request $request) {
+        $lst = $request->all();
+        $keys = $request->keys();
+        $userId = 1;
+        $user = Users::updateProfile($userId, $lst, $keys);
+        if (gettype($user) == 'string') {
+            return trans($user);
+        } else if ($user == false) {
+            return trans('error.server_error');
+        } else {
+            // return trans('message.update_user_success');
+            return $user;
+        }
     }
 }
