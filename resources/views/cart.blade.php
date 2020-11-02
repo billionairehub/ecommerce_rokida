@@ -2,7 +2,7 @@
 <html>
 <body>
 
-<form action="{{ route('buy-pro') }}" method="POST">
+<!-- <form action="{{ route('buy-pro') }}" method="POST">
   <label for="fname">Product name:</label><br>
   <input type="text" id="pro_name" name="pro_name" value=""><br><br>
   <label for="lname">Price:</label><br>
@@ -18,10 +18,10 @@
   <label for="lname">Quantity:</label><br>
   <input type="text" id="quantity" name="quantity" value=""><br><br>
   <input type="submit" value="Submit">
-</form> 
+</form>  -->
 
 
-<!-- <form action="{{ route('order-confirmation') }}" method="POST">
+<form action="{{ route('order-confirmation') }}" method="POST">
   <label for="fname">amount:</label><br>
   <input type="text" id="amount" name="amount" value=""><br><br>
   <label for="lname">total_bill:</label><br>
@@ -45,7 +45,7 @@
   <input type="text" id="email" name="email" value=""><br><br>
   
   <input type="submit" value="Submit">
-</form>  -->
+</form> 
 
 </body>
 </html>

@@ -10,60 +10,268 @@ use App\Custommer;
 use App\TypeShipping;
 use App\Order;
 use App\OrderDetail;
+use App\Order_status;
+use App\ShoppingCart;
+use App\Voucher;
 use DB;
 use Cookie;
+use Carbon\Carbon;
 use Redirect;
 
 class OrderController extends Controller
 {
+    function generateRandomString($length = 10) {
+
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        $charactersLength = strlen($characters);
+
+        $randomString = '';
+
+        for ($i = 0; $i < $length; $i++) {
+
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+
+        }
+
+        return $randomString;
+
+    }
+
+    public function getShoppingCart()
+    {
+        $userID = auth('api')->user()->id;
+        if(!$userID)
+        {
+            return  response()->json([
+
+                'success' => false,
+
+                'code' => 401,
+
+                'message' => trans('message.unauthenticate')
+
+          ], 401);
+        }
+        $data = ShoppingCart::where('user_id', $userID)->where('status_product', 0)->get();
+        if(count($data) == 0)
+            {
+                return  response()->json([
+
+                    'success' => false,
+    
+                    'code' => 200,
+    
+                    'message' => trans('message.product_not_found')
+    
+                ], 200);
+            }
+            else
+            {
+                return  response()->json([
+
+                    'success' => true,
+    
+                    'code' => 200,
+    
+                    'message' => trans('message.product_not_found'),
+
+                    'data' =>$data
+    
+                ], 200);
+            }
+    }
+
+    public function updateCart(Request $req)
+    {
+        $arr = $req->input('id_product');
+        $data = ShoppingCart::whereIn('id', $arr)->get();
+        foreach($data as $key => $value)
+        {
+            $data[$key]->status_product = !$data[$key]->status_product;
+            $data[$key]->save();
+        }
+        return  response()->json([
+
+            'success' => true,
+
+            'code' => 200,
+
+            'message' => trans('message.update_success'),
+
+            'data' => $data
+
+        ], 200);
+    }
+
+    public function confirmProduct(Request $req)
+    {
+        $arr = $req->input('id_product');
+        $data = ShoppingCart::whereIn('id', $arr)->where('status_product', 1)->get();
+        if(count($data) > 0)
+        {
+            $total_bill = ShoppingCart::selectRaw('sum(total_price) as TONGTIEN, shop_id')->where('user_id', 1)->where('status_product', 1)->groupBy('shop_id')->get();
+            $array = [];
+            for ($i = 0; $i < count($data); $i++) {
+                $arr = [];
+                array_push($arr, $data[$i]);
+                for ($j = $i + 1; $j  < count($data); $j++) {
+                    if ($data[$i]->shop_id == $data[$j]->shop_id) {
+                        array_push($arr, $data[$j]);
+                    }
+                }
+                if (array_key_exists($data[$i]->shop_id, $array) == false) {
+                    $array[$data[$i]->shop_id] = $arr;
+                }
+            }
+            $keys = array_keys($array);
+            foreach ($keys as $key) {
+                $total = 0;
+                for ($j = 0; $j  < count($array[$key]); $j++) {
+                    $total = $total + $array[$key][$j]->total_price;
+                }
+                $obj = (object)[];
+                $obj->total_bill = $total;
+                array_push($array[$key], $obj);
+            }
+            $total_all_bill = ShoppingCart::where('user_id', 1)->where('status_product', 1)->sum('total_price');
+            return  response()->json([
+
+                'success' => true,
+
+                'code' => 200,
+
+                'message' => trans('message.confirm_success'),
+
+                'data' => $array,
+
+                'total_all_bill' => $total_all_bill
+
+            ], 200);
+        }
+        else
+        {
+            return  response()->json([
+
+                'success' => true,
+
+                'code' => 200,
+
+                'message' => trans('message.confirm_unsuccess'),
+
+                'data' => null
+
+            ], 200);
+        }
+
+
+    }
+
+    public function getVoucher()
+    {
+        $now = Carbon::now();
+        $array = [];
+        $voucher_time_expired = Voucher::where('type', 5)->where('time_end', '>', $now)->first();
+        $array['time_expired'] = $voucher_time_expired;
+        $voucher = Voucher::where('type', 5)->where('time_end', '<', $now)->get();
+        $array['time_unexpired'] = $voucher;
+        return  response()->json([
+
+            'success' => true,
+
+            'code' => 200,
+
+            'message' => trans('message.update_success'),
+
+            'data' => $array
+
+        ], 200);
+    }
+
     public function OderProducts(Request $req)
     {
-        $lst = $req->all();
-        $string = Cookie::get('order');
-        $string = stripslashes($string);  
-        $string = json_decode($string, true);
+        $fee_ship = 25000;
+        $lst = $req->all(); 
+        $countID = Order::all();
+        $code = count($countID)+1;
         $order = new Order;
-        $user = auth('api')->user()->id;
+        $user = 1; //auth('api')->user()->id;
         $order->user_id = $user;
-        $order->amount = $req->amount;
-        $order->total_bill = $req->total_bill;
-        $order->order_code = $req->order_code;
+
+        $cart = ShoppingCart::where('user_id', $user)->where('status_product', 1)->get();
+        $order->amount = count($cart);
+
+        $now = Carbon::now();
+        if($req->id_voucher)
+        {
+            $voucher_time_expired = Voucher::where('type', 5)->where('time_end', '>', $now)->where('id',$req->id_voucher)->first();
+            $total_bill = 0;
+            if($voucher_time_expired)
+            {
+                $total_bill = $req->total_bill + $fee_ship - $fee_ship*$voucher_time_expired->reduction;
+            }
+            else
+            {
+                $total_bill = $req->total_bill + $fee_ship;
+            }
+        }
+        else
+        {
+            $total_bill = $req->total_bill + $fee_ship;
+        }
+        
+        
+        $order->total_bill = $total_bill;
+
+        $order->order_code = $this->generateRandomString().$code;
+
         $order->type_ship_id = $req->type_ship_id;
-        if (array_key_exists('status_ship', $lst)) {
-            $order->status_ship = $lst['status_ship'];
-        }
-        $order->fees_ship = $req->fees_ship;
-        if (array_key_exists('status_order', $lst)) {
-            $order->status_order = $lst['status_order'];
-        }
+
+        $order->status_ship = 0;
+        
+        $order->status_order = 0;
+        
         $order->ship_address = $req->ship_address;
+
         $order->phone = $req->phone;
+
         $order->email = $req->email;
-        $order->fees_ship = $req->fees_ship;
+
+        $order->fees_ship = $fee_ship;
+
         if (array_key_exists('deleted_by', $lst)) {
             $order->deleted_by = $lst['deleted_by'];
         }
         $confirm_order = $order->save();
+        $status_order = new Order_status;
+        $status_order->order_id = $order->id;
+        $status_order->pending = 0;
+        $status_order->save();
         
-        foreach($string as $key => $value)    
+        for($i = 0; $i < count($cart); $i++)    
         {
+            
             $orderDetail = new OrderDetail();
             $orderDetail->order_id = $order->id;
-            $orderDetail->product_id = $string[$key]['item_id'];
-            $orderDetail->shop_id = $string[$key]['shop_id'];
-            $orderDetail->voucher = $req->input('voucher');
-            $orderDetail->product_classify = $string[$key]['Classify'];
-            $orderDetail->quantity = $string[$key]['quantity'];
-            $orderDetail->deleted_by = $req->deleted_by;
+            $orderDetail->product_id = $cart[$i]->product_id;
+            $orderDetail->price	= $cart[$i]->price;
+            $orderDetail->promotion_price = $cart[$i]->promotion_price;
+            $orderDetail->shop_id = $cart[$i]->shop_id;
+            $orderDetail->voucher = $req->input('id_voucher');
+            $orderDetail->product_classify = $cart[$i]->categories;
+            $orderDetail->quantity = $cart[$i]->quantity;
+            //$orderDetail->deleted_by = $req->deleted_by;
             $confirm_orderDetail = $orderDetail->save();
+            $deleteCart = ShoppingCart::find($cart[$i]->id);
+            $deleteCart->delete();
         }    
-        setcookie('order',null, 50);
+        
        
         if($confirm_orderDetail == 1 && $confirm_order == 1)
         {
             $result = [
 
-                'status' => true,
+                'success' => true,
     
                 'code' => 200,
     
@@ -75,7 +283,7 @@ class OrderController extends Controller
         {
             $result = [
 
-                'status' => true,
+                'success' => true,
     
                 'code' => 200,
     
@@ -98,7 +306,7 @@ class OrderController extends Controller
             {
                 $result = [
 
-                    'status' => true,
+                    'success' => true,
         
                     'code' => 200,
         
@@ -112,7 +320,7 @@ class OrderController extends Controller
             {
                 $result = [
 
-                    'status' => true,
+                    'success' => true,
         
                     'code' => 200,
         
@@ -127,7 +335,7 @@ class OrderController extends Controller
         {
             $result = [
 
-                'status' => true,
+                'success' => true,
     
                 'code' => 200,
     
@@ -152,7 +360,7 @@ class OrderController extends Controller
             {
                 $result = [
 
-                    'status' => true,
+                    'success' => true,
         
                     'code' => 200,
         
@@ -166,7 +374,7 @@ class OrderController extends Controller
             {
                 $result = [
 
-                    'status' => true,
+                    'success' => true,
         
                     'code' => 200,
         
@@ -181,7 +389,7 @@ class OrderController extends Controller
         {
             $result = [
 
-                'status' => true,
+                'success' => true,
     
                 'code' => 200,
     
@@ -201,7 +409,7 @@ class OrderController extends Controller
         $salePro = Product::inRandomOrder()->limit(12)->get();
         $result = [
 
-            'status' => true,
+            'success' => true,
 
             'code' => 200,
 
@@ -226,7 +434,7 @@ class OrderController extends Controller
         {
             $result = [
 
-                'status' => true,
+                'success' => true,
     
                 'code' => 200,
     
@@ -240,7 +448,7 @@ class OrderController extends Controller
         {
             $result = [
 
-                'status' => true,
+                'success' => true,
     
                 'code' => 200,
     
@@ -253,73 +461,4 @@ class OrderController extends Controller
         return response()->json($result);
     }
 
-    public function ViewCart()
-    {
-        return  view('cart');
-    }
-
-    public function SetCookiesOrder(Request $req)
-    {
-        $lst = $req->all();
-        if(isset($_COOKIE['order']))
-        {
-            $cookies_data = Cookie::get('order');
-            $cookies_data = stripslashes($cookies_data);
-            $cart_data = json_decode($cookies_data, true);
-        }
-        else
-        {
-            $cart_data = array();
-        }
-        if($cart_data == null)
-        {
-            $item_arr = array('Product_name' => $req->input('pro_name'),'price' => $req->input('price'),'Promotional_price' => $req->input('promotional_price'),'shop_id' => $req->input('shop_id'), 'item_id' => $req->input('id'),'Classify' => $req->input('classify'),'quantity' => (int)$req->input('quantity'));
-            $cart_data[] = $item_arr;
-        }
-        else
-        {
-            $item_list = array_column($cart_data, 'item_id');
-            $item_classfily = array_column($cart_data, 'Classify');
-            $shop_id = array_column($cart_data, 'shop_id');
-            if(in_array($req->input('id'), $item_list) && in_array($req->input('classify'), $item_classfily) && in_array($req->input('shop_id'), $shop_id))
-            {
-                foreach($cart_data as $key => $value)
-                {
-                    if($cart_data[$key]['item_id'] == $req->input('id'))
-                    {
-                        $cart_data[$key]['quantity'] = $cart_data[$key]['quantity'] + $req->input('quantity');
-                    }
-                }
-            }
-            else
-            {
-                $item_arr = array('Product_name' => $req->input('pro_name'),'price' => $req->input('price'),'Promotional_price' => $req->input('promotional_price'),'shop_id' => $req->input('shop_id'), 'item_id' => $req->input('id'),'Classify' => $req->input('classify'),'quantity' => (int)$req->input('quantity'));
-                $cart_data[] = $item_arr;
-            }
-        }
-        $item_data = json_encode($cart_data, JSON_UNESCAPED_UNICODE);
-        $cart = json_decode($item_data);
-        $response = new Response('<b> cookies else x2</b>');
-        $response->withCookie(cookie('order',$item_data, 60));
-        return $response;
-    }
-
-    
-    
-    public function getCookie(Request $request)
-    { 
-        $string = Cookie::get('order');
-        $string = stripslashes($string);    // string is stored with escape double quotes 	
-        $string = json_decode($string, true);
-        dd($string);
-        
-    }
-
-    public function deleteCookie()
-    {
-        $response = new Response('<b> cookies</b>');
-        setcookie('order',null, 50);
-        return $response;
-
-    }
 }

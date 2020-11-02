@@ -145,29 +145,31 @@ Route::get('get-cookies',[
     'as' => 'get-cookies',
     'uses' => 'Customer\DetailProController@getCookie'
 ]);
+//confirm product
+Route::post('confirm-product',[
+    'as' => 'confirm-product',
+    'uses' => 'Customer\OrderController@confirmProduct'
+]);
 //order confirm (Xác nhận đơn hàng)
 Route::post('order-confirmation',[
         'as' => 'order-confirmation',
         'uses' => 'Customer\OrderController@OderProducts'
 ]);
-Route::get('view-cart',[
-    'as' => 'view-cart',
-    'uses' => 'Customer\OrderController@ViewCart'
+//add project to shopping cart
+Route::post('add-shopping-cart/{slug}',[
+    'as' => 'add-shopping-cart',
+    'uses' => 'Customer\DetailProController@addShoppingCart'
 ]);
-//set cookies order
-Route::post('buy-pro',[
-    'as' => 'buy-pro',
-    'uses' => 'Customer\OrderController@SetCookiesOrder'
+//get shopping cart
+Route::post('cart/update',[
+    'as' => 'cart/update',
+    'uses' => 'Customer\OrderController@updateCart'
 ]);
-Route::get('get-cookies-pro',[
-    'as' => 'get-cookies-pro',
-    'uses' => 'Customer\OrderController@getCookie'
+//get voucher 
+Route::get('get-voucher', [
+    'as' => 'get-voucher',
+    'uses' => 'Customer\OrderController@getVoucher'
 ]);
-Route::get('delete-cookies-pro',[
-    'as' => 'delete-cookies-pro',
-    'uses' => 'Customer\OrderController@deleteCookie'
-]);
-
 //get same product of shop
 Route::get('same-products-shop/{slug}',[
     'as' => 'same-products-shop',
@@ -215,9 +217,54 @@ Route::get('notify', [
     'as' => 'notify',
     'uses' => 'Customer\NotifyController@getNotify'
 ]);
-Route::get('notify', [
-    'as' => 'notify',
+Route::get('my-order', [
+    'as' => 'my-order',
     'uses' => 'Customer\NotifyController@getNotifyofOrder'
+]);
+//complete-packing
+Route::post('complete-packing/{id}', [
+    'as' => 'complete-packing',
+    'uses' => 'Customer\NotifyController@completepacking'
+]);
+//package -received	
+Route::post('package-received/{id}', [
+    'as' => 'package-received',
+    'uses' => 'Customer\NotifyController@packagereceived'
+]);
+//send order depot
+Route::post('send-order-to-depot/{id}', [
+    'as' => 'send-order-to-depot',
+    'uses' => 'Customer\NotifyController@SendDepot'
+]);
+//being_transported	order
+Route::post('being-transport/{id}', [
+    'as' => 'being-transport',
+    'uses' => 'Customer\NotifyController@Transport'
+]);
+//shipway order
+Route::post('shipway/{id}', [
+    'as' => 'shipway',
+    'uses' => 'Customer\NotifyController@ShipWay'
+]);
+//change depot
+Route::post('change-depot/{id}', [
+    'as' => 'change-depot',
+    'uses' => 'Customer\NotifyController@ChangeDepot'
+]);
+//complete_shipping order
+Route::post('complete-shipping/{id}', [
+    'as' => 'complete-shipping',
+    'uses' => 'Customer\NotifyController@CompleteShip'
+]);
+//get my order
+Route::get('history-order', [
+    'as' => 'history-order',
+    'uses' => 'Customer\NotifyController@historyPurchase'
+]);
+//get my order
+Route::get('detail-history-order/{id}', [
+    'as' => 'detail-history-order',
+    'uses' => 'Customer\NotifyController@DetailHistoryPurchase'
 ]);
 //search 
 Route::get('search', [
@@ -292,5 +339,28 @@ Route::post('delete-banner/{id}',[
     'as'=>'delete-banner',
     'uses'=> 'BannerController@destroy'
 ]);
-
-
+//add Advisory(trợ giúp)
+Route::post('add-advisory',[
+    'as'=>'add-advisory',
+    'uses'=> 'SupportController@addAdvisory'
+]);
+//update Advisory
+Route::post('update-advisory/{id}',[
+    'as'=>'update-advisory',
+    'uses'=> 'SupportController@updateAdvisory'
+]);
+//delete Advisory
+Route::post('delete-advisory/{id}',[
+    'as'=>'delete-advisory',
+    'uses'=> 'SupportController@deleteAdvisory'
+]);
+//get Advisory
+Route::get('get-topic',[
+    'as'=>'get-topic',
+    'uses'=> 'SupportController@getallAdvisory'
+]);
+//search Advisory
+Route::get('search-advisory',[
+    'as'=>'get-topic',
+    'uses'=> 'SupportController@searchAdvisory'
+]);

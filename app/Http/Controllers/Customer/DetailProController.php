@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use App\Product;
 use App\Custommer;
 use App\TypeShipping;
+use App\ShoppingCart;
 use Cookie;
 
 
@@ -102,16 +103,122 @@ class DetailProController extends Controller
         }
     }
 
-    public function getCookie(Request $request)
-    { 
-        $cookies = Cookie::get('name');
-        $arr = explode(',',$cookies);
-        $arr_pro = [];
-        for($i = 0 ; $i < count($arr); $i++)
+    public function addShoppingCart(Request $req, $slug)
+    {
+        $status = auth('api')->check();
+        if(!$status)
         {
-            $products = Product::where('slug', $arr[$i])->first();
-            array_push($arr_pro, $products);
+            return  response()->json([
+
+                'status' => false,
+
+                'code' => 401,
+
+                'message' => trans('message.unauthenticate')
+
+          ], 401);
         }
-        dd($arr_pro);
+        $userID = auth('api')->user()->id;
+        if(!$userID)
+        {
+            return  response()->json([
+
+                'status' => false,
+
+                'code' => 401,
+
+                'message' => trans('message.unauthenticate')
+
+          ], 401);
+        }
+        else
+        {
+            $product = Product::where('slug', $slug)->first();
+            if($product == null)
+            {
+                return  response()->json([
+
+                    'status' => false,
+    
+                    'code' => 200,
+    
+                    'message' => trans('message.product_not_found')
+    
+                ], 200);
+            }
+            $lst = $req->all();
+            $shopping_cart = new ShoppingCart;
+            $shopping_cart->user_id = $userID;
+            $shopping_cart->product_id = $product->id;
+            $shopping_cart->product_name = $product->name;
+            $shopping_cart->product_slug = $product->slug;
+            $shopping_cart->image = $product->thumb;
+            $shopping_cart->price = $product->price;
+            $shopping_cart->quantity = $lst['quantity'];
+            $shopping_cart->categories = $lst['categories'];
+            $shopping_cart->shop_id = $product->shop_id;
+            if($product->promotional_price)
+            {
+                $shopping_cart->promotion_price = $product->promotional_price;
+                $shopping_cart->total_price = $product->promotional_price*$lst['quantity'];
+            }
+            else
+            {
+                $shopping_cart->total_price = $product->price*$lst['quantity'];
+            }
+            $cart = ShoppingCart::where('user_id', $userID)->where('categories', 'LIKE', $lst['categories'])->where('product_id', $product->id)->first();
+            $data = null;
+            if(!$cart)
+            {
+                $key = $shopping_cart->save();
+                $data = $shopping_cart;
+            }
+            else
+            {
+                $data = ShoppingCart::find($cart->id);
+                if($cart->promotion_price != null)
+                {
+                    $cart->quantity = $lst['quantity'] + $cart->quantity;
+                    $data->quantity = $cart->quantity;
+                    $data->total_price = $cart->promotion_price * $data->quantity;
+                }
+                else
+                {
+                    $cart->quantity = $lst['quantity'] + $cart->quantity;
+                    $data->quantity = $cart->quantity;
+                    $data->total_price = $cart->price * $cart->quantity;
+                }
+                $key = $data->save();
+                $data = $data;
+            }
+            
+            if($key)
+            {
+                return  response()->json([
+
+                    'status' => true,
+    
+                    'code' => 200,
+    
+                    'message' => trans('message.add_cart_success'),
+                    
+                    'data' => $data
+    
+                ], 200);
+            }
+            else
+            {
+                return  response()->json([
+
+                    'status' => false,
+    
+                    'code' => 400,
+    
+                    'message' => trans('message.add_cart_unsuccess')
+    
+                ], 400);
+            }
+        }
+        
     }
 }
