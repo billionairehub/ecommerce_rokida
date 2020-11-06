@@ -63,4 +63,9 @@ class Constants
     const DISCOUNT_BY_AMOUNT = 2;
     const SPECIAL_SALE = 3;
     const TOP_PRODUCT = 5;
+
+    const LIST_ALL_PRODUCT = 'all';
+    const LIST_SOLDOUT = 'soldout';
+    const BANDED_PRODUCT = 'action';
+    const HISTORY_BANDED_PRODUCT = 'history';
 }

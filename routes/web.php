@@ -37,32 +37,32 @@ Route::group(['prefix' => 'portal'], function () {
             'uses'=> 'Seller\UnlistedController@updateShow'
         ]);
         Route::group(['prefix' => 'list'], function () {
-            Route::get('all',[
-                'as'=>'all',
-                'uses'=> 'Seller\ProductController@index'
-            ]);
-            Route::get('active',[
-                'as'=>'active',
-                'uses'=> 'Seller\ProductController@index'
-            ]);
-            Route::get('soldout',[
-                'as'=>'soldout',
-                'uses'=> 'Seller\ProductController@soldout'
-            ]);
+            // Route::get('all',[
+            //     'as'=>'all',
+            //     'uses'=> 'Seller\ProductController@index'
+            // ]);
+            // Route::get('active',[
+            //     'as'=>'active',
+            //     'uses'=> 'Seller\ProductController@index'
+            // ]);
+            // Route::get('soldout',[
+            //     'as'=>'soldout',
+            //     'uses'=> 'Seller\ProductController@soldout'
+            // ]);
             Route::get('unlisted',[
                 'as'=>'unlisted',
                 'uses'=> 'Seller\UnlistedController@index'
             ]);
-            Route::group(['prefix' => 'banded'], function () {
-                Route::get('action',[
-                    'as'=>'action',
-                    'uses'=> 'Seller\ProductBandedController@action'
-                ]);
-                Route::get('history',[
-                    'as'=>'history',
-                    'uses'=> 'Seller\ProductBandedController@index'
-                ]);
-            });
+            // Route::group(['prefix' => 'banded'], function () {
+            //     Route::get('action',[
+            //         'as'=>'action',
+            //         'uses'=> 'Seller\ProductBandedController@action'
+            //     ]);
+            //     Route::get('history',[
+            //         'as'=>'history',
+            //         'uses'=> 'Seller\ProductBandedController@index'
+            //     ]);
+            // });
         });
     });
     Route::group(['prefix' => 'shipping'], function () {
@@ -566,6 +566,18 @@ Route::group(['prefix' => 'user'], function () {
             'uses' => 'UserController@updateProfile'
         ]);
     });
+    Route::post('change-phone', [
+        'as' => 'change-phone',
+        'uses' => 'UserController@changePhone'
+    ]);
+    Route::post('change-mail', [
+        'as' => 'change-mail',
+        'uses' => 'UserController@changeMail'
+    ]);
+    Route::post('change-password', [
+        'as' => 'change-password',
+        'uses' => 'UserController@changePassword'
+    ]);
     Route::post('register', [
         'as' => 'register',
         'uses' => 'UserController@store'

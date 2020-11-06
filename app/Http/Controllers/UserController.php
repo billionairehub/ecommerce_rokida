@@ -132,4 +132,43 @@ class UserController extends Controller
             return $user;
         }
     }
+    
+    public function changePhone (Request $request) {
+        $lst = $request->all();
+        $userId = 1;
+        $user = Users::changePhone($userId, $lst);
+        if (gettype($user) == 'string') {
+            return trans($user);
+        } else if ($user == false) {
+            return trans('error.server_error');
+        } else {
+            return $user;
+        }
+    }
+    
+    public function changeMail (Request $request) {
+        $lst = $request->all();
+        $userId = 1;
+        $user = Users::changeMail($userId, $lst);
+        if (gettype($user) == 'string') {
+            return trans($user);
+        } else if ($user == false) {
+            return trans('error.server_error');
+        } else {
+            return $user;
+        }
+    }
+    
+    public function changePassword (Request $request) {
+        $lst = $request->all();
+        $userId = 1;
+        $user = Users::changePassword($userId, $lst);
+        if (gettype($user) == 'string') {
+            return trans($user);
+        } else if ($user == false) {
+            return trans('error.server_error');
+        } else {
+            return $user;
+        }
+    }
 }

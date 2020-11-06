@@ -31,4 +31,8 @@ return [
     'not_found_hot_save' => 'Không tìm thấy danh sách sản phẩm bán chạy',
     'user_not_exists' => 'Người dùng không tồn tại',
     'server_error' => 'Đã xảy ra lỗi',
+    'phone_is_exists' => 'Số điện thoại đã được đăng kí',
+    'email_is_exists' => 'Địa chỉ email đã được đăng kí',
+    'password_incorect' => 'Mật khẩu không đúng',
+    'newpassword_notsame' => 'Mật khẩu mới không giống nhau',
 ];

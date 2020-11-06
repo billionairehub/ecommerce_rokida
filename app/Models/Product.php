@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Product extends Model
 {
     use SoftDeletes;
-    public $table = 'rokida_products';
+    protected $table = 'rokida_products';
 }
