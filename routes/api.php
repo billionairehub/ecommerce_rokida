@@ -27,5 +27,9 @@ Route::group(['prefix' => 'portal'], function () {
             'as' => 'banded_product',
             'uses' => 'Backend\Seller\ProductBandedController@index',
         ]);
+        Route::get('show-hide-product/{id}',[
+            'as'=>'show-hide-product',
+            'uses'=> 'Backend\Seller\ProductController@showHideProduct'
+        ]);
     });
 });

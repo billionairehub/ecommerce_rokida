@@ -49,10 +49,10 @@ Route::group(['prefix' => 'portal'], function () {
             //     'as'=>'soldout',
             //     'uses'=> 'Seller\ProductController@soldout'
             // ]);
-            Route::get('unlisted',[
-                'as'=>'unlisted',
-                'uses'=> 'Seller\UnlistedController@index'
-            ]);
+            // Route::get('unlisted',[
+            //     'as'=>'unlisted',
+            //     'uses'=> 'Seller\UnlistedController@index'
+            // ]);
             // Route::group(['prefix' => 'banded'], function () {
             //     Route::get('action',[
             //         'as'=>'action',

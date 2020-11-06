@@ -64,8 +64,10 @@ class Constants
     const SPECIAL_SALE = 3;
     const TOP_PRODUCT = 5;
 
+    // Endpoint General
     const LIST_ALL_PRODUCT = 'all';
     const LIST_SOLDOUT = 'soldout';
+    const PRODUCT_UNLISTED = 'unlisted';
     const BANDED_PRODUCT = 'action';
     const HISTORY_BANDED_PRODUCT = 'history';
 }
