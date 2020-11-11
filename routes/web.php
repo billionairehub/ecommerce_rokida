@@ -16,26 +16,26 @@ Route::get('/', function () {
 });
 Route::group(['prefix' => 'portal'], function () {
     Route::group(['prefix' => 'product'], function () {
-        Route::post('add-product',[
-            'as'=>'add-product',
-            'uses'=> 'Seller\ProductController@store'
-        ]);
-        Route::get('delete-product/{id}',[
-            'as'=>'delete-product',
-            'uses'=> 'Seller\ProductController@destroy'
-        ]);
-        Route::post('update-product/{id}',[
-            'as'=>'update-product',
-            'uses'=> 'Seller\ProductController@update'
-        ]);
-        Route::get('hidden-product/{id}',[
-            'as'=>'hidden-product',
-            'uses'=> 'Seller\UnlistedController@updateHidden'
-        ]);
-        Route::get('show-product/{id}',[
-            'as'=>'show-product',
-            'uses'=> 'Seller\UnlistedController@updateShow'
-        ]);
+        // Route::get('delete-product/{id}',[
+        //     'as'=>'delete-product',
+        //     'uses'=> 'Seller\ProductController@destroy'
+        // ]);
+        // Route::post('add-product',[
+        //     'as'=>'add-product',
+        //     'uses'=> 'Seller\ProductController@store'
+        // ]);
+        // Route::post('update-product/{id}',[
+        //     'as'=>'update-product',
+        //     'uses'=> 'Seller\ProductController@update'
+        // ]);
+        // Route::get('hidden-product/{id}',[
+        //     'as'=>'hidden-product',
+        //     'uses'=> 'Seller\UnlistedController@updateHidden'
+        // ]);
+        // Route::get('show-product/{id}',[
+        //     'as'=>'show-product',
+        //     'uses'=> 'Seller\UnlistedController@updateShow'
+        // ]);
         Route::group(['prefix' => 'list'], function () {
             // Route::get('all',[
             //     'as'=>'all',
@@ -66,114 +66,114 @@ Route::group(['prefix' => 'portal'], function () {
         });
     });
     Route::group(['prefix' => 'shipping'], function () {
-        Route::post('add-shipping',[
-            'as'=>'add-shipping',
-            'uses'=> 'Seller\ShippingController@store'
-        ]);
-        Route::get('delete-shipping',[
-            'as'=>'delete-shipping',
-            'uses'=> 'Seller\ShippingController@destroy'
-        ]);
-        Route::group(['prefix' => 'list'], function () {
-            Route::get('all',[
-                'as'=>'all',
-                'uses'=> 'Seller\ShippingController@index'
-            ]);
-        });
+        // Route::post('add-shipping',[
+        //     'as'=>'add-shipping',
+        //     'uses'=> 'Seller\ShippingController@store'
+        // ]);
+        // Route::get('delete-shipping',[
+        //     'as'=>'delete-shipping',
+        //     'uses'=> 'Seller\ShippingController@destroy'
+        // ]);
+        // Route::group(['prefix' => 'list'], function () {
+        //     Route::get('all',[
+        //         'as'=>'all',
+        //         'uses'=> 'Seller\ShippingController@index'
+        //     ]);
+        // });
     });
     Route::group(['prefix' => 'promotion'], function () {
-        Route::group(['prefix' => 'list'], function () {
-            Route::get('all',[
-                'as'=>'all',
-                'uses'=> 'Seller\PromotionController@index'
-            ]);
-        });
-        Route::post('add-promotion',[
-            'as'=>'add-promotion',
-            'uses'=> 'Seller\PromotionController@store'
-        ]);
-        Route::get('delete-promotion/{id}',[
-            'as'=>'delete-promotion',
-            'uses'=> 'Seller\PromotionController@destroy'
-        ]);
-        Route::get('delete',[
-            'as'=>'delete',
-            'uses'=> 'Seller\PromotionController@delete'
-        ]);
+        // Route::group(['prefix' => 'list'], function () {
+        //     Route::get('all',[
+        //         'as'=>'all',
+        //         'uses'=> 'Seller\PromotionController@index'
+        //     ]);
+        // });
+        // Route::post('add-promotion',[
+        //     'as'=>'add-promotion',
+        //     'uses'=> 'Seller\PromotionController@store'
+        // ]);
+        // Route::get('delete-promotion/{id}',[
+        //     'as'=>'delete-promotion',
+        //     'uses'=> 'Seller\PromotionController@destroy'
+        // ]);
+        // Route::get('delete',[
+        //     'as'=>'delete',
+        //     'uses'=> 'Seller\PromotionController@delete'
+        // ]);
     });
     Route::group(['prefix' => 'classify'], function () {
-        Route::group(['prefix' => 'list'], function () {
-            Route::get('all',[
-                'as'=>'all',
-                'uses'=> 'Seller\CLassifyController@index'
-            ]);
-        });
-        Route::post('add-classify',[
-            'as'=>'add-classify',
-            'uses'=> 'Seller\CLassifyController@store'
-        ]);
-        Route::post('edit-classify/{id}',[
-            'as'=>'edit-classify',
-            'uses'=> 'Seller\CLassifyController@update'
-        ]);
-        Route::get('delete-classify/{id}',[
-            'as'=>'delete-classify',
-            'uses'=> 'Seller\CLassifyController@destroy'
-        ]);
-        Route::get('delete',[
-            'as'=>'delete',
-            'uses'=> 'Seller\CLassifyController@delete'
-        ]);
+        // Route::group(['prefix' => 'list'], function () {
+        //     Route::get('all',[
+        //         'as'=>'all',
+        //         'uses'=> 'Seller\CLassifyController@index'
+        //     ]);
+        // });
+        // Route::post('add-classify',[
+        //     'as'=>'add-classify',
+        //     'uses'=> 'Seller\CLassifyController@store'
+        // ]);
+        // Route::post('edit-classify/{id}',[
+        //     'as'=>'edit-classify',
+        //     'uses'=> 'Seller\CLassifyController@update'
+        // ]);
+        // Route::get('delete-classify/{id}',[
+        //     'as'=>'delete-classify',
+        //     'uses'=> 'Seller\CLassifyController@destroy'
+        // ]);
+        // Route::get('delete',[
+        //     'as'=>'delete',
+        //     'uses'=> 'Seller\CLassifyController@delete'
+        // ]);
     });
     Route::group(['prefix' => 'sale'], function () {
-        Route::get('all', [
-            'as' => 'all',
-            'uses' => 'Seller\OrderController@index'
-        ]);
-        Route::get('returnlist', [
-            'as' => 'returnlist',
-            'uses' => 'Seller\OrderController@return'
-        ]);
+        // Route::get('all', [
+        //     'as' => 'all',
+        //     'uses' => 'Seller\OrderController@index'
+        // ]);
+        // Route::get('returnlist', [
+        //     'as' => 'returnlist',
+        //     'uses' => 'Seller\OrderController@return'
+        // ]);
     });
     Route::group(['prefix' => 'finance'], function () {
-        Route::group(['prefix' => 'wallet'], function () {
-            Route::group(['prefix' => 'cards'], function () {
-                Route::get('/', [
-                    'as' => '/',
-                    'uses' => 'Seller\BankAccountController@index'
-                ]);
-                Route::get('card/{id}', [
-                    'as' => 'card',
-                    'uses' => 'Seller\BankAccountController@show'
-                ]);
-                Route::post('add-card', [
-                    'as' => 'add-card',
-                    'uses' => 'Seller\BankAccountController@store'
-                ]);
-                Route::get('delete-card/{id}', [
-                    'as' => 'delete-card',
-                    'uses' => 'Seller\BankAccountController@destroy'
-                ]);
-                Route::get('change-default/{id}', [
-                    'as' => 'change-default',
-                    'uses' => 'Seller\BankAccountController@changeDefault'
-                ]);
-            });
-        });
-        Route::group(['prefix' => 'income'], function () {
-            Route::get('/', [
-                'as' => '/',
-                'uses' => 'Seller\RevenueController@index'
-            ]);
-            Route::get('will-pay', [
-                'as' => 'will-pay',
-                'uses' => 'Seller\RevenueController@willpay'
-            ]);
-            Route::get('paid', [
-                'as' => 'will-pay',
-                'uses' => 'Seller\RevenueController@paid'
-            ]);
-        });
+        // Route::group(['prefix' => 'wallet'], function () {
+        //     Route::group(['prefix' => 'cards'], function () {
+        //         Route::get('/', [
+        //             'as' => '/',
+        //             'uses' => 'Seller\BankAccountController@index'
+        //         ]);
+        //         Route::get('card/{id}', [
+        //             'as' => 'card',
+        //             'uses' => 'Seller\BankAccountController@show'
+        //         ]);
+        //         Route::post('add-card', [
+        //             'as' => 'add-card',
+        //             'uses' => 'Seller\BankAccountController@store'
+        //         ]);
+        //         Route::get('delete-card/{id}', [
+        //             'as' => 'delete-card',
+        //             'uses' => 'Seller\BankAccountController@destroy'
+        //         ]);
+        //         Route::get('change-default/{id}', [
+        //             'as' => 'change-default',
+        //             'uses' => 'Seller\BankAccountController@changeDefault'
+        //         ]);
+        //     });
+        // });
+        // Route::group(['prefix' => 'income'], function () {
+        //     Route::get('/', [
+        //         'as' => '/',
+        //         'uses' => 'Seller\RevenueController@index'
+        //     ]);
+        //     Route::get('will-pay', [
+        //         'as' => 'will-pay',
+        //         'uses' => 'Seller\RevenueController@willpay'
+        //     ]);
+        //     Route::get('paid', [
+        //         'as' => 'will-pay',
+        //         'uses' => 'Seller\RevenueController@paid'
+        //     ]);
+        // });
     });
     Route::group(['prefix' => 'settings'], function () {
         Route::group(['prefix' => 'shop'], function () {

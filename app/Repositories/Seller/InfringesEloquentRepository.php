@@ -1,7 +1,7 @@
 <?php
-namespace App\Repositories;
+namespace App\Repositories\Seller;
 
-use App\Contracts\Infringes as ContractsInfringe;
+use App\Contracts\Seller\Infringes as ContractsInfringe;
 
 use Constants;
 

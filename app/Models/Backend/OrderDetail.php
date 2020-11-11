@@ -5,8 +5,8 @@ namespace App\Models\Backend;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Product extends Model
+class OrderDetail extends Model
 {
     use SoftDeletes;
-    protected $table = 'rokida_products';
+    public $table = 'rokida_order_details';
 }

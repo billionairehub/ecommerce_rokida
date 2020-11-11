@@ -7,6 +7,7 @@ return [
     'passed_argument_is_valid' => 'Đối số truyền vào không hợp lệ',
     'delete_fail' => 'Xóa không thành công',
     'not_found_shipping' => 'Không tìm thấy phương thức vận chuyển',
+    'not_found_promotion' => 'Không tìm thấy khuyến mãi',
     'not_found_classify' => 'Không tìm thấy phân loại cho sản phẩm này',
     'classify_same' => 'Thêm phân loại không thành công, phân loại bị trùng',
     'update_classify_fail' => 'Chỉnh sửa phân loại thất bại',

@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Backend\Seller;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Repositories\ProductEloquentRepository as ProductRepo;
+use App\Repositories\Seller\ProductEloquentRepository as ProductRepo;
 
 use Constants;
+use Validators;
 
 class ProductController extends Controller
 {
@@ -19,8 +20,6 @@ class ProductController extends Controller
     {
         try {
             $lst = $_GET;
-            $user_id = 1;
-            $lst['user_id'] = $user_id;
             $product = new ProductRepo();
             if ($param == Constants::LIST_ALL_PRODUCT) {
                 $products = $product->getMyProduct($lst);
@@ -29,9 +28,23 @@ class ProductController extends Controller
             } else if ($param == Constants::PRODUCT_UNLISTED) {
                 $products = $product->getProductUnlisted($lst);
             }
-            return $products;
+            return response()->json(
+                [
+                    'success' => true,
+                    'code' => 200,
+                    'data' => $products
+                ],
+                200
+            );
         }  catch(\Exception $e) {
-            abort(400);
+            return response()->json(
+                [
+                    'success' => false,
+                    'code' => 404,
+                    'data' => null
+                ],
+                404
+            );
         }
     }
 
@@ -42,12 +55,26 @@ class ProductController extends Controller
      */
     public function showHideProduct ($id) {
         try {
-            $userId = 1;
             $showHide = new ProductRepo();
-            $success = $showHide->showHideProduct($userId, $id);
+            $success = $showHide->showHideProduct($id);
+            return response()->json(
+                [
+                    'success' => true,
+                    'code' => 200,
+                    'data' => $products
+                ],
+                200
+            );
             return $success;
         }  catch(\Exception $e) {
-            abort(400);
+            return response()->json(
+                [
+                    'success' => false,
+                    'code' => 404,
+                    'data' => null
+                ],
+                404
+            );
         }
     }
 
@@ -69,7 +96,40 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $lst = $request->all();
+            $keys = $request->keys();
+            $valid = true;
+            if ((Validators::requiredFieldProduct($lst) === false) || (Validators::requiredFieldPromotion($lst) === 0) || (Validators::requiredFieldClassify($lst) == 0) || (Validators::requiredFieldShippingType($lst) === false)) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'code' => 404,
+                        'data' => null
+                    ],
+                    404
+                );
+            }
+            $addProduct = new ProductRepo();
+            $product = $addProduct->addProduct($keys, $lst);
+            return response()->json(
+                [
+                    'success' => true,
+                    'code' => 200,
+                    'data' => $product
+                ],
+                200
+            );
+        }  catch(\Exception $e) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'code' => 404,
+                    'data' => null
+                ],
+                404
+            );
+        }
     }
 
     /**
@@ -103,7 +163,39 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $lst = $request->all();
+            $keys = $request->keys();
+            $updateProduct = new ProductRepo();
+            $successUpdate = $updateProduct->updateProduct($keys, $lst, $id);
+            if ($successUpdate == false) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'code' => 404,
+                        'data' => null
+                    ],
+                    404
+                );
+            }
+            return response()->json(
+                [
+                    'success'   => true,
+                    'code'      => 200,
+                    'data'      => $successUpdate
+                ],
+                200
+            );
+        }  catch(\Exception $e) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'code' => 404,
+                    'data' => null
+                ],
+                404
+            );
+        }
     }
 
     /**
@@ -114,6 +206,26 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $deleteProduct = new ProductRepo();
+            $delete = $deleteProduct->deleteProduct($id);
+            return response()->json(
+                [
+                    'success'   => true,
+                    'code'      => 200,
+                    'data'      => $delete
+                ],
+                200
+            );
+        } catch(\Exception $e) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'code' => 404,
+                    'data' => null
+                ],
+                404
+            );
+        }
     }
 }

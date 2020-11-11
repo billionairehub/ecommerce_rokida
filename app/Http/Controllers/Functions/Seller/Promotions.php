@@ -48,8 +48,8 @@ class Promotions {
     }
   }
 
-  public static function delete($id) {
-    $promotionExists = Promotion::where('product_id', '=', $id)->get();
+  public static function delete($product) {
+    $promotionExists = Promotion::where('product_id', '=', $product)->get();
     if (count($promotionExists) == 0) {
       return false;
     } else {

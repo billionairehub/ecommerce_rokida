@@ -70,4 +70,18 @@ class Constants
     const PRODUCT_UNLISTED = 'unlisted';
     const BANDED_PRODUCT = 'action';
     const HISTORY_BANDED_PRODUCT = 'history';
+
+    // https://banhang.shopee.vn/portal/sale/
+    const UNPAID = 'unpaid';
+    const TOSHIP = 'toship';
+    const SHIPPING = 'shipping';
+    const COMPLETED = 'completed';
+    const CANCELLED = 'cancelled';
+    const RETURNLIST = 'returnlist';
+    // https://banhang.shopee.vn/portal/sale/returnlist/
+    const REFUND_UNPROCESSED = 'refund_unprocessed';
+    const REFUND_PROCESSED = 'refund_processed';
+    // https://banhang.shopee.vn/portal/shipment?type=toship
+    const TO_PROCESS = 'to_process';
+    const PROCESS = 'process';
 }

@@ -2,36 +2,31 @@
 
 namespace App\Http\Controllers\Backend\Seller;
 
-use Constants;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Repositories\Seller\InfringesEloquentRepository as InfringeRepo;
 
-class ProductBandedController extends Controller
+use App\Repositories\Seller\TypeShippingsEloquentRepository as TypeShippingsRepo;
+
+use Constants;
+
+class ShippingController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($param)
+    public function index()
     {
         try {
             $lst = $_GET;
-            $user_id = 1;
-            $lst['user_id'] = $user_id;
-            $infringe = new InfringeRepo();
-            if ($param == Constants::BANDED_PRODUCT) {
-                $infringes = $infringe->getListAll($lst);
-            } else if ($param == Constants::HISTORY_BANDED_PRODUCT) {
-                $infringes = $infringe->getListHistory($lst);
-            }
+            $typeShipping = new TypeShippingsRepo();
+            $shipping = $typeShipping->showAll($lst);
             return response()->json(
                 [
                     'success'   => true,
                     'code'      => 200,
-                    'data'      => $infringe
+                    'data'      => $shipping
                 ],
                 200
             );
@@ -46,6 +41,7 @@ class ProductBandedController extends Controller
             );
         }
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -64,7 +60,30 @@ class ProductBandedController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $lst = $request->all();
+            $keys = $request->keys();
+            $productId = $_GET;
+            $typeShipping = new TypeShippingsRepo();
+            $result = $typeShipping->addShippingChannels($productId['id'], $keys, $lst);
+            return response()->json(
+                [
+                    'success'   => true,
+                    'code'      => 200,
+                    'data'      => $result
+                ],
+                200
+            );
+        } catch(\Exception $e) {
+            return response()->json(
+                [
+                    'success'   => false,
+                    'code'      => 404,
+                    'data'      => null
+                ],
+                404
+            );
+        }
     }
 
     /**
@@ -107,8 +126,29 @@ class ProductBandedController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy()
     {
-        //
+        try {
+            $lst = $_GET;
+            $typeShipping = new TypeShippingsRepo();
+            $result = $typeShipping->deleteShipping ($lst);
+            return response()->json(
+                [
+                    'success'   => true,
+                    'code'      => 200,
+                    'data'      => $result
+                ],
+                200
+            );
+        } catch(\Exception $e) {
+            return response()->json(
+                [
+                    'success'   => false,
+                    'code'      => 404,
+                    'data'      => null
+                ],
+                404
+            );
+        }
     }
 }

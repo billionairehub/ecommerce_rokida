@@ -2,50 +2,44 @@
 
 namespace App\Http\Controllers\Backend\Seller;
 
-use Constants;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Repositories\Seller\InfringesEloquentRepository as InfringeRepo;
 
-class ProductBandedController extends Controller
+use App\Repositories\Seller\SaleEloquentRepository as SaleRepo;
+
+class SaleController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($param)
+    public function index()
     {
-        try {
+        // try{
             $lst = $_GET;
-            $user_id = 1;
-            $lst['user_id'] = $user_id;
-            $infringe = new InfringeRepo();
-            if ($param == Constants::BANDED_PRODUCT) {
-                $infringes = $infringe->getListAll($lst);
-            } else if ($param == Constants::HISTORY_BANDED_PRODUCT) {
-                $infringes = $infringe->getListHistory($lst);
-            }
+            $sale = new SaleRepo();
+            $sale = $sale->getListAll($lst);
             return response()->json(
                 [
                     'success'   => true,
                     'code'      => 200,
-                    'data'      => $infringe
+                    'data'      => $sale
                 ],
                 200
             );
-        } catch(\Exception $e) {
-            return response()->json(
-                [
-                    'success'   => false,
-                    'code'      => 404,
-                    'data'      => null
-                ],
-                404
-            );
-        }
+        // } catch(\Exception $e) {
+        //     return response()->json(
+        //         [
+        //             'success'   => false,
+        //             'code'      => 404,
+        //             'data'      => null
+        //         ],
+        //         404
+        //     );
+        // }
     }
+
     /**
      * Show the form for creating a new resource.
      *

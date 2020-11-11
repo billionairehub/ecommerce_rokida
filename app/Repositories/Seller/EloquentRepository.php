@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Seller;
 
 abstract class EloquentRepository
 {
