@@ -170,6 +170,11 @@ Route::get('get-voucher', [
     'as' => 'get-voucher',
     'uses' => 'Customer\OrderController@getVoucher'
 ]);
+//get all voucher
+Route::get('voucher-wallet', [
+    'as' => 'voucher-wallet',
+    'uses' => 'Customer\OrderController@Voucherwallet'
+]);
 //get same product of shop
 Route::get('same-products-shop/{slug}',[
     'as' => 'same-products-shop',
@@ -185,10 +190,10 @@ Route::get('products-just-for-you',[
     'as' => 'products-just-for-you',
     'uses' => 'Customer\OrderController@ProductsJustForYou'
 ]);
-//get salling product 
+//get selling product 
 Route::get('selling-products',[
     'as' => 'selling-products',
-    'uses' => 'Customer\OrderController@SaleProducts'
+    'uses' => 'Customer\OrderController@SellingProducts'
 ]);
 //get reviews product 
 Route::get('reviews/{slug}',[
@@ -199,7 +204,7 @@ Route::get('reviews/{slug}',[
 //get all categories parent
 Route::get('get-all-categories',[
     'as' => 'get-all-categories',
-    'uses' => 'Customer\GetCategoryController@index'
+    'uses' => 'Customer\GetCategoryController@ProductCategories'
 ]);
 //get deail categories and fillter location, shipping unit, price, status products
 Route::get('get-detail-categories/{slug}',[
@@ -266,6 +271,16 @@ Route::get('detail-history-order/{id}', [
     'as' => 'detail-history-order',
     'uses' => 'Customer\NotifyController@DetailHistoryPurchase'
 ]);
+//Cancel order
+Route::get('cancel-order/{id}', [
+    'as' => 'cancel-order',
+    'uses' => 'Customer\NotifyController@CancelOrder'
+]);
+//Received order(Đã nhận hàng)
+Route::get('received-order/{id}', [
+    'as' => 'received-order',
+    'uses' => 'Customer\OrderController@Receivedorder'
+]);
 //search 
 Route::get('search', [
     'as' => 'search',
@@ -297,7 +312,6 @@ Route::post('delete-rate/{id}', [
     'uses' => 'Customer\RatingController@DeleteRate'
 ]);
 
-
 //add-category
 Route::post('add-category', [
     'as' => 'add-category',
@@ -313,12 +327,11 @@ Route::post('delete-category/{id}', [
     'as' => 'delete-category',
     'uses' => 'CategoriesController@destroy'
 ]);
-//get chill category
-Route::get('get-chill-category', [
-    'as' => 'get-chill-category',
-    'uses' => 'Customer\GetCategoryController@getChillCategory'
+//get notify user
+Route::get('get-notify-order', [
+    'as' => 'get-notify-order',
+    'uses' => 'Customer\OrderController@GetNotifyOrder'
 ]);
-
 //create banner
 Route::post('create-banner',[
     'as'=>'create-banner',
@@ -363,4 +376,9 @@ Route::get('get-topic',[
 Route::get('search-advisory',[
     'as'=>'get-topic',
     'uses'=> 'SupportController@searchAdvisory'
+]);
+
+Route::get('get-shopping-cart', [
+    'as' => 'get-shopping-cart',
+    'uses' => 'Customer\OrderController@getShoppingCart'
 ]);

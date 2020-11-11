@@ -68,12 +68,12 @@ return [
     'providers' => [
         'admins' => [
             'driver' => 'eloquent',
-            'model' => App\Custommer::class,
+            'model' => App\Models\Custommer::class,
         ],
 
         'customers' => [
             'driver' => 'eloquent',
-            'model' => App\Custommer::class,
+            'model' => App\Models\Custommer::class,
         ],
     ],
 

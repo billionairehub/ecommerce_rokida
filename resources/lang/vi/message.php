@@ -66,5 +66,7 @@ return [
     'get_shopping_cart_success' => 'Lấy giỏ hàng thành công',
     'update_success' => 'Cập nhật thành công',
     'confirm_success' => 'Xác nhận thành công',
-    'confirm_unsuccess' => 'Xác nhận thất bại'
+    'confirm_unsuccess' => 'Xác nhận thất bại',
+    'shopping_cart_not_exits' => 'Giỏ hàng không tồn tại!',
+    'cancel_sucess' => 'Hủy đơn hàng thành công!'
 ]; 
