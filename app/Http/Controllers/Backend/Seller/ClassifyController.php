@@ -114,7 +114,7 @@ class ClassifyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // try {
+        try {
             $lst = $request->all();
             $classify = new ClassifyRepo();
             $success = $classify->update($id, $lst);
@@ -126,16 +126,16 @@ class ClassifyController extends Controller
                 ],
                 200
             );
-        // } catch(\Exception $e) {
-        //     return response()->json(
-        //         [
-        //             'success'   => false,
-        //             'code'      => 404,
-        //             'data'      => null
-        //         ],
-        //         404
-        //     );
-        // }
+        } catch(\Exception $e) {
+            return response()->json(
+                [
+                    'success'   => false,
+                    'code'      => 404,
+                    'data'      => null
+                ],
+                404
+            );
+        }
     }
 
     /**

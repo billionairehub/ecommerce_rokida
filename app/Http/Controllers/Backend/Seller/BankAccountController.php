@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Backend\Seller;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Repositories\Seller\BankEloquentRepository as BankRepo;
+
 class BankAccountController extends Controller
 {
     /**
@@ -14,7 +16,28 @@ class BankAccountController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $lst = $_GET;
+            $bank = new BankRepo();
+            $success = $bank->getAllCards($lst);
+            return response()->json(
+                [
+                    'success'   => true,
+                    'code'      => 200,
+                    'data'      => $success
+                ],
+                200
+            );
+        } catch(\Exception $e) {
+            return response()->json(
+                [
+                    'success'   => false,
+                    'code'      => 404,
+                    'data'      => null
+                ],
+                404
+            );
+        }
     }
 
     /**
