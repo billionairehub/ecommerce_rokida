@@ -12,9 +12,10 @@ $factory->define(Product::class, function (Faker $faker) {
     return [
         // 'avatar' => 'https://via.placeholder.com/150',
         // 'email_verified_at' => now(),
+        'author'           => rand(1, 30),
         'sku'               => 'ASD123FGH543',
         'name'              => $faker->name,
-        'product_code'      => '',
+        // 'product_code'      => '',
         'shop_id'           => rand(1, 30),
         'price'             => rand(200000, 10000000),
         'promotion_price'   => rand(200000, 10000000),
@@ -25,7 +26,7 @@ $factory->define(Product::class, function (Faker $faker) {
         'categories'        => rand(1, 30),
         'amount'            => rand(50, 100),
         'location'          => 'Nguyen Huu Canh, Binh Thanh, Tp HCM',
-        // 'promotion_code'    => ''
+        'promotion_code'    => '',
         'trade_mark'        => 'Conversion',
         'made'              => 'Viet Nam',
         'user_manual'       => 'Huong dan su dung',
@@ -34,9 +35,10 @@ $factory->define(Product::class, function (Faker $faker) {
         'status'            => rand(0, 1),
         'book'              => rand(0, 1),
         'hidden'            => rand(0, 1),
-        'slug'              => $faker->name,
+        'slug'              => $faker->regexify('[A-Za-z0-9]{' . mt_rand(10, 20) . '}'),
         'infringe'          => rand(0, 1),
         'add_to_card'       => rand(1, 30)
+        // 'deleted_by'       => ''
     ];
 });
 

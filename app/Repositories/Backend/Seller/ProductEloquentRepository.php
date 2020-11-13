@@ -11,7 +11,7 @@ use App\Repositories\Seller\TypeShippingsEloquentRepository as TypeShippingRepo;
 
 use App\Models\Backend\Product;
 use App\Models\Backend\Category;
-use App\Models\Backend\User;
+use App\Models\User;
 use App\Models\Backend\Shop;
 use App\Models\Backend\Promotion;
 use App\Models\Backend\Classify;

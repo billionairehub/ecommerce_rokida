@@ -165,6 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Intervention\Image\ImageServiceProvider::class,
         TCG\Voyager\VoyagerServiceProvider::class,
         /*
          * Application Service Providers...
@@ -226,6 +227,10 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Constants' => App\Helpers\Constants::class, 
+        'RecipeShipping' => App\Helpers\RecipeShipping::class, 
+        'Validators' => App\Validators\Validators::class, 
+        'Image' => Intervention\Image\Facades\Image::class
 
     ],
 

@@ -5,29 +5,20 @@ namespace Database\Factories;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Faker\Generator as Faker;
 
-class UserFactory extends Factory
-{
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
-    protected $model = User::class;
-
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
-    public function definition()
-    {
-        return [
-            'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
-        ];
-    }
-}
+$factory->define(User::class, function (Faker $faker) {
+    return [
+        'address'           => 'Landmark 5, Nguyen Huu Canh',
+        'avatar'            => 'https://via.placeholder.com/150',
+        'birth_day'         => '01/01/2020',
+        'name'              => $this->faker->name,
+        'email'             => $this->faker->unique()->safeEmail,
+        'gender'            => rand(0, 1),
+        'password'          => '$2y$10$1IcAWCrSnkGsF95spji8LeWXgXyLDZ6hPeqyEi9EwHBDrzsHL5nYS', // password
+        'phone'             => '03' . rand(8, 9) . rand(1000000, 9999999),
+        'remember_token'    => Str::random(60),
+        'role_id'           => 2,
+        'shop'              => rand(1, 50)
+    ];
+});
